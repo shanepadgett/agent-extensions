@@ -34,11 +34,10 @@ function Remove-SDDFiles {
         "$Target\agent\librarian.md",
         "$Target\agent\archimedes.md",
         "$Target\command\sdd",
-        "$Target\skill\sdd-delta-format",
-        "$Target\skill\sdd-loop-ledger-format",
-        "$Target\skill\sdd-plan-format",
-        "$Target\skill\sdd-quick-task-format",
-        "$Target\skill\sdd-task-format"
+        "$Target\skill\spec-format",
+        "$Target\skill\sdd-state-management",
+        "$Target\skill\counsel",
+        "$Target\skill\research"
     )
 
     foreach ($path in $paths) {

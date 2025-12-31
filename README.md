@@ -6,13 +6,13 @@ AI writes the code now. SDD makes sure it's the right code—capturing intent be
 
 ## How It Works
 
-SDD breaks work into phases: proposal, specs, discovery, tasks, planning, implementation, reconciliation. Sounds heavy. In practice, AI agents do most of the work at each phase—you're reviewing and steering, not writing.
+SDD breaks work into phases: proposal, specs, discovery, tasks, planning, implementation, reconciliation. Sounds heavy. In practice, a single AI agent (Forge) handles each phase—you're reviewing and steering in conversation, not writing documents.
 
-Every artifact ends with a feedback section. Don't like what the agent produced? Write your notes, rerun the command, and it revises. No context lost, no starting over. The loop is tight.
+Everything happens in the chat. Don't like what Forge produced? Just say so. It revises the artifacts while keeping them clean. No feedback sections cluttering your specs, no special syntax to learn. The conversation is the feedback loop.
 
 The system catches drift before it ships. Discovery flags architecture conflicts before you've written code. Reconciliation at the end validates that what got built actually matches what you intended. If the implementation wandered, you'll know—and you'll have specs to point at.
 
-You stay in control without doing the busywork. The agents handle the decomposition, the planning, the implementation. You handle the "is this actually what we want?" question. That's the job now.
+You stay in control without doing the busywork. Forge handles the decomposition, the planning, the implementation. You handle the "is this actually what we want?" question. That's the job now.
 
 ## Think Bigger
 

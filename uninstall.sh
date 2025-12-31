@@ -59,11 +59,10 @@ remove_sdd_files() {
     "$target/agent/librarian.md" \
     "$target/agent/archimedes.md" \
     "$target/command/sdd" \
-    "$target/skill/sdd-delta-format" \
-    "$target/skill/sdd-loop-ledger-format" \
-    "$target/skill/sdd-plan-format" \
-    "$target/skill/sdd-quick-task-format" \
-    "$target/skill/sdd-task-format"
+    "$target/skill/spec-format" \
+    "$target/skill/sdd-state-management" \
+    "$target/skill/counsel" \
+    "$target/skill/research"
   do
     if [ -e "$path" ] || [ -L "$path" ]; then
       rm -rf "$path"
