@@ -26,6 +26,8 @@ This is vibe coding's ambition with enterprise rigor. Think big, stay traceable.
 
 ## Installation
 
+**Prerequisite:** Install [OpenCode](https://opencode.ai/docs/#install) first.
+
 ### macOS / Linux
 
 ```sh
