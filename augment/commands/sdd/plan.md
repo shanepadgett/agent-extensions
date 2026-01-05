@@ -34,7 +34,7 @@ For full lane, plan one task at a time.
 ### Identify Current Task
 
 1. Read `changes/<name>/tasks.md`
-2. Find first pending task (or specified task number)
+2. Find the first task marked `[ ]` (Pending) or `[o]` (In Progress). If a task number was specified in arguments, use that.
 3. Read any existing plans in `changes/<name>/plans/`
 
 ### Research
@@ -58,7 +58,8 @@ Create `changes/<name>/plans/<NN>.md`:
 
 ## Requirements
 
-- "<EARS requirement line from delta specs>"
+- **From <spec>**: "<full EARS requirement line from delta specs>"
+- **From proposal**: <requirement from proposal>
 
 ## Research Findings
 
@@ -81,7 +82,7 @@ Create `changes/<name>/plans/<NN>.md`:
 
 ## Validation
 
-- [ ] Acceptance criteria
+- [ ] Acceptance criteria (copy from tasks.md)
 - [ ] Tests pass
 ```
 
@@ -89,7 +90,7 @@ Create `changes/<name>/plans/<NN>.md`:
 
 Work through the plan collaboratively with the user. When they explicitly approve:
 
-1. Mark task as `in_progress` in tasks.md
+1. Update `tasks.md`: Mark the task as `[o]` (In Progress). Ensure all other tasks are either `[ ]` or `[x]`.
 2. Log approval in state.md under `## Pending`:
    ```
    None - Plan approved for task [N]: [task title]

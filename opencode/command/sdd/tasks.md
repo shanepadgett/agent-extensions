@@ -23,12 +23,17 @@ Create implementation tasks for the change set. This command is for **full lane*
 
 1. Read `changes/<name>/state.md` - verify phase is `tasks` and lane is `full`
 2. Read delta specs from `changes/<name>/specs/`
+3. Read `changes/<name>/proposal.md` to understand high-level intent and goals
+4. Read any architectural thoughts in `changes/<name>/thoughts/`
 
 If lane is `vibe` or `bug`, redirect user to `/sdd/plan` instead.
 
 ### Task Structure
 
-Create `changes/<name>/tasks.md`:
+Create `changes/<name>/tasks.md` using checkbox-style progress tracking:
+- `[ ]` = Pending
+- `[o]` = In Progress (exactly one task at a time)
+- `[x]` = Complete
 
 ```markdown
 # Tasks: <name>
@@ -39,16 +44,15 @@ Brief summary of what these tasks accomplish.
 
 ## Tasks
 
-### Task 1: <Title>
-
-**Status:** pending | in_progress | complete
-
-**Requirements:**
-- "<EARS requirement line>" (full lane - quote from delta specs)
-- Or: <requirement description from proposal>
+### 1. [ ] <Title>
 
 **Description:**
-What this task accomplishes.
+What this task accomplishes. Focus on why it exists and what it changes.
+
+**Requirements:**
+
+#### <spec-path>
+- "<full EARS requirement line>"
 
 **Acceptance Criteria:**
 - <Testable criterion>
@@ -56,18 +60,21 @@ What this task accomplishes.
 
 ---
 
-### Task 2: <Title>
+### 2. [ ] <Title>
 
 ...
 ```
 
-### Task Ordering
+### Task Ordering & Logic
 
-Order tasks by dependency:
-1. Foundation tasks first (models, types, interfaces)
-2. Core implementation tasks
-3. Integration tasks
-4. Validation/test tasks
+Design tasks to ensure the application is **never in a broken state** and can be **committed after every task**.
+
+1. **Foundations First**: Models, types, interfaces, and database migrations.
+2. **Implementation Slices**: Implement functionality in vertical slices that introduce new code paths behind flags or as new modules before wiring them in.
+3. **Integration**: Connect new components to existing systems.
+4. **Validation**: Test suites, cleanup of old paths, and consolidation.
+
+Order tasks by dependency. A task is only "done" when the system is stable and committable.
 
 ### Task Granularity
 
@@ -79,7 +86,7 @@ Each task should be:
 ### Requirement Mapping
 
 - Every requirement in delta specs must map to at least one task
-- Tasks reference requirements by quoting the EARS line
+- Tasks MUST reference requirements by quoting the full EARS line and specifying the source spec file
 - Use `spec-format` skill to understand requirement structure
 
 ### Completion

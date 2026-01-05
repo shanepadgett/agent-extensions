@@ -62,7 +62,7 @@ After implementation:
 ### Completion
 
 **Full Lane:**
-1. Mark current task `complete` in tasks.md
+1. Update `tasks.md`: change `[o]` to `[x]` for the finished task.
 2. Check if more tasks remain and discuss with user:
    - **More tasks**: When user approves task completion, update state to `plan`, suggest `/sdd/plan <name>`
    - **All complete**: When user approves final task, update state to `reconcile`, suggest `/sdd/reconcile <name>`

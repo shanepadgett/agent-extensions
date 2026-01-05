@@ -23,7 +23,7 @@ If name provided:
    - Current phase
    - Lane
    - Pending items
-   - Task progress (X of Y complete)
+   - Task progress (e.g., [x] 2, [o] 1, [ ] 5)
    - Next suggested action
 
 ### All Change Sets
@@ -35,7 +35,7 @@ If "all" or no arguments:
    - Name
    - Phase
    - Lane
-   - Brief status
+   - Brief status (including task completion ratio if in tasks/plan/implement phase)
 
 ### Output Format
 
@@ -47,12 +47,12 @@ If "all" or no arguments:
 
 ### Progress
 
-- Tasks: X of Y complete
-- Current: <current task or activity>
+- Tasks: [x] <done>, [o] <active>, [ ] <pending>
+- Current: <current task title if [o] exists, otherwise next action>
 
 ### Pending
 
-- <any pending items>
+- <any pending items from state.md>
 
 ### Next Action
 
