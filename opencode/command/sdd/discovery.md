@@ -1,6 +1,6 @@
 ---
 name: sdd/discovery
-description: Discover high-level architectural requirements for delta specs
+description: Discover high-level architectural requirements for change-set specs
 agent: sdd/forge
 ---
 
@@ -10,7 +10,7 @@ agent: sdd/forge
 
 # Discovery
 
-Understand the high-level architectural requirements for implementing delta specs. This phase answers the big questions about how the change fits into—or extends—the existing architecture.
+Understand the high-level architectural requirements for implementing change-set specs. This phase answers the big questions about how the change fits into—or extends—the existing architecture.
 
 ## Purpose
 
@@ -29,7 +29,7 @@ Discovery is NOT about planning implementation details. It's about:
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `discovery` and lane is `full`
-2. Read all delta specs from `changes/<name>/specs/`
+2. Read all change-set specs from `changes/<name>/specs/` (both `kind: new` and `kind: delta`)
 3. Read `changes/<name>/proposal.md` for context
 
 ### Research Phase (Critical)
@@ -51,7 +51,7 @@ Before evaluating architecture fit, use the `research` skill to understand the c
 
 Using `architecture-fit-check` skill framework, answer the primary question:
 
-**Can these delta specs be implemented cleanly within the existing architecture?**
+**Can these change-set specs be implemented cleanly within the existing architecture?**
 
 #### Simple Case: Clean Fit
 
@@ -111,7 +111,7 @@ Create as many files as needed. The goal is capturing the architectural explorat
 
 If discovery reveals the specs themselves need changes:
 - Return to specs phase
-- Update delta specs to reflect architectural decisions
+- Update change-set specs to reflect architectural decisions
 - Re-run discovery
 
 ### Completion

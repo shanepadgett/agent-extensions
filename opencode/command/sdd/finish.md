@@ -9,7 +9,7 @@ agent: sdd/forge
 
 # Finish
 
-Close the change set and sync delta specs to canonical.
+Close the change set and sync change-set specs to canonical.
 
 ## Arguments
 
@@ -22,18 +22,29 @@ Close the change set and sync delta specs to canonical.
 1. Read `changes/<name>/state.md` - verify phase is `finish`
 2. Verify prerequisites: Reconciliation complete
 
-### Sync Delta Specs
+### Sync Change-Set Specs
 
-If `changes/<name>/specs/` exists (created in reconcile phase):
+If `changes/<name>/specs/` exists (created/updated during reconcile):
 
-For each delta spec in `changes/<name>/specs/`:
+1. Enumerate all spec files.
+2. For each spec file, read its required YAML frontmatter:
 
-1. **Read the delta spec**
-2. **Apply to canonical**: 
-   - New capabilities: Create new file in `specs/`
-   - Modified requirements: Update existing file in `specs/`
-   - Removed requirements: Remove from existing file in `specs/`
-3. **Verify sync**: Ensure canonical reflects all changes
+```markdown
+---
+kind: new | delta
+---
+```
+
+3. Sync behavior:
+
+- **`kind: new`**: copy/move the spec content into canonical under `specs/` at the same relative path.
+- **`kind: delta`**: merge the delta into the existing canonical spec.
+  - Apply `### ADDED / ### MODIFIED / ### REMOVED` buckets (topics under `####`).
+  - MODIFIED uses adjacent `Before/After` to locate and update text.
+
+4. Verify canonical reflects the intended changes.
+
+**Note:** delta merging will eventually be automated; for now apply merges carefully and review with the user.
 
 ### Update State
 
@@ -55,7 +66,7 @@ Discuss cleanup preference with user:
 
 1. **Keep all artifacts**: Leave `changes/<name>/` intact for history
 2. **Archive**: Move to `changes/archive/<name>/`
-3. **Remove**: Delete `changes/<name>/` (delta specs already synced)
+3. **Remove**: Delete `changes/<name>/` (change-set specs already synced)
 
 Only proceed with cleanup after user explicitly chooses an option.
 

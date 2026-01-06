@@ -1,17 +1,17 @@
 ---
 name: architecture-fit-check
-description: Framework for evaluating if delta specs fit existing codebase architecture
+description: Framework for evaluating if change-set specs fit existing codebase architecture
 ---
 
 # Architecture Fit Check
 
-This skill provides the framework for evaluating whether proposed delta specs can be implemented within the existing codebase architecture.
+This skill provides the framework for evaluating whether proposed change-set specs (especially `kind: delta`) can be implemented within the existing codebase architecture.
 
 ## Primary Question
 
-**Can an implementer translate these delta specs into the repo's current architecture with routine changes + small refactors?**
+**Can an implementer translate these change-set specs into the repo's current architecture with routine changes + small refactors?**
 
-The answer is not about whether delta specs align with canonical capability specs — canonical specs describe *what* the system does, not *how* it's built. Evaluate fit against the actual codebase architecture.
+The answer is not about whether change-set specs align with canonical capability specs — canonical specs describe *what* the system does, not *how* it's built. Evaluate fit against the actual codebase architecture.
 
 ## Process
 

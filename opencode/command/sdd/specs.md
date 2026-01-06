@@ -1,6 +1,6 @@
 ---
 name: sdd/specs
-description: Write delta specifications for change
+description: Write change-set specifications for change
 agent: sdd/forge
 ---
 
@@ -10,7 +10,7 @@ agent: sdd/forge
 
 # Specs
 
-Write delta specifications for the change set.
+Write change-set specifications for the change set (`kind: new` and `kind: delta`).
 
 ## Arguments
 
@@ -45,9 +45,10 @@ With research in hand, suggest the user run `/sdd/tools/taxonomy-map <name>`:
 - Recommends brownfield (existing specs) vs greenfield (new specs)
 - Provides boundary decisions and group structure
 
-### Writing Delta Specs
+### Writing Change Set Specs
 
-Create specs in `changes/<name>/specs/` following the `spec-format` skill:
+Create specs in `changes/<name>/specs/` following the `spec-format` skill.
+Remember that change set specs have YAML frontmatter `kind: new | delta`.
 
 1. **Identify capabilities** needed from the proposal
 2. **Determine paths** using taxonomy mapping guidance

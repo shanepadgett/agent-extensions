@@ -5,7 +5,7 @@ argument-hint: <change-set-name>
 
 # Reconcile
 
-Ensure that delta specs match the implementation diff.
+Ensure that change-set specs match the implementation diff.
 
 **This is a collaborative process** - present your findings to the user and get their input before making changes. Do not make unilateral decisions about what to add, remove, or modify in specs.
 
@@ -38,54 +38,68 @@ Ensure that delta specs match the implementation diff.
 3. **If specs/ does not exist**:
     - Analyze whether the implementation adds/removes logic worth specifying
     - Present your analysis: what changed and whether it's spec-worthy
-    - Ask user: "Should I create delta specs for these changes?"
-    - If yes: Create `changes/<name>/specs/` and write delta specs
+- Ask user: "Should I capture specs for these changes?"
+- If yes: Create `changes/<name>/specs/` and write change-set specs (`kind: new` and/or `kind: delta`)
+
     - If no: Document that specs were not created (trivial changes)
 
 4. **Document findings** in `changes/<name>/reconciliation.md`
 
-### Writing Delta Specs from Diff
+### Writing Change-Set Specs from Diff
 
 When creating specs from the implementation:
 
 - Analyze what changed and what it means for the system
-- Write proper delta specs:
+- Write proper change-set specs:
   - Describe added capabilities (positive requirements)
   - Describe removed capabilities (negative requirements)
   - Describe behavioral changes
 - Each spec file should cover a logical area of change
 
-### Delta Spec Markers
+### Change Set Spec Kinds
 
-Use these markers in delta specs:
+All specs under `changes/<name>/specs/` MUST include YAML frontmatter:
 
-**Adding:**
 ```markdown
-> **ADDED**
-
-- The system SHALL <new requirement>.
+---
+kind: new | delta
+---
 ```
 
-**Modifying:**
+- Use `kind: new` for brand new capabilities; write the spec like a normal spec (no delta markers).
+- Use `kind: delta` for edits to existing canonical specs.
+
+### Delta Spec Format
+
+For `kind: delta`, use section buckets (NOT blockquote markers):
+
 ```markdown
-> **MODIFIED**
+## Requirements
+
+### ADDED
+
+#### <Topic>
+- The system SHALL <new requirement>.
+
+### MODIFIED
+
+#### <Topic>
 
 **Before:**
 - The system SHALL <old text>.
 
 **After:**
 - The system SHALL <new text>.
-```
 
-**Removing:**
-```markdown
-> **REMOVED**
+### REMOVED
 
-- The system SHALL <requirement being removed>.
+#### <Topic>
+- The system SHALL <removed requirement>.
 
 **Reason:** <Why>
 ```
 
+Only use `### ADDED/MODIFIED/REMOVED` inside `## Requirements` and `## Access` (if present).
 ### Reconciliation Report
 
 ```markdown
@@ -120,4 +134,4 @@ Work through reconciliation collaboratively with the user. When they explicitly 
 
 Don't advance until the user clearly signals approval. Questions, feedback, or acknowledgments don't count as approval.
 
-**Note**: If delta specs were created or updated, they will be synced to canonical specs during finish.
+**Note**: If change-set specs were created or updated, finish will move `kind: new` specs and merge `kind: delta` specs into canonical.

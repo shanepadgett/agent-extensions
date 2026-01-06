@@ -9,7 +9,7 @@ agent: sdd/forge
 
 # Reconcile
 
-Ensure that delta specs match the implementation diff.
+Ensure that change set specs match the implementation diff.
 
 **This is a collaborative process** - present your findings to the user and get their input before making changes. Do not make unilateral decisions about what to add, remove, or modify in specs.
 
@@ -42,18 +42,19 @@ Ensure that delta specs match the implementation diff.
 3. **If specs/ does not exist**:
     - Analyze whether the implementation adds/removes logic worth specifying
     - Present your analysis: what changed and whether it's spec-worthy
-    - Ask user: "Should I create delta specs for these changes?"
-    - If yes: Create `changes/<name>/specs/` and write delta specs
+- Ask user: "Should I capture specs for these changes?"
+- If yes: Create `changes/<name>/specs/` and write change-set specs (`kind: new` and/or `kind: delta`)
+
     - If no: Document that specs were not created (trivial changes)
 
 4. **Document findings** in `changes/<name>/reconciliation.md`
 
-### Writing Delta Specs from Diff
+### Writing Change-Set Specs from Diff
 
 When creating specs from the implementation:
 
 - Analyze what changed and what it means for the system
-- Use spec-format skill to write proper delta specs:
+- Use spec-format skill to write proper change-set specs:
   - Describe added capabilities (positive requirements)
   - Describe removed capabilities (negative requirements)
   - Describe behavioral changes
@@ -93,4 +94,4 @@ Work through reconciliation collaboratively with the user. When they explicitly 
 
 Don't advance until the user clearly signals approval. Questions, feedback, or acknowledgments don't count as approval.
 
-**Note**: If delta specs were created or updated, they will be synced to canonical specs during finish.
+**Note**: If change-set specs were created or updated, finish will move `kind: new` specs and merge `kind: delta` specs into canonical.

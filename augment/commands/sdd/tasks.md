@@ -18,7 +18,7 @@ Create implementation tasks for the change set. This command is for **full lane*
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `tasks` and lane is `full`
-2. Read delta specs from `changes/<name>/specs/`
+2. Read change-set specs from `changes/<name>/specs/` (both `kind: new` and `kind: delta`)
 3. Read `changes/<name>/proposal.md` to understand high-level intent and goals
 4. Read any architectural thoughts in `changes/<name>/thoughts/`
 
@@ -87,7 +87,7 @@ Each task should be:
 
 ### Requirement Mapping
 
-- Every requirement in delta specs must map to at least one task
+- Every requirement in change-set specs must map to at least one task
 - Tasks MUST reference requirements by quoting the full EARS line and specifying the source spec file
 - Use spec format guidance to understand requirement structure
 

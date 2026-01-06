@@ -45,7 +45,7 @@ changes/
   add-user-auth/           # Change set directory
     state.md               # Current phase, lane, gates passed
     proposal.md            # What we're building and why
-    specs/                 # Delta specs (full lane only)
+    specs/                 # Change-set specs (full lane only; `kind: new|delta`)
       api.md
       components.md
     tasks.md               # Ordered implementation tasks
@@ -92,7 +92,7 @@ Vibe/Bug lanes have optional completion - if throwing away the work, stop after 
 | `/sdd/fast/bug <context>` | Start bug lane - fix with triage |
 | `/sdd/brainstorm` | Explore problem space before proposing |
 | `/sdd/proposal` | Draft/refine the proposal (full lane) |
-| `/sdd/specs` | Write delta specifications (full lane) |
+| `/sdd/specs` | Write change-set specifications (full lane) |
 | `/sdd/discovery` | Verify specs fit repo architecture |
 | `/sdd/tasks` | Generate implementation tasks (full lane) |
 | `/sdd/plan` | Create implementation plan |
@@ -118,10 +118,10 @@ User: /sdd/implement
 
 # If keeping the work:
 User: /sdd/reconcile
-      [Reviews diff, captures delta specs from implementation]
+      [Reviews diff, captures change-set specs from implementation]
 
 User: /sdd/finish
-      [Change set closed, delta specs synced to canonical]
+      [Change set closed; `kind: new` specs moved, `kind: delta` specs merged to canonical]
 ```
 
 #### Example: Bug Lane Flow
@@ -156,13 +156,13 @@ User: /sdd/proposal
       [Draft proposal.md, set lane: full]
 
 User: /sdd/specs
-      [Write delta specs defining interfaces, behaviors]
+      [Write change-set specs defining interfaces, behaviors]
 
 User: /sdd/discovery
       [Uses architecture-fit-check to verify specs fit existing architecture]
 
 User: /sdd/tasks
-      [Generates tasks from delta specs]
+      [Generates tasks from change-set specs]
 
 User: /sdd/plan -> /sdd/implement (for each task)
 
@@ -191,7 +191,7 @@ Use this format for the topic:
 |-------|-----------------|
 | `phases` | Each phase in detail, what happens, gates between them |
 | `lanes` | Full vs vibe vs bug - when to use each, spec relationship |
-| `specs` | Delta spec format, EARS syntax, Before/After blocks |
+| `specs` | Change-set spec format (`kind: new|delta`), EARS syntax, Before/After blocks |
 | `tasks` | Task format, checkboxes, requirements sections (full lane) |
 | `plans` | Plan structure - per-task for full lane, single plan.md for vibe/bug |
 | `reconcile` | What reconciliation checks, spec capture for vibe/bug |

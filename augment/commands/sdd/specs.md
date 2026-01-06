@@ -1,11 +1,11 @@
 ---
-description: Write delta specifications for change
+description: Write change-set specifications for change
 argument-hint: <change-set-name>
 ---
 
 # Specs
 
-Write delta specifications for the change set.
+Write change-set specifications for the change set (`kind: new` and `kind: delta`).
 
 ## Arguments
 
@@ -86,37 +86,50 @@ Requirements use EARS (Easy Approach to Requirements Syntax) patterns:
 | Unwanted behavior | IF `<condition>` THEN the system SHALL `<action>`. | Handling errors, edge cases |
 | Complex | WHEN `<trigger>` IF `<condition>` THEN the system SHALL `<action>`. | Combining patterns |
 
-#### Delta Spec Markers
+#### Change Set Spec Kinds
 
-When creating delta specs in `changes/<name>/specs/`, use markers:
+All specs under `changes/<name>/specs/` MUST include YAML frontmatter:
 
-**Adding:**
 ```markdown
-> **ADDED**
-
-- The system SHALL <new requirement>.
+---
+kind: new | delta
+---
 ```
 
-**Modifying:**
+- Use `kind: new` for brand new capabilities; write the spec like a normal spec (no delta markers).
+- Use `kind: delta` for edits to existing canonical specs.
+
+#### Delta Spec Format
+
+For `kind: delta`, use section buckets (NOT blockquote markers):
+
 ```markdown
-> **MODIFIED**
+## Requirements
+
+### ADDED
+
+#### <Topic>
+- The system SHALL <new requirement>.
+
+### MODIFIED
+
+#### <Topic>
 
 **Before:**
 - The system SHALL <old text>.
 
 **After:**
 - The system SHALL <new text>.
+
+### REMOVED
+
+#### <Topic>
+- The system SHALL <removed requirement>.
+
+**Reason:** <Why>
 ```
 
-**Removing:**
-```markdown
-> **REMOVED**
-
-- The system SHALL <requirement being removed>.
-
-**Reason:** <Why this requirement is being removed>
-```
-
+Only use `### ADDED/MODIFIED/REMOVED` inside `## Requirements` and `## Access` (if present).
 ### Identifying Capabilities
 
 1. **Identify capabilities** needed from the proposal

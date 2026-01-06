@@ -108,7 +108,7 @@ Or jump straight in:
 |---------|-------------|
 | `/sdd/init <name>` | Start a new change set (full lane) |
 | `/sdd/proposal <name>` | Draft or refine the proposal |
-| `/sdd/specs <name>` | Write delta specifications |
+| `/sdd/specs <name>` | Write change-set specifications (`kind: new|delta`) |
 | `/sdd/discovery <name>` | Review specs against architecture |
 | `/sdd/tasks <name>` | Generate implementation tasks |
 | `/sdd/plan <name>` | Plan current task |

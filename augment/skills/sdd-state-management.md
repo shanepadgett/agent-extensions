@@ -44,13 +44,13 @@ ideation -> proposal -> specs -> discovery -> tasks -> plan -> implement -> reco
 |-------|---------|-----------|
 | `ideation` | Explore problem space | `seed.md` |
 | `proposal` | Define what we're building | `proposal.md` |
-| `specs` | Write detailed specifications | `specs/*.md` (delta specs) |
+| `specs` | Write detailed specifications | `specs/**/*.md` (change-set specs: `kind: new|delta`) |
 | `discovery` | Understand high-level architecture needs | `thoughts/*.md` |
 | `tasks` | Break specs into tasks | `tasks.md` |
 | `plan` | Plan current task | `plans/NN.md` |
 | `implement` | Execute the plan | Code changes |
 | `reconcile` | Verify implementation matches specs | Reconciliation report |
-| `finish` | Close and sync specs | Specs synced to canonical |
+| `finish` | Close and sync specs | `kind: new` moved; `kind: delta` merged into canonical |
 
 ### Phase Gates
 
@@ -58,7 +58,7 @@ ideation -> proposal -> specs -> discovery -> tasks -> plan -> implement -> reco
 |------|----|------|
 | ideation | proposal | Seed reviewed |
 | proposal | specs | Proposal approved |
-| specs | discovery | Delta specs written |
+| specs | discovery | Change-set specs written (`kind: new|delta`) |
 | discovery | tasks | Architecture review complete |
 | tasks | plan | Tasks defined |
 | plan | implement | Plan approved |

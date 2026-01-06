@@ -58,7 +58,7 @@ Create `changes/<name>/plans/<NN>.md`:
 
 ## Requirements
 
-- **From <spec>**: "<full EARS requirement line from delta specs>"
+- **From <spec>**: "<full EARS requirement line from change-set specs>"
 
 ## Research Findings
 

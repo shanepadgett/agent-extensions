@@ -75,7 +75,7 @@ Key insight: Full lane writes specs before implementation. Vibe/bug lanes invert
 |------|----|----------------|
 | ideation | proposal | Seed reviewed and approved |
 | proposal | specs | Proposal reviewed and approved |
-| specs | discovery | All delta specs written |
+| specs | discovery | All change-set specs written (`kind: new|delta`) |
 | discovery | tasks | Architecture review complete |
 | tasks | plan | Tasks defined with requirements |
 | plan | implement | Plan approved for current task |

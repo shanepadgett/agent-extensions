@@ -29,10 +29,9 @@ Each capability spec follows this structure:
 
 Brief description of what this capability does and why it exists.
 
-## Access
+## Access (optional)
 
-Optional section declaring access level for capabilities that have access control.
-Use a blockquote marker to indicate the access level:
+Include this section only when access constraints are meaningful for the capability.
 
 > Authenticated
 
@@ -41,20 +40,10 @@ or
 > Public
 
 Projects define their own access levels in a platform-level spec (e.g., `auth-gating.md`).
-This keeps individual specs clean while still being explicit about access requirements.
 
-## Dependencies
+## Dependencies (optional)
 
 Optional section listing dependencies on other specs or external systems.
-
-## Entry
-
-Optional section describing how users/systems arrive at this capability.
-Use for capabilities with clear entry points (navigation, triggers, conditions).
-
-> **ADDED**
-
-- WHEN a user navigates to <destination> the system SHALL <action>.
 
 ## Requirements
 
@@ -68,28 +57,30 @@ Requirements as a bulleted list. Optional grouping headings (### Group Name) for
 ### <Another Group>
 
 - WHILE <state> the system SHALL <action>.
-
-## Exit
-
-Optional section describing how the capability completes or where users end up.
-Use for capabilities with clear exit points (redirects, returns, completions).
-
-> **ADDED**
-
-- WHEN <action> completes the system SHALL redirect to <destination>.
-- IF <condition> THEN the system SHALL <alternative exit>.
 ```
 
-### When to Use Entry/Exit
+### Topic headings (groups)
 
-| Spec Type | Entry | Exit |
-|-----------|-------|------|
-| User-facing flows (sign-in, deletion) | ✓ | ✓ |
-| Compositions (navigation, dashboard) | — | — |
-| Programmatic capabilities (read, provision) | ✓ (trigger) | ✓ (returns) |
-| Static content pages (terms, privacy) | ✓ | — |
+Under `## Requirements`, group headings are simply whatever the next heading level down is:
 
-Omit sections that don't apply. Not every spec needs Entry/Exit.
+- In `kind: new` specs, groups/topics are typically `### <Topic>`
+- In `kind: delta` specs, groups/topics live under `### ADDED/MODIFIED/REMOVED`, so topics are `#### <Topic>`
+
+`Entry` and `Exit` are just common topic names for user-facing or system-facing flows (they are not special section types).
+
+Example (new spec):
+
+```markdown
+## Requirements
+
+### Entry
+
+- WHEN a user navigates to <destination> the system SHALL <action>.
+
+### Exit
+
+- WHEN <action> completes the system SHALL redirect to <destination>.
+```
 
 ### Surface-Agnostic Language
 
@@ -124,35 +115,39 @@ Requirements use EARS (Easy Approach to Requirements Syntax) patterns:
 - IF the database connection fails THEN the system SHALL retry with exponential backoff.
 - WHERE two-factor auth is enabled the system SHALL require a verification code.
 
-## Delta Spec Format
+## Change Set Specs (`changes/<name>/specs/`)
 
-When modifying specs during a change set, create delta specs in `changes/<name>/specs/`:
-
-```
-changes/<name>/specs/
-  <domain>/
-    <capability>.md
-```
-
-Delta specs use markers to show changes:
-
-### Adding New Requirements
+All change set specs live in `changes/<name>/specs/` and MUST include YAML frontmatter:
 
 ```markdown
-### <Group>
-
-> **ADDED**
-
-- The system SHALL <new requirement>.
-- WHEN <trigger> the system SHALL <action>.
+---
+kind: new | delta
+---
 ```
 
-### Modifying an Existing Requirement
+### `kind: new`
+
+Use `kind: new` when the spec does not exist in canonical yet. Write it like a normal spec.
+Do NOT use delta markers or delta sections.
+
+### `kind: delta`
+
+Use `kind: delta` when the spec modifies an existing canonical spec.
+
+`kind: delta` specs use section buckets (NOT blockquote markers):
+
+- `### ADDED`
+- `### MODIFIED`
+- `### REMOVED`
+
+Under each bucket, use `#### <Topic>` headings.
+
+For MODIFIED topics, requirements MUST be represented as adjacent Before/After blocks:
 
 ```markdown
-### <Group>
+### MODIFIED
 
-> **MODIFIED**
+#### <Topic>
 
 **Before:**
 - The system SHALL <old text>.
@@ -161,17 +156,34 @@ Delta specs use markers to show changes:
 - The system SHALL <new text>.
 ```
 
-### Removing a Requirement
+For ADDED topics:
 
 ```markdown
-### <Group>
+### ADDED
 
-> **REMOVED**
+#### <Topic>
+
+- The system SHALL <new requirement>.
+```
+
+For REMOVED topics:
+
+```markdown
+### REMOVED
+
+#### <Topic>
 
 - The system SHALL <requirement being removed>.
 
 **Reason:** <Why this requirement is being removed>
 ```
+
+### Where ADDED/MODIFIED/REMOVED may appear
+
+Only use `### ADDED/MODIFIED/REMOVED` inside `## Requirements` and `## Access` (if `## Access` is present).
+
+- `## Access` is optional; omit it for foundational/mechanism specs (e.g., navigation, rate limiting).
+- When `## Access` is present in a delta spec, do not add `####` topics under it; put the Before/After or bullets directly under the corresponding `###` bucket.
 
 ## RFC 2119 Keywords
 

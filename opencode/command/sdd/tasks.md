@@ -103,7 +103,7 @@ Each task should be:
 
 ### Requirement Mapping
 
-- Every requirement in delta specs must map to at least one task
+- Every requirement in change-set specs must map to at least one task
 - Tasks MUST reference requirements by quoting the full EARS line and specifying the source spec file
 - Use `spec-format` skill to understand requirement structure
 

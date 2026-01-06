@@ -93,6 +93,6 @@ Work through the proposal collaboratively with the user. When they explicitly ap
    None - Proposal approved: [brief summary of agreed approach]
    ```
 2. Update state.md phase to `specs`
-3. Suggest `/sdd/specs <name>` to write delta specifications
+3. Suggest `/sdd/specs <name>` to write change-set specifications (`kind: new|delta`)
 
 Don't advance until the user clearly signals approval. Questions, feedback, or acknowledgments don't count as approval.
