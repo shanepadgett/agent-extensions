@@ -45,9 +45,21 @@ Use the `research` skill to understand:
 - Integration points
 - Tests that need updates
 
+If you might introduce new dependencies, APIs, or framework features, also do quick online research to confirm current best practices and version-specific details.
+
+### Collaborative Planning
+
+This command is a **dialogue**, not a one-way generation.
+
+1. **Think Out Loud**: Before writing any plan file, summarize what you learned from research and the approach you’re leaning toward.
+2. **Present Options**: If there are multiple reasonable approaches, present 2–3 with trade-offs.
+3. **Ask Targeted Questions**: Clarify any unknowns that materially affect the plan (scope boundaries, rollout strategy, time/complexity constraints).
+4. **Invite Feedback**: Ask the user if they want any changes to structure, granularity, or sequencing.
+5. **Iterate**: Only write the plan file once the user indicates the direction looks right.
+
 ### Create Plan
 
-Create `changes/<name>/plans/<NN>.md`:
+Only after the user indicates alignment, create `changes/<name>/plans/<NN>.md`:
 
 ```markdown
 # Plan: <Task Title>
@@ -87,7 +99,7 @@ Create `changes/<name>/plans/<NN>.md`:
 
 ### Completion
 
-Work through the plan collaboratively with the user. When they explicitly approve:
+After the plan file is written, review it with the user. When they explicitly approve:
 
 1. Update `tasks.md`: Mark the task as `[o]` (In Progress). Ensure all other tasks are either `[ ]` or `[x]`.
 2. Log approval in state.md under `## Pending`:
@@ -113,9 +125,19 @@ Use the `research` skill to understand:
 - Patterns to follow
 - Potential risks or complications
 
+### Collaborative Planning
+
+This command is a **dialogue**, not a one-way generation.
+
+1. **Think Out Loud**: Before writing any plan file, summarize what you learned from research and the approach you’re leaning toward.
+2. **Present Options**: If there are multiple reasonable approaches, present 2–3 with trade-offs.
+3. **Ask Targeted Questions**: Clarify any unknowns that materially affect the plan.
+4. **Invite Feedback**: Ask the user if they want to adjust scope or sequencing.
+5. **Iterate**: Only write the plan file once the user indicates the direction looks right.
+
 ### Create Combined Plan
 
-Create `changes/<name>/plan.md` (single file, not per-task):
+Only after the user indicates alignment, create `changes/<name>/plan.md` (single file, not per-task):
 
 ```markdown
 # Plan: <name>
@@ -164,7 +186,7 @@ For vibe/bug lanes:
 
 ### Completion
 
-Work through the plan collaboratively with the user. When they explicitly approve:
+After the plan file is written, review it with the user. When they explicitly approve:
 
 1. Log approval in state.md under `## Pending`:
    ```
