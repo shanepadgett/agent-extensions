@@ -1,7 +1,7 @@
 ---
 name: sdd/explain
 description: Explain SDD concepts and workflow
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 # Explain SDD

@@ -1,7 +1,7 @@
 ---
 name: sdd/proposal
 description: Draft and refine change proposal (full lane)
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

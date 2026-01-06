@@ -1,7 +1,7 @@
 ---
 name: sdd/reconcile
 description: Ensure specs match implementation
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

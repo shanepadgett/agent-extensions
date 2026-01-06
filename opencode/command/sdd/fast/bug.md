@@ -1,7 +1,7 @@
 ---
 name: sdd/fast/bug
 description: Bug investigation and fix - triage, research, plan, fix
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

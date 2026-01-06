@@ -1,7 +1,7 @@
 ---
 name: sdd/status
 description: Show status of change sets
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

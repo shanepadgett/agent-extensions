@@ -73,6 +73,8 @@ remove_opencode_files() {
   # OpenCode file list - exact files installed
   files="
     agent/sdd/forge.md
+    agent/sdd/plan.md
+    agent/sdd/build.md
     agent/librarian.md
     agent/chat.md
     command/sdd/init.md

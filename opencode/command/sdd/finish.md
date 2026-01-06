@@ -1,7 +1,7 @@
 ---
 name: sdd/finish
 description: Close the change set and sync specs
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

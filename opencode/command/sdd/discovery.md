@@ -1,7 +1,7 @@
 ---
 name: sdd/discovery
 description: Discover high-level architectural requirements for change-set specs
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

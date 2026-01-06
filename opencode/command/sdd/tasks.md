@@ -1,7 +1,7 @@
 ---
 name: sdd/tasks
 description: Create implementation tasks from specs (full lane)
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

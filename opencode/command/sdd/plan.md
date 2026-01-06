@@ -1,7 +1,7 @@
 ---
 name: sdd/plan
 description: Research, plan, and prepare for implementation
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

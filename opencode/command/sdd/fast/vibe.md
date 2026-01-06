@@ -1,7 +1,7 @@
 ---
 name: sdd/fast/vibe
 description: Quick prototyping and exploration - skip specs, get to building
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

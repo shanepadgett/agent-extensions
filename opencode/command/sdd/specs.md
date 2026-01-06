@@ -1,7 +1,7 @@
 ---
 name: sdd/specs
 description: Write change-set specifications for change
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

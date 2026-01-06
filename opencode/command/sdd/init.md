@@ -1,7 +1,7 @@
 ---
 name: sdd/init
 description: Initialize a new SDD change set
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

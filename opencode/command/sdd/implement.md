@@ -1,7 +1,7 @@
 ---
 name: sdd/implement
 description: Execute the implementation plan
-agent: sdd/forge
+agent: sdd/build
 ---
 
 <skill>sdd-state-management</skill>

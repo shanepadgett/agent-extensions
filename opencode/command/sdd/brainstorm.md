@@ -1,7 +1,7 @@
 ---
 name: sdd/brainstorm
 description: Explore problem space and develop seed document
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>

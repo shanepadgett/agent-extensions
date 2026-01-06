@@ -1,7 +1,7 @@
 ---
 name: sdd/continue
 description: Resume work on an existing change set
-agent: sdd/forge
+agent: sdd/plan
 ---
 
 <skill>sdd-state-management</skill>
