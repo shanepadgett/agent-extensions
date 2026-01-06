@@ -13,7 +13,7 @@ Research the codebase and create an implementation plan.
 
 ## Arguments
 
-- `$ARGUMENTS` - Change set name (optionally: `<name> <task-number>` for full lane)
+- `$ARGUMENTS` - Change set name (for full lane, plans the next incomplete task)
 
 ## Instructions
 
@@ -34,7 +34,7 @@ For full lane, plan one task at a time.
 ### Identify Current Task
 
 1. Read `changes/<name>/tasks.md`
-2. Find the first task marked `[ ]` (Pending) or `[o]` (In Progress). If a task number was specified in arguments, use that.
+2. Find the first task marked `[ ]` (Pending) or `[o]` (In Progress)
 3. Read any existing plans in `changes/<name>/plans/`
 
 ### Research
