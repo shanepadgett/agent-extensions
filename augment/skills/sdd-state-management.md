@@ -126,9 +126,12 @@ changes/<name>/
 
 `## Pending` is a ledger of **unresolved** items:
 
-- Contains only unresolved items
+- Contains only unresolved items (blockers, decisions needed)
 - Remove items when resolved (don't strike through)
+- Leave it blank when nothing is pending
 - Deferred ideas go elsewhere (e.g., `docs/future-capabilities.md`)
+
+`## Pending` is NOT an approval log. Do not record approvals there.
 
 ## Conversational Phase Advancement
 
@@ -157,15 +160,15 @@ Look for clear signals that the user approves the work:
 
 ### Logging Decisions
 
-When user explicitly approves, document it in state.md:
+When user explicitly approves a gate:
 
-```markdown
-## Pending
+- Update `changes/<name>/state.md` `## Phase` to the next phase immediately.
+- Remove any now-resolved items from `## Pending`.
+- Leave `## Pending` blank if nothing is pending.
 
-None - [artifact] approved: [brief summary of what was agreed]
-```
+Do NOT write approval summaries into `## Pending`.
 
-This creates a record of decisions made during conversation.
+If an approval record is needed, capture it in a separate artifact (e.g., `changes/<name>/thoughts/decisions.md`).
 
 ### Natural Flow
 
