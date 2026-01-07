@@ -6,6 +6,7 @@ agent: sdd/plan
 
 <skill>sdd-state-management</skill>
 <skill>research</skill>
+<skill>keep-current</skill>
 
 # Plan
 

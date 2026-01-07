@@ -7,6 +7,7 @@ agent: sdd/plan
 <skill>sdd-state-management</skill>
 <skill>research</skill>
 <skill>architecture-fit-check</skill>
+<skill>architecture-workshop</skill>
 
 # Discovery
 

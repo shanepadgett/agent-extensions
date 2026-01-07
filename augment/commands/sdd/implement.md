@@ -7,9 +7,9 @@ argument-hint: <change-name>
 
 Execute the current implementation plan.
 
-> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `implement`. If unsure how state management works, read `augment/skills/sdd-state-management.md`.
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `implement`. If unsure how state management works, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
 
-> **Research**: If you encounter unexpected code during implementation, delegate to `@librarian` with a specific question. See `augment/skills/research.md` for guidance.
+> **Research**: If you encounter unexpected code during implementation, delegate to `@librarian` with a specific question. See `.augment/skills/research.md` (project-local) or `~/.augment/skills/research.md` (global) for guidance.
 
 ## Arguments
 

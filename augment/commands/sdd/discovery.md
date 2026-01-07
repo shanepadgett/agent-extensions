@@ -21,6 +21,10 @@ Discovery is NOT about planning implementation details. It's about:
 
 ## Instructions
 
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `discovery`. If unsure about state management, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
+> **Research & Architecture**: Use @librarian for codebase research (see `.augment/skills/research.md` or `~/.augment/skills/research.md`). Use architecture-fit-check for evaluation (see `.augment/skills/architecture-fit-check.md` or `~/.augment/skills/architecture-fit-check.md`). For complex concerns requiring new mechanisms, see `.augment/skills/architecture-workshop.md` or `~/.augment/skills/architecture-workshop.md`.
+
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `discovery` and lane is `full`

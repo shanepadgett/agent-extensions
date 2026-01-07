@@ -7,9 +7,11 @@ argument-hint: <change-name> [task-number]
 
 Research the codebase and create an implementation plan.
 
-> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `plan`. If unsure how state management works, read `augment/skills/sdd-state-management.md`.
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `plan`. If unsure how state management works, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
 
-> **Research**: When you need to investigate the codebase, delegate to `@librarian` with a specific research question. See `augment/skills/research.md` for guidance.
+> **Research**: When you need to investigate the codebase, delegate to `@librarian` with a specific research question. See `.augment/skills/research.md` (project-local) or `~/.augment/skills/research.md` (global) for guidance.
+
+> **External Research**: For dependencies, APIs, or version-specific topics, use `websearch` or `codesearch`. See `.augment/skills/keep-current.md` (project-local) or `~/.augment/skills/keep-current.md` (global) for guidance.
 
 ## Arguments
 

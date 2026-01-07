@@ -7,7 +7,7 @@ argument-hint: <change-name>
 
 Create a new SDD change set with the given name.
 
-> **SDD Process**: If you're unsure how state management works, read `augment/skills/sdd-state-management.md`.
+> **SDD Process**: If you're unsure how state management works, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
 
 ## Arguments
 

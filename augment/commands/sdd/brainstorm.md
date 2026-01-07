@@ -13,6 +13,10 @@ Explore the problem space collaboratively to develop a seed document.
 
 ## Instructions
 
+> **SDD Process**: If unsure about phase progression or state management, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
+> **Research**: When grounding ideation in reality, delegate to `@librarian`. See `.augment/skills/research.md` (project-local) or `~/.augment/skills/research.md` (global) for guidance.
+
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `ideation` or initialize if new

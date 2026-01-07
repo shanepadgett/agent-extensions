@@ -15,6 +15,10 @@ Ensure that change-set specs match the implementation diff.
 
 ## Instructions
 
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `reconcile`. If unsure about state management, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
+> **Spec Format**: When writing change-set specs from implementation diff, use proper EARS syntax and delta format. See `.augment/skills/spec-format.md` (project-local) or `~/.augment/skills/spec-format.md` (global) for guidance.
+
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `reconcile`

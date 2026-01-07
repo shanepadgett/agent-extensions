@@ -15,6 +15,8 @@ Skip the spec ceremony - get to building fast.
 
 ## Instructions
 
+> **SDD Process**: If unsure about phase progression or lane mechanics, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
 ### Gather Context
 
 If no context provided, ask user what they want to explore:

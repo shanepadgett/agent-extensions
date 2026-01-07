@@ -15,6 +15,10 @@ Create implementation tasks for the change set. This command is for **full lane*
 
 ## Instructions
 
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `tasks`. If unsure about state management, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
+> **Research**: When understanding implementation patterns, delegate to `@librarian`. See `.augment/skills/research.md` (project-local) or `~/.augment/skills/research.md` (global) for guidance.
+
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `tasks` and lane is `full`

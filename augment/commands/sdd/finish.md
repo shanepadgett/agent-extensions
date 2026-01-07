@@ -13,6 +13,8 @@ Close the change set and sync change-set specs to canonical.
 
 ## Instructions
 
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `finish`. If unsure about state management, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `finish`

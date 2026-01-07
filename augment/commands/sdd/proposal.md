@@ -7,7 +7,7 @@ argument-hint: <change-name>
 
 Draft and refine the proposal document for a change set. This command is primarily for **full lane** work.
 
-> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `proposal` (or `ideation` transitioning). If unsure how state management works, read `augment/skills/sdd-state-management.md`.
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `proposal` (or `ideation` transitioning). If unsure how state management works, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
 
 > **Note**: Vibe lane uses `/sdd:fast:vibe` which creates a lightweight `context.md` instead of a formal proposal. Bug lane uses `/sdd:fast:bug` which handles triage and context creation.
 

@@ -13,6 +13,10 @@ Write change-set specifications for the change set (`kind: new` and `kind: delta
 
 ## Instructions
 
+> **SDD Process**: Read `changes/<name>/state.md` first to verify phase is `specs`. If unsure about state management, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
+> **Research & Spec Format**: Use @librarian for understanding existing spec structure (see `.augment/skills/research.md` or `~/.augment/skills/research.md`). Use EARS syntax and proper structure (see `.augment/skills/spec-format.md` or `~/.augment/skills/spec-format.md`).
+
 ### Setup
 
 1. Read `changes/<name>/state.md` - verify phase is `specs` and lane is `full`

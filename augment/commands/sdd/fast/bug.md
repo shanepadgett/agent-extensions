@@ -13,6 +13,10 @@ Investigate and fix a bug. This command triages the issue, researches the codeba
 
 ## Instructions
 
+> **SDD Process**: If unsure about lane mechanics or triage decisions, read `.augment/skills/sdd-state-management.md` (project-local) or `~/.augment/skills/sdd-state-management.md` (global).
+
+> **Research**: When investigating root cause, delegate to `@librarian`. See `.augment/skills/research.md` (project-local) or `~/.augment/skills/research.md` (global) for guidance.
+
 ### Gather Context
 
 If no context provided, ask user:
