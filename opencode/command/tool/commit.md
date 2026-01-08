@@ -71,11 +71,16 @@ Analyze the changes above and create commits following these rules:
 
 1. **Analyze the diff semantically** - Group related changes by feature, fix, or module
 2. **Determine commit strategy:**
-   - If changes are cohesive (single purpose) → one commit
-   - If changes span multiple concerns → suggest a series of commits with specific files for each
+    - If changes are cohesive (single purpose) → one commit
+    - If changes span multiple concerns → suggest a series of commits with specific files for each
 3. **For each commit:**
-   - Stage the relevant files (`git add <files>`)
-   - Create the commit with a proper conventional commit message
+    - **Determine optimal git command:**
+      - Check if the commit will include ALL files (staged + unstaged)
+      - If yes, use shorthand (`git add -A && git commit` or `git commit -a`)
+      - If no, stage specific files (`git add <files>`)
+    - **Execute:**
+      - All files: `git add -A && git commit -m "<type>(<scope>): <description>"` or `git commit -a -m "..."`
+      - Specific files: `git add <files> && git commit -m "<type>(<scope>): <description>"`
 4. **Verify** - Run `git log --oneline -5` to confirm commits were created
 
 If the user provided arguments, treat them as additional context: $ARGUMENTS

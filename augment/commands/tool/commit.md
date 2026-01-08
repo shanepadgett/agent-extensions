@@ -92,7 +92,23 @@ Write in terms of what the **system now does**, not what you did. Messages will 
 
 ### 5. Execute Commits
 
+**Determine optimal git command:**
+- Check if the commit will include ALL files (staged + unstaged)
+- If yes, use the shorthand approach (see below)
+- If no, stage specific files manually
+
 **Single commit** (cohesive changes):
+
+**Option 1: All files being added (optimized)**
+```bash
+# If all untracked files + all modified files should be in the commit
+git add -A && git commit -m "<type>(<scope>): <description>"
+
+# OR if only tracked files changed (no new files)
+git commit -a -m "<type>(<scope>): <description>"
+```
+
+**Option 2: Specific files only**
 ```bash
 git add <relevant-files>
 git commit -m "<type>(<scope>): <description>"
