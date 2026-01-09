@@ -49,22 +49,22 @@ Create a new SDD change set with given name.
    ```
 5. **Initialize proposal.md** with empty template:
    ```markdown
-   # Proposal: <name>
+    # Proposal: <name>
 
-   ## Problem
+    ## Context
 
-   (What problem are we solving?)
+    (Drop any initial notes, requirements, or information here to help inform the proposal)
 
-   ## Goals
+    ## Problem
 
-   (What does success look like?)
+    (What problem are we solving?)
 
-   ## Non-Goals
+    ## Goals
 
-   (What are we explicitly NOT doing?)
+    (What does success look like?)
 
-   ## Approach
+    ## Approach
 
-   (High-level approach - freeform)
-   ```
+    (High-level approach - freeform)
+    ```
 6. **Report**: Confirm creation and tell the user they can run `/sdd:brainstorm` or `/sdd:proposal` next. **Stop here — do not continue with any further work.**
