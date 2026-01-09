@@ -67,7 +67,7 @@ Update state.md `## Notes` with research findings and planning progress.
 This command is a **dialogue**, not a one-way generation.
 
 1. **Think Out Loud**: Before writing any plan file, summarize what you learned from research and approach you're leaning toward.
-2. **Present Options**: If there are multiple reasonable approaches, present 2–3 with trade-offs.
+2. **Present Options**: If there are multiple reasonable approaches, present options with trade-offs.
 3. **Ask Targeted Questions**: Clarify any unknowns that materially affect the plan (scope boundaries, rollout strategy, time/complexity constraints).
 4. **Invite Feedback**: Ask the user if they want any changes to structure, granularity, or sequencing.
 5. **Iterate**: Only write the plan file once the user indicates the direction looks right.
@@ -148,7 +148,7 @@ Delegate to `@librarian` to understand:
 This command is a **dialogue**, not a one-way generation.
 
 1. **Think Out Loud**: Before writing any plan file, summarize what you learned from research and approach you're leaning toward.
-2. **Present Options**: If there are multiple reasonable approaches, present 2–3 with trade-offs.
+2. **Present Options**: If there are multiple reasonable approaches, present options with trade-offs.
 3. **Ask Targeted Questions**: Clarify any unknowns that materially affect the plan.
 4. **Invite Feedback**: Ask the user if they want to adjust scope or sequencing.
 5. **Iterate**: Only write the plan file once the user indicates the direction looks right.

@@ -43,10 +43,10 @@ Before any spec text is written, you MUST:
    - Explain how you believe the change maps into the existing capability hierarchy.
    - Call out any unclear boundaries (what is in-scope vs out-of-scope).
 
-3. **Run a user back-and-forth loop**
-   - Ask clarifying questions when anything is ambiguous.
+3. **Have a short collaborative dialogue**
+   - Ask clarifying questions only when something is materially ambiguous.
    - Propose concrete options when decisions are needed (tradeoffs, boundary choices).
-   - WAIT for explicit user answers/approval before proceeding.
+   - Continue once the user confirms (or corrects) the understanding.
 
 Only after the user confirms (or corrects) the understanding above may you proceed to Research/Taxonomy/Spec writing.
 
