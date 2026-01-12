@@ -72,6 +72,15 @@ This command is a **dialogue**, not a one-way generation.
 4. **Invite Feedback**: Ask the user if they want any changes to structure, granularity, or sequencing.
 5. **Iterate**: Only write the plan file once the user indicates the direction looks right.
 
+### Plan Output Requirements
+
+The plan must be **unambiguous** so `/sdd:implement` can execute it mechanically.
+
+- **Every step must be executable**: include exact file paths, relevant symbols (functions/classes), and the concrete change to make.
+- **Prose-only is allowed** for simple/obvious edits (rename, move, delete, minor config change) where ambiguity is low.
+- **For larger code considerations**, include at least **pseudocode**, and use **actual code** when it materially reduces ambiguity (new logic, complex branching, or non-trivial data flow).
+- If there are **multiple valid approaches**, pick one and justify it; do not leave choices unresolved in the plan file.
+
 ### Create Plan
 
 At the start of planning (before writing the plan file), update `changes/<name>/tasks.md` to mark the current task as `[o]` (In Progress). Ensure there is at most one `[o]` task at a time.
@@ -153,6 +162,14 @@ This command is a **dialogue**, not a one-way generation.
 4. **Invite Feedback**: Ask the user if they want to adjust scope or sequencing.
 5. **Iterate**: Only write the plan file once the user indicates the direction looks right.
 
+### Plan Output Requirements
+
+The plan should stay lean, but still be **unambiguous** enough to execute without interpretation.
+
+- **Prose-only is allowed** for small, obvious changes.
+- **For larger code considerations**, include at least **pseudocode**, and use **actual code** when it materially reduces ambiguity.
+- Include exact file paths and concrete changes for each step.
+
 ### Create Combined Plan
 
 Only after the user indicates alignment, create `changes/<name>/plan.md` (single file, not per-task):
@@ -220,4 +237,5 @@ A good plan:
 - Has specific file paths (verified to exist)
 - Follows patterns found in the codebase
 - Includes validation steps
+- Is unambiguous enough to execute without interpretation (use pseudocode/code for complex changes)
 - Is appropriately detailed for the lane
