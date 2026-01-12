@@ -50,6 +50,16 @@ Read all change-set specs for context, recursively:
 
 Do not assume specs only exist at `changes/<name>/specs/*.md`.
 
+
+### Design References (Full Lane)
+
+Scan all loaded specs for design links (Figma, FigJam, screenshots, docs, etc.).
+
+- Extract and list all relevant design links for the current task.
+- If Figma/FigJam links are present and an MCP tool is available, use it to pull the design context (structure, key UI elements, states, flows).
+- Summarize how the designs affect the plan (components, layout, states, interactions, copy).
+- If links are missing or ambiguous, ask targeted questions before finalizing the plan.
+
 ### Research
 
 Delegate to `@librarian` to understand:
@@ -143,6 +153,16 @@ Don't advance until the user clearly signals approval. Questions, feedback, or a
 ## Vibe/Bug Lane Planning
 
 For vibe/bug lanes, combine discovery + tasking + planning into one pass. Get to building fast.
+
+
+### Design References (Vibe/Bug Lane)
+
+Scan context/specs for design links (Figma, FigJam, screenshots, docs, etc.).
+
+- Extract and list relevant design links.
+- If Figma/FigJam links are present and an MCP tool is available, use it to pull the design context.
+- Summarize how the designs affect the plan (UI structure, states, flows).
+- If links are missing or ambiguous, ask targeted questions.
 
 ### Research
 
