@@ -175,18 +175,27 @@ function Main {
     Write-Host "Which tool(s) would you like to install extensions for?"
     Write-Host "  1) OpenCode"
     Write-Host "  2) Augment (Auggie)"
-    Write-Host "  3) Both"
+    Write-Host "  3) Codex"
+    Write-Host "  4) OpenCode + Augment"
+    Write-Host "  5) OpenCode + Codex"
+    Write-Host "  6) Augment + Codex"
+    Write-Host "  7) All (OpenCode + Augment + Codex)"
     Write-Host ""
-    $toolChoice = Read-Host "Enter choice [1/2/3]"
+    $toolChoice = Read-Host "Enter choice [1/2/3/4/5/6/7]"
 
     $InstallOpenCode = $false
     $InstallAugment = $false
+    $InstallCodex = $false
 
     switch ($toolChoice) {
         "1" { $InstallOpenCode = $true }
         "2" { $InstallAugment = $true }
-        "3" { $InstallOpenCode = $true; $InstallAugment = $true }
-        default { Write-Err "Invalid choice. Please enter 1, 2, or 3." }
+        "3" { $InstallCodex = $true }
+        "4" { $InstallOpenCode = $true; $InstallAugment = $true }
+        "5" { $InstallOpenCode = $true; $InstallCodex = $true }
+        "6" { $InstallAugment = $true; $InstallCodex = $true }
+        "7" { $InstallOpenCode = $true; $InstallAugment = $true; $InstallCodex = $true }
+        default { Write-Err "Invalid choice. Please enter 1, 2, 3, 4, 5, 6, or 7." }
     }
 
     Write-Host ""
@@ -247,6 +256,24 @@ function Main {
         $augmentPayload = Join-Path $scriptDir "augment"
         $augmentTarget = Join-Path $gitRoot ".augment"
         if (Install-Copies -TargetRoot $augmentTarget -PayloadDir $augmentPayload -Label "Augment (local)") {
+            $installedCount++
+        }
+        Write-Host ""
+    }
+
+    if ($InstallCodex -and $InstallGlobal) {
+        $codexPayload = Join-Path $scriptDir "codex"
+        $codexTarget = Join-Path $HOME ".codex"
+        if (Install-Symlinks -TargetRoot $codexTarget -PayloadDir $codexPayload -Label "Codex (global)") {
+            $installedCount++
+        }
+        Write-Host ""
+    }
+
+    if ($InstallCodex -and $InstallLocal) {
+        $codexPayload = Join-Path $scriptDir "codex"
+        $codexTarget = Join-Path $gitRoot ".codex"
+        if (Install-Copies -TargetRoot $codexTarget -PayloadDir $codexPayload -Label "Codex (local)") {
             $installedCount++
         }
         Write-Host ""

@@ -215,13 +215,18 @@ main() {
   echo "Which tool(s) would you like to install extensions for?"
   echo "  1) OpenCode"
   echo "  2) Augment (Auggie)"
-  echo "  3) Both"
+  echo "  3) Codex"
+  echo "  4) OpenCode + Augment"
+  echo "  5) OpenCode + Codex"
+  echo "  6) Augment + Codex"
+  echo "  7) All (OpenCode + Augment + Codex)"
   echo ""
-  printf "Enter choice [1/2/3]: "
+  printf "Enter choice [1/2/3/4/5/6/7]: "
   read -r tool_choice
 
   INSTALL_OPENCODE=""
   INSTALL_AUGMENT=""
+  INSTALL_CODEX=""
 
   case "$tool_choice" in
     1)
@@ -231,11 +236,27 @@ main() {
       INSTALL_AUGMENT="yes"
       ;;
     3)
+      INSTALL_CODEX="yes"
+      ;;
+    4)
       INSTALL_OPENCODE="yes"
       INSTALL_AUGMENT="yes"
       ;;
+    5)
+      INSTALL_OPENCODE="yes"
+      INSTALL_CODEX="yes"
+      ;;
+    6)
+      INSTALL_AUGMENT="yes"
+      INSTALL_CODEX="yes"
+      ;;
+    7)
+      INSTALL_OPENCODE="yes"
+      INSTALL_AUGMENT="yes"
+      INSTALL_CODEX="yes"
+      ;;
     *)
-      error "Invalid choice. Please enter 1, 2, or 3."
+      error "Invalid choice. Please enter 1, 2, 3, 4, 5, 6, or 7."
       ;;
   esac
 
@@ -312,6 +333,26 @@ main() {
     AUGMENT_PAYLOAD="$SCRIPT_DIR/augment"
     AUGMENT_TARGET="$GIT_ROOT/.augment"
     if install_copies "$AUGMENT_TARGET" "$AUGMENT_PAYLOAD" "Augment (local)"; then
+      INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
+    fi
+    echo ""
+  fi
+
+  # Install Codex globally if requested
+  if [ -n "$INSTALL_CODEX" ] && [ -n "$INSTALL_GLOBAL" ]; then
+    CODEX_PAYLOAD="$SCRIPT_DIR/codex"
+    CODEX_TARGET="$HOME/.codex"
+    if install_symlinks "$CODEX_TARGET" "$CODEX_PAYLOAD" "Codex (global)"; then
+      INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
+    fi
+    echo ""
+  fi
+
+  # Install Codex locally if requested (copy)
+  if [ -n "$INSTALL_CODEX" ] && [ -n "$INSTALL_LOCAL" ]; then
+    CODEX_PAYLOAD="$SCRIPT_DIR/codex"
+    CODEX_TARGET="$GIT_ROOT/.codex"
+    if install_copies "$CODEX_TARGET" "$CODEX_PAYLOAD" "Codex (local)"; then
       INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
     fi
     echo ""

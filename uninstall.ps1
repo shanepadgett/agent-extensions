@@ -1,5 +1,5 @@
 # Agent Extensions Uninstaller (Windows PowerShell)
-# Removes the Spec-Driven Development process for OpenCode and/or Augment
+# Removes the Spec-Driven Development process for OpenCode, Augment, and/or Codex
 
 $ErrorActionPreference = "Stop"
 
@@ -200,6 +200,86 @@ function Remove-AugmentFiles {
     return $removed
 }
 
+# Remove Codex SDD files from a target directory
+function Remove-CodexFiles {
+    param($Target)
+    $removed = 0
+
+    # Codex file list - exact files installed (keep in sync with repo contents)
+    $files = @(
+        "prompts\create-command.md",
+        "prompts\sdd-brainstorm.md",
+        "prompts\sdd-discovery.md",
+        "prompts\sdd-explain.md",
+        "prompts\sdd-fast-bug.md",
+        "prompts\sdd-fast-vibe.md",
+        "prompts\sdd-finish.md",
+        "prompts\sdd-implement.md",
+        "prompts\sdd-init.md",
+        "prompts\sdd-plan.md",
+        "prompts\sdd-proposal.md",
+        "prompts\sdd-reconcile.md",
+        "prompts\sdd-specs.md",
+        "prompts\sdd-status.md",
+        "prompts\sdd-tasks.md",
+        "prompts\sdd-tools-critique.md",
+        "prompts\sdd-tools-prime-specs.md",
+        "prompts\sdd-tools-scenario-test.md",
+        "prompts\sdd-tools-taxonomy-map.md",
+        "prompts\tool-commit.md",
+        "skills\architecture-fit-check\SKILL.md",
+        "skills\architecture-workshop\SKILL.md",
+        "skills\codex-skill-creator\SKILL.md",
+        "skills\codex-skill-creator\references\bun-runtime.md",
+        "skills\codex-skill-creator\references\bun-script-rules.md",
+        "skills\codex-skill-creator\references\codex-skill-rules.md",
+        "skills\codex-skill-creator\references\script-output-patterns.md",
+        "skills\codex-skill-creator\references\script-workflows.md",
+        "skills\codex-skill-creator\references\skill-template.md",
+        "skills\design-case-study-generator\SKILL.md",
+        "skills\design-case-study-generator\references\case-study-template.md",
+        "skills\design-case-study-generator\references\demo-skeleton.md",
+        "skills\design-case-study-generator\references\pitch-card-template.md",
+        "skills\design-case-study-generator\references\token-schema-guidance.md",
+        "skills\design-case-study-generator\references\tokens-css-emitter.md",
+        "skills\design-case-study-generator\scripts\copy-version.ts",
+        "skills\keep-current\SKILL.md",
+        "skills\research\SKILL.md",
+        "skills\sdd-state-management\SKILL.md",
+        "skills\spec-format\SKILL.md"
+    )
+
+    foreach ($file in $files) {
+        $path = Join-Path $Target $file
+        if (Remove-FileIfExists -Path $path) {
+            $removed++
+        }
+    }
+
+    # Clean up empty directories (leaf to root)
+    $dirs = @(
+        "skills\design-case-study-generator\references",
+        "skills\design-case-study-generator\scripts",
+        "skills\design-case-study-generator",
+        "skills\codex-skill-creator\references",
+        "skills\codex-skill-creator",
+        "skills\spec-format",
+        "skills\sdd-state-management",
+        "skills\research",
+        "skills\architecture-fit-check",
+        "skills\architecture-workshop",
+        "skills\keep-current",
+        "skills",
+        "prompts"
+    )
+
+    foreach ($dir in $dirs) {
+        Remove-EmptyDirectory -Path (Join-Path $Target $dir)
+    }
+
+    return $removed
+}
+
 # Check if OpenCode installation exists
 function Test-OpenCodeExists {
     param($Target)
@@ -212,6 +292,12 @@ function Test-AugmentExists {
     return (Test-Path "$Target\commands\sdd") -or (Test-Path "$Target\agents\librarian.md")
 }
 
+# Check if Codex installation exists
+function Test-CodexExists {
+    param($Target)
+    return (Test-Path "$Target\prompts") -or (Test-Path "$Target\skills")
+}
+
 # Main
 function Main {
     Write-Host ""
@@ -222,6 +308,7 @@ function Main {
     # Determine possible locations
     $OpenCodeGlobal = Join-Path $HOME ".config\opencode"
     $AugmentGlobal = Join-Path $HOME ".augment"
+    $CodexGlobal = Join-Path $HOME ".codex"
     $LocalRoot = Find-GitRoot
 
     # Check what installations exist
@@ -229,10 +316,13 @@ function Main {
     $OpenCodeLocalExists = $false
     $AugmentGlobalExists = Test-AugmentExists -Target $AugmentGlobal
     $AugmentLocalExists = $false
+    $CodexGlobalExists = Test-CodexExists -Target $CodexGlobal
+    $CodexLocalExists = $false
 
     if ($LocalRoot) {
         $OpenCodeLocalExists = Test-OpenCodeExists -Target (Join-Path $LocalRoot ".opencode")
         $AugmentLocalExists = Test-AugmentExists -Target (Join-Path $LocalRoot ".augment")
+        $CodexLocalExists = Test-CodexExists -Target (Join-Path $LocalRoot ".codex")
     }
 
     # Build found list
@@ -256,6 +346,14 @@ function Main {
         Write-Host "  - Augment (local): $LocalRoot\.augment"
         $FoundAny = $true
     }
+    if ($CodexGlobalExists) {
+        Write-Host "  - Codex (global): $CodexGlobal"
+        $FoundAny = $true
+    }
+    if ($CodexLocalExists) {
+        Write-Host "  - Codex (local): $LocalRoot\.codex"
+        $FoundAny = $true
+    }
 
     if (-not $FoundAny) {
         Write-Host "  (none)"
@@ -269,17 +367,26 @@ function Main {
     Write-Host "Which tool(s) would you like to uninstall?"
     Write-Host "  1) OpenCode"
     Write-Host "  2) Augment"
-    Write-Host "  3) Both"
+    Write-Host "  3) Codex"
+    Write-Host "  4) OpenCode + Augment"
+    Write-Host "  5) OpenCode + Codex"
+    Write-Host "  6) Augment + Codex"
+    Write-Host "  7) All"
     Write-Host ""
-    $toolChoice = Read-Host "Enter choice [1/2/3]"
+    $toolChoice = Read-Host "Enter choice [1/2/3/4/5/6/7]"
 
     $UninstallOpenCode = $false
     $UninstallAugment = $false
+    $UninstallCodex = $false
 
     switch ($toolChoice) {
         "1" { $UninstallOpenCode = $true }
         "2" { $UninstallAugment = $true }
-        "3" { $UninstallOpenCode = $true; $UninstallAugment = $true }
+        "3" { $UninstallCodex = $true }
+        "4" { $UninstallOpenCode = $true; $UninstallAugment = $true }
+        "5" { $UninstallOpenCode = $true; $UninstallCodex = $true }
+        "6" { $UninstallAugment = $true; $UninstallCodex = $true }
+        "7" { $UninstallOpenCode = $true; $UninstallAugment = $true; $UninstallCodex = $true }
         default { Write-Err "Invalid choice" }
     }
 
@@ -348,6 +455,24 @@ function Main {
             Write-Info "Removing Augment (local)..."
             $localPath = Join-Path $LocalRoot ".augment"
             $count = Remove-AugmentFiles -Target $localPath
+            Write-Success "Removed $count files from $localPath"
+            $TotalRemoved += $count
+        }
+    }
+
+    # Uninstall Codex
+    if ($UninstallCodex) {
+        if ($UninstallGlobal -and $CodexGlobalExists) {
+            Write-Info "Removing Codex (global)..."
+            $count = Remove-CodexFiles -Target $CodexGlobal
+            Write-Success "Removed $count files from $CodexGlobal"
+            $TotalRemoved += $count
+        }
+
+        if ($UninstallLocal -and $CodexLocalExists) {
+            Write-Info "Removing Codex (local)..."
+            $localPath = Join-Path $LocalRoot ".codex"
+            $count = Remove-CodexFiles -Target $localPath
             Write-Success "Removed $count files from $localPath"
             $TotalRemoved += $count
         }

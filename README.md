@@ -1,6 +1,6 @@
 # Agent Extensions
 
-BrassworksAI's toolkit for spec-driven development. Drop-in agents and commands for OpenCode and Augment.
+BrassworksAI's toolkit for spec-driven development. Drop-in agents and commands for OpenCode, Augment, and Codex.
 
 ## Why SDD
 
@@ -15,6 +15,7 @@ This is vibe coding's ambition with enterprise rigor. Think big, stay traceable.
 Install at least one of:
 - [OpenCode](https://opencode.ai/docs/#install)
 - [Augment CLI](https://www.augmentcode.com/)
+- [Codex CLI](https://developers.openai.com/codex/)
 
 ### macOS / Linux
 
@@ -40,6 +41,7 @@ Global installs use symlinks to the repo; local installs copy files into the rep
 |------|--------|-------|
 | OpenCode | `~/.config/opencode/` | `.opencode/` |
 | Augment | `~/.augment/` | `.augment/` |
+| Codex | `~/.codex/` | `.codex/` |
 
 ### Uninstall
 
@@ -83,8 +85,8 @@ irm https://raw.githubusercontent.com/BrassworksAI/agent-extensions/main/uninsta
 
 | Command | Description |
 |---------|-------------|
-| `/create/agent <spec>` | Create a new agent |
-| `/create/command <spec>` | Create a new command |
+| `/create/command <spec>` | Create a new command (OpenCode/Augment) |
+| `/prompts:create-command <spec>` | Create a new Codex custom prompt |
 
 ## Development Install
 
@@ -107,6 +109,9 @@ agent-extensions/
 │   ├── agents/         # Agent definitions
 │   ├── commands/       # Command definitions
 │   └── skills/         # Skill files
+├── codex/              # Codex extensions
+│   ├── prompts/         # Custom prompts (top-level only)
+│   └── skills/          # Skill definitions
 ├── install.sh          # macOS/Linux installer (global symlinks, local copies)
 ├── install.ps1         # Windows installer (global symlinks, local copies)
 ├── uninstall.sh        # macOS/Linux uninstaller

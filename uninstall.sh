@@ -2,7 +2,7 @@
 set -e
 
 # Agent Extensions Uninstaller (macOS/Linux)
-# Removes the Spec-Driven Development process for OpenCode and/or Augment
+# Removes the Spec-Driven Development process for OpenCode, Augment, and/or Codex
 
 # Colors (if terminal supports them)
 if [ -t 1 ]; then
@@ -222,6 +222,85 @@ remove_augment_files() {
   echo "$removed"
 }
 
+# Remove Codex SDD files from a target directory
+remove_codex_files() {
+  target="$1"
+  removed=0
+
+  # Codex file list - exact files installed (keep in sync with repo contents)
+  files="
+    prompts/create-command.md
+    prompts/sdd-brainstorm.md
+    prompts/sdd-discovery.md
+    prompts/sdd-explain.md
+    prompts/sdd-fast-bug.md
+    prompts/sdd-fast-vibe.md
+    prompts/sdd-finish.md
+    prompts/sdd-implement.md
+    prompts/sdd-init.md
+    prompts/sdd-plan.md
+    prompts/sdd-proposal.md
+    prompts/sdd-reconcile.md
+    prompts/sdd-specs.md
+    prompts/sdd-status.md
+    prompts/sdd-tasks.md
+    prompts/sdd-tools-critique.md
+    prompts/sdd-tools-prime-specs.md
+    prompts/sdd-tools-scenario-test.md
+    prompts/sdd-tools-taxonomy-map.md
+    prompts/tool-commit.md
+    skills/architecture-fit-check/SKILL.md
+    skills/architecture-workshop/SKILL.md
+    skills/codex-skill-creator/SKILL.md
+    skills/codex-skill-creator/references/bun-runtime.md
+    skills/codex-skill-creator/references/bun-script-rules.md
+    skills/codex-skill-creator/references/codex-skill-rules.md
+    skills/codex-skill-creator/references/script-output-patterns.md
+    skills/codex-skill-creator/references/script-workflows.md
+    skills/codex-skill-creator/references/skill-template.md
+    skills/design-case-study-generator/SKILL.md
+    skills/design-case-study-generator/references/case-study-template.md
+    skills/design-case-study-generator/references/demo-skeleton.md
+    skills/design-case-study-generator/references/pitch-card-template.md
+    skills/design-case-study-generator/references/token-schema-guidance.md
+    skills/design-case-study-generator/references/tokens-css-emitter.md
+    skills/design-case-study-generator/scripts/copy-version.ts
+    skills/keep-current/SKILL.md
+    skills/research/SKILL.md
+    skills/sdd-state-management/SKILL.md
+    skills/spec-format/SKILL.md
+  "
+
+  for file in $files; do
+    if remove_file "$target/$file"; then
+      removed=$((removed + 1))
+    fi
+  done
+
+  # Clean up empty directories (leaf to root)
+  dirs="
+    skills/design-case-study-generator/references
+    skills/design-case-study-generator/scripts
+    skills/design-case-study-generator
+    skills/codex-skill-creator/references
+    skills/codex-skill-creator
+    skills/spec-format
+    skills/sdd-state-management
+    skills/research
+    skills/architecture-fit-check
+    skills/architecture-workshop
+    skills/keep-current
+    skills
+    prompts
+  "
+
+  for dir in $dirs; do
+    remove_empty_dir "$target/$dir"
+  done
+
+  echo "$removed"
+}
+
 # Check if OpenCode installation exists
 check_opencode_exists() {
   target="$1"
@@ -234,6 +313,12 @@ check_augment_exists() {
   [ -d "$target/commands/sdd" ] || [ -f "$target/agents/librarian.md" ]
 }
 
+# Check if Codex installation exists
+check_codex_exists() {
+  target="$1"
+  [ -d "$target/prompts" ] || [ -d "$target/skills" ]
+}
+
 # Main
 main() {
   echo ""
@@ -244,6 +329,7 @@ main() {
   # Determine possible locations
   OPENCODE_GLOBAL="$HOME/.config/opencode"
   AUGMENT_GLOBAL="$HOME/.augment"
+  CODEX_GLOBAL="$HOME/.codex"
   LOCAL_ROOT=""
   
   if GIT_ROOT="$(find_git_root 2>/dev/null)"; then
@@ -255,6 +341,8 @@ main() {
   OPENCODE_LOCAL_EXISTS=false
   AUGMENT_GLOBAL_EXISTS=false
   AUGMENT_LOCAL_EXISTS=false
+  CODEX_GLOBAL_EXISTS=false
+  CODEX_LOCAL_EXISTS=false
 
   if check_opencode_exists "$OPENCODE_GLOBAL"; then
     OPENCODE_GLOBAL_EXISTS=true
@@ -270,6 +358,14 @@ main() {
 
   if [ -n "$LOCAL_ROOT" ] && check_augment_exists "$LOCAL_ROOT/.augment"; then
     AUGMENT_LOCAL_EXISTS=true
+  fi
+
+  if check_codex_exists "$CODEX_GLOBAL"; then
+    CODEX_GLOBAL_EXISTS=true
+  fi
+
+  if [ -n "$LOCAL_ROOT" ] && check_codex_exists "$LOCAL_ROOT/.codex"; then
+    CODEX_LOCAL_EXISTS=true
   fi
 
   # Build found list
@@ -293,6 +389,14 @@ main() {
     echo "  - Augment (local): $LOCAL_ROOT/.augment"
     FOUND_ANY=true
   fi
+  if [ "$CODEX_GLOBAL_EXISTS" = true ]; then
+    echo "  - Codex (global): $CODEX_GLOBAL"
+    FOUND_ANY=true
+  fi
+  if [ "$CODEX_LOCAL_EXISTS" = true ]; then
+    echo "  - Codex (local): $LOCAL_ROOT/.codex"
+    FOUND_ANY=true
+  fi
 
   if [ "$FOUND_ANY" = false ]; then
     echo "  (none)"
@@ -306,18 +410,27 @@ main() {
   echo "Which tool(s) would you like to uninstall?"
   echo "  1) OpenCode"
   echo "  2) Augment"
-  echo "  3) Both"
+  echo "  3) Codex"
+  echo "  4) OpenCode + Augment"
+  echo "  5) OpenCode + Codex"
+  echo "  6) Augment + Codex"
+  echo "  7) All"
   echo ""
-  printf "Enter choice [1/2/3]: "
+  printf "Enter choice [1/2/3/4/5/6/7]: "
   read -r tool_choice
 
   UNINSTALL_OPENCODE=""
   UNINSTALL_AUGMENT=""
+  UNINSTALL_CODEX=""
 
   case "$tool_choice" in
     1) UNINSTALL_OPENCODE="yes" ;;
     2) UNINSTALL_AUGMENT="yes" ;;
-    3) UNINSTALL_OPENCODE="yes"; UNINSTALL_AUGMENT="yes" ;;
+    3) UNINSTALL_CODEX="yes" ;;
+    4) UNINSTALL_OPENCODE="yes"; UNINSTALL_AUGMENT="yes" ;;
+    5) UNINSTALL_OPENCODE="yes"; UNINSTALL_CODEX="yes" ;;
+    6) UNINSTALL_AUGMENT="yes"; UNINSTALL_CODEX="yes" ;;
+    7) UNINSTALL_OPENCODE="yes"; UNINSTALL_AUGMENT="yes"; UNINSTALL_CODEX="yes" ;;
     *) error "Invalid choice" ;;
   esac
 
@@ -385,6 +498,23 @@ main() {
       info "Removing Augment (local)..."
       count=$(remove_augment_files "$LOCAL_ROOT/.augment")
       success "Removed $count files from $LOCAL_ROOT/.augment"
+      TOTAL_REMOVED=$((TOTAL_REMOVED + count))
+    fi
+  fi
+
+  # Uninstall Codex
+  if [ -n "$UNINSTALL_CODEX" ]; then
+    if [ -n "$UNINSTALL_GLOBAL" ] && [ "$CODEX_GLOBAL_EXISTS" = true ]; then
+      info "Removing Codex (global)..."
+      count=$(remove_codex_files "$CODEX_GLOBAL")
+      success "Removed $count files from $CODEX_GLOBAL"
+      TOTAL_REMOVED=$((TOTAL_REMOVED + count))
+    fi
+
+    if [ -n "$UNINSTALL_LOCAL" ] && [ "$CODEX_LOCAL_EXISTS" = true ]; then
+      info "Removing Codex (local)..."
+      count=$(remove_codex_files "$LOCAL_ROOT/.codex")
+      success "Removed $count files from $LOCAL_ROOT/.codex"
       TOTAL_REMOVED=$((TOTAL_REMOVED + count))
     fi
   fi
