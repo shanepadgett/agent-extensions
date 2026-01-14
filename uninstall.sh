@@ -72,11 +72,11 @@ remove_opencode_files() {
 
   # OpenCode file list - exact files installed (keep in sync with repo contents)
   files="
-    agent/sdd/forge.md
     agent/sdd/plan.md
     agent/sdd/build.md
     agent/librarian.md
     agent/chat.md
+    agent/designer.md
     command/sdd/init.md
     command/sdd/plan.md
     command/sdd/implement.md
@@ -86,7 +86,6 @@ remove_opencode_files() {
     command/sdd/tasks.md
     command/sdd/reconcile.md
     command/sdd/finish.md
-    command/sdd/continue.md
     command/sdd/status.md
     command/sdd/brainstorm.md
     command/sdd/explain.md
@@ -99,6 +98,7 @@ remove_opencode_files() {
     command/tool/commit.md
     command/create/agent.md
     command/create/command.md
+    plugin/spec-validate.ts
     skill/spec-format/SKILL.md
     skill/sdd-state-management/SKILL.md
     skill/research/SKILL.md
@@ -111,7 +111,11 @@ remove_opencode_files() {
     skill/design-case-study-generator/references/tokens-css-emitter.md
     skill/design-case-study-generator/references/token-schema-guidance.md
     skill/design-case-study-generator/references/case-study-template.md
+    skill/design-case-study-generator/scripts/copy-version.ts
     skill/keep-current/SKILL.md
+    skill/merge-change-specs/SKILL.md
+    skill/merge-change-specs/references/delta-merge-rules.md
+    skill/merge-change-specs/scripts/merge-change-specs.ts
     skill/opencode-skill-creator/SKILL.md
     skill/opencode-skill-creator/references/bun-script-rules.md
     skill/opencode-skill-creator/references/skill-template.md
@@ -130,7 +134,11 @@ remove_opencode_files() {
   # Clean up empty directories (leaf to root)
   dirs="
     skill/design-case-study-generator/references
+    skill/design-case-study-generator/scripts
     skill/design-case-study-generator
+    skill/merge-change-specs/references
+    skill/merge-change-specs/scripts
+    skill/merge-change-specs
     skill/opencode-skill-creator/references
     skill/opencode-skill-creator
     skill/spec-format
@@ -141,6 +149,7 @@ remove_opencode_files() {
     skill/bun-shell-commands
     skill/keep-current
     skill
+    plugin
     command/tool
     command/sdd/tools
     command/sdd/fast
@@ -175,7 +184,6 @@ remove_augment_files() {
     commands/sdd/tasks.md
     commands/sdd/reconcile.md
     commands/sdd/finish.md
-    commands/sdd/continue.md
     commands/sdd/status.md
     commands/sdd/brainstorm.md
     commands/sdd/explain.md
@@ -266,8 +274,12 @@ remove_codex_files() {
     skills/design-case-study-generator/references/tokens-css-emitter.md
     skills/design-case-study-generator/scripts/copy-version.ts
     skills/keep-current/SKILL.md
+    skills/merge-change-specs/SKILL.md
+    skills/merge-change-specs/references/delta-merge-rules.md
+    skills/merge-change-specs/scripts/merge-change-specs.mjs
     skills/research/SKILL.md
     skills/sdd-state-management/SKILL.md
+    skills/spec-format/scripts/validate-change-spec.mjs
     skills/spec-format/SKILL.md
   "
 
@@ -284,6 +296,10 @@ remove_codex_files() {
     skills/design-case-study-generator
     skills/codex-skill-creator/references
     skills/codex-skill-creator
+    skills/merge-change-specs/references
+    skills/merge-change-specs/scripts
+    skills/merge-change-specs
+    skills/spec-format/scripts
     skills/spec-format
     skills/sdd-state-management
     skills/research
@@ -304,7 +320,11 @@ remove_codex_files() {
 # Check if OpenCode installation exists
 check_opencode_exists() {
   target="$1"
-  [ -d "$target/agent/sdd" ] || [ -d "$target/command/sdd" ] || [ -f "$target/agent/librarian.md" ]
+  [ -d "$target/agent/sdd" ] || \
+    [ -d "$target/command/sdd" ] || \
+    [ -f "$target/agent/librarian.md" ] || \
+    [ -f "$target/plugin/spec-validate.ts" ] || \
+    [ -d "$target/skill/merge-change-specs" ]
 }
 
 # Check if Augment installation exists
