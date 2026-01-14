@@ -5,35 +5,62 @@ description: Merge change-set specs in `changes/<name>/specs/` into canonical `s
 
 # Merge Change Specs
 
+## What this skill does
+
+- Merges a change set at `changes/<name>/specs/**/*.md` into canonical `specs/**/*.md`.
+- Produces a deterministic JSON report of what would change / did change.
+
 ## Inputs
 
 - Change set name (the `<name>` in `changes/<name>/`).
-- Optional: `--dry-run` to preview changes.
+- Should this be a dry run (no writes), or should it write to `specs/`?
+
+## How to run the script
+
+The implementation lives at `codex/skills/merge-change-specs/scripts/merge-change-specs.mjs`.
+
+Supported flags:
+
+- `--change <name>` (or `-c <name>`) (required)
+- `--dry-run` (optional): compute and report changes without writing any files
+
+Examples:
+
+- Dry run first:
+  - `node codex/skills/merge-change-specs/scripts/merge-change-specs.mjs --change auth-refresh --dry-run`
+- Apply changes:
+  - `node codex/skills/merge-change-specs/scripts/merge-change-specs.mjs --change auth-refresh`
+
+### Output format
+
+The script prints a single JSON object to stdout:
+
+- `change`: the change set name
+- `dryRun`: boolean
+- `counts.created|modified|skipped`
+- `created|modified|skipped`: arrays of canonical `specs/...` paths
+
+If anything is invalid or unsafe, the script exits non-zero and prints a human-readable error to stderr.
 
 ## Workflow
 
-1. Validate the change set exists and contains `specs/**/*.md`.
+1. Validate `changes/<name>/specs/` exists and contains `**/*.md`.
 2. For each change-set spec:
-   - Validate the markdown format using the `spec-format` validator script.
+   - Validate the markdown format using `codex/skills/spec-format/scripts/validate-change-spec.mjs`.
    - Parse YAML frontmatter and determine `kind: new|delta`.
    - Compute the canonical spec path by stripping `changes/<name>/specs/` and prefixing with `specs/`.
 3. Apply changes deterministically:
    - `kind: new`: write canonical file as the change-set body (frontmatter removed).
-   - `kind: delta`: patch the canonical spec by applying the delta file’s `### ADDED`, `### MODIFIED`, `### REMOVED` buckets.
+     - If the canonical file already exists, it is overwritten and reported as `modified`.
+   - `kind: delta`: patch the canonical spec by applying the delta file’s `### ADDED`, `### MODIFIED`, `### REMOVED` buckets under `## Requirements`.
 4. Emit a deterministic JSON summary (created/modified/skipped) and fail fast on errors.
 
 ## Guardrails
 
+- Refuses unsafe `--change` values (absolute paths or `..`).
 - Fail fast if a `kind: delta` spec targets a missing canonical file.
 - Do not reorder unrelated canonical content; only apply targeted edits.
 - Keep ordering deterministic: stable traversal + stable output formatting.
-
-## Commands
-
-- Run merge: `node codex/skills/merge-change-specs/scripts/merge-change-specs.mjs --change <name>`
-- Dry run: `node codex/skills/merge-change-specs/scripts/merge-change-specs.mjs --change <name> --dry-run`
-
-Note: This script imports the validator from `codex/skills/spec-format/scripts/validate-change-spec.mjs`.
 
 ## References
 

@@ -9,43 +9,74 @@ description: Merge a change-set’s specs into canonical specs
 
 This skill is meant to be used collaboratively:
 
-- Ask the user for the change set name/path (and confirm repo root if ambiguous).
+- Ask the user for the change set name (the `<name>` in `changes/<name>/`).
 - Summarize which canonical spec files will be created/modified.
-- Run the merge script and report a deterministic summary + any errors.
+- Run the merge script (often in `--dry-run` first) and report its JSON output + any errors.
 
 ## What I do
 
 Outputs/artifacts this skill helps produce:
 
 - Updated canonical specs under `specs/`.
-- A deterministic merge report (what changed, what was created, what failed).
+- A deterministic, machine-readable merge report (JSON) listing created/modified files.
 
 ## Inputs I need
 
 Questions to ask up front (only include questions that materially affect correctness):
 
-- Which change set should be merged (typically `changes/<name>/`)?
+- Which change set should be merged (the `<name>` in `changes/<name>/`)?
+- Should this be a dry run (no writes), or should it actually write to `specs/`?
+
+## How to run the script
+
+The implementation lives at `opencode/skill/merge-change-specs/scripts/merge-change-specs.ts`.
+
+Supported flags:
+
+- `--change <name>` (or `-c <name>`) (required)
+- `--dry-run` (optional): compute and report changes without writing any files
+
+Examples:
+
+- Dry run first:
+  - `bun opencode/skill/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh --dry-run`
+- Apply changes:
+  - `bun opencode/skill/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh`
+
+### Output format
+
+The script prints a single JSON object to stdout:
+
+- `change`: the change set name
+- `dryRun`: boolean
+- `counts.created|modified|skipped`
+- `created|modified|skipped`: arrays of canonical `specs/...` paths
+
+If anything is invalid or unsafe, the script exits non-zero and prints a human-readable error to stderr.
 
 ## Workflow
 
-1. Validate the change set exists and contains `specs/**/*.md`.
-2. For each change-set spec:
-   - Parse YAML frontmatter and determine `kind`.
-   - Compute the canonical spec path by stripping `changes/<name>/specs/` prefix.
-3. Apply changes deterministically:
-   - `kind: new`: write canonical file with frontmatter removed.
-   - `kind: delta`: patch the canonical spec by applying the delta file’s `### ADDED`, `### MODIFIED`, `### REMOVED` buckets.
-4. Emit a one-page summary of created/changed files and any failures.
+1. Validate `changes/<name>/specs/` exists and contains `**/*.md`.
+2. For each change-set spec (`changes/<name>/specs/**/*.md`):
+   - Validate it is a change-spec Markdown file.
+   - Parse YAML frontmatter and read `kind` (`new` or `delta`).
+   - Compute the canonical path by stripping the `changes/<name>/specs/` prefix and re-rooting under `specs/`.
+3. Apply changes deterministically (stable ordering):
+   - `kind: new`: write the change spec body (frontmatter removed) to the canonical file.
+     - If the canonical file already exists, it is overwritten and reported as `modified`.
+   - `kind: delta`: patch the canonical spec by applying `### ADDED`, `### MODIFIED`, `### REMOVED` buckets under `## Requirements`.
+4. Emit JSON summary of created/modified/skipped and exit `0`.
 
 ## Guardrails
 
-- Fail fast if a `kind: delta` spec’s canonical file does not exist.
-- Do not reorder unrelated canonical content; only modify targeted sections.
-- Be deterministic: stable file ordering and stable output formatting.
+- Refuses unsafe `--change` values (absolute paths or `..`).
+- Fails fast if a `kind: delta` spec targets a missing canonical file.
+- Does not copy YAML frontmatter into canonical.
+- Deterministic behavior: stable file ordering and stable output formatting.
 
 ## Examples
 
-### Merge a change set
+### Merge a change set (dry run, then apply)
 
 User:
 
@@ -53,5 +84,7 @@ User:
 
 Assistant:
 
-- Runs `bun opencode/skill/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh`.
-- Reports which canonical specs were created or patched.
+- Runs `bun opencode/skill/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh --dry-run`.
+- Summarizes the JSON output (`created` / `modified`).
+- If output looks correct, runs `bun opencode/skill/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh`.
+- Reports the final JSON output and any errors.
