@@ -2,7 +2,7 @@
 name: chat
 description: Chat or ask general questions
 mode: all
-model: opencode/glm-4.7-free
+model: zai-coding-plan/glm-4.7
 color: "#BEA2C2"
 permission:
   question: allow
