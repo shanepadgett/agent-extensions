@@ -1,18 +1,19 @@
 # Agent Extensions
 
-BrassworksAI's toolkit for spec-driven development. Drop-in agents and commands for OpenCode, Augment, and Codex.
+Drop-in agents, commands, and skills for:
 
-## Why SDD
+- [OpenCode](https://opencode.ai/)
+- [Augment CLI](https://www.augmentcode.com/)
+- [Codex CLI](https://developers.openai.com/codex/)
 
-SDD lets you work at the capability level, not the ticket level. Describe what you want the system to do—the agents figure out how to break it down, what order to build it, which files to touch. You're not managing a backlog of micro-tasks. You're defining outcomes and validating that they landed correctly.
-
-This is vibe coding's ambition with enterprise rigor. Think big, stay traceable.
+This repo delivers a versioned, installable payload under `opencode/`, `augment/`, and `codex/`, plus cross-platform install/uninstall scripts.
 
 ## Installation
 
 ### Prerequisites
 
 Install at least one of:
+
 - [OpenCode](https://opencode.ai/docs/#install)
 - [Augment CLI](https://www.augmentcode.com/)
 - [Codex CLI](https://developers.openai.com/codex/)
@@ -99,7 +100,7 @@ git clone git@github.com:BrassworksAI/agent-extensions.git && cd agent-extension
 
 ## Repository Structure
 
-```
+```text
 agent-extensions/
 ├── opencode/           # OpenCode extensions
 │   ├── agent/          # Agent definitions
