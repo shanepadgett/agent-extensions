@@ -2,7 +2,7 @@
 name: chat
 description: Chat or ask general questions
 mode: all
-model: zai-coding-plan/glm-4.7
+model: gpt-codex/gpt-5.2-codex
 color: "#BEA2C2"
 permission:
   question: allow
