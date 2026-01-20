@@ -1,4 +1,10 @@
-# Agent Extensions
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/_media/ae-logo-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="docs/_media/ae-logo-light.png">
+    <img alt="lattice" src="docs/_media/ae-logo-dark.png" style="max-width: 100%; border-radius: 6px;">
+  </picture>
+</p>
 
 Drop-in agents, commands, and skills for:
 
