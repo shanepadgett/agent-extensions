@@ -5,7 +5,7 @@ mode: all
 model: openai/gpt-5.2-codex
 color: "#BEA2C2"
 permission:
-  question: allow
+  question: deny
   edit:
     # Source files - deny
     "*.ts": deny
