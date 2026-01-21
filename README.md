@@ -27,7 +27,7 @@ Install at least one of:
 ### macOS / Linux
 
 ```sh
-git clone git@github.com:BrassworksAI/agent-extensions.git && cd agent-extensions
+git clone git@github.com:shanepadgett/agent-extensions.git && cd agent-extensions
 ./install.sh
 ```
 
@@ -36,7 +36,7 @@ Global installs use symlinks to the repo; local installs copy files into the rep
 ### Windows
 
 ```powershell
-git clone git@github.com:BrassworksAI/agent-extensions.git; cd agent-extensions
+git clone git@github.com:shanepadgett/agent-extensions.git; cd agent-extensions
 .\install.ps1
 ```
 
@@ -54,12 +54,12 @@ Global installs use symlinks to the repo; local installs copy files into the rep
 
 ```sh
 # macOS / Linux
-curl -fsSL https://raw.githubusercontent.com/BrassworksAI/agent-extensions/main/uninstall.sh | sh
+curl -fsSL https://raw.githubusercontent.com/shanepadgett/agent-extensions/main/uninstall.sh | sh
 ```
 
 ```powershell
 # Windows
-irm https://raw.githubusercontent.com/BrassworksAI/agent-extensions/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/shanepadgett/agent-extensions/main/uninstall.ps1 | iex
 ```
 
 ## Available Commands
@@ -100,7 +100,7 @@ irm https://raw.githubusercontent.com/BrassworksAI/agent-extensions/main/uninsta
 Run the install script from your clone:
 
 ```sh
-git clone git@github.com:BrassworksAI/agent-extensions.git && cd agent-extensions
+git clone git@github.com:shanepadgett/agent-extensions.git && cd agent-extensions
 ./install.sh
 ```
 
