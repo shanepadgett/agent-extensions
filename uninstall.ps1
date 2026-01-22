@@ -117,6 +117,8 @@ function Remove-OpenCodeFiles {
         "skill\merge-change-specs\references",
         "skill\merge-change-specs\scripts",
         "skill\merge-change-specs",
+        "skill\agent-browser\references",
+        "skill\agent-browser",
         "skill\skill-creator\references",
         "skill\skill-creator",
         "skill\agent-browser\references",
@@ -287,6 +289,8 @@ function Remove-CodexFiles {
         "skills\merge-change-specs\references",
         "skills\merge-change-specs\scripts",
         "skills\merge-change-specs",
+        "skills\agent-browser\references",
+        "skills\agent-browser",
         "skills\skill-creator\references",
         "skills\skill-creator",
         "skills\agent-browser\references",
@@ -352,12 +356,10 @@ function Main {
     $AugmentGlobalExists = Test-AugmentExists -Target $AugmentGlobal
     $AugmentLocalExists = $false
     $CodexGlobalExists = Test-CodexExists -Target $CodexGlobal
-    $CodexLocalExists = $false
 
     if ($LocalRoot) {
         $OpenCodeLocalExists = Test-OpenCodeExists -Target (Join-Path $LocalRoot ".opencode")
         $AugmentLocalExists = Test-AugmentExists -Target (Join-Path $LocalRoot ".augment")
-        $CodexLocalExists = Test-CodexExists -Target (Join-Path $LocalRoot ".codex")
     }
 
     # Build found list
@@ -385,11 +387,6 @@ function Main {
         Write-Host "  - Codex (global): $CodexGlobal"
         $FoundAny = $true
     }
-    if ($CodexLocalExists) {
-        Write-Host "  - Codex (local): $LocalRoot\.codex"
-        $FoundAny = $true
-    }
-
     if (-not $FoundAny) {
         Write-Host "  (none)"
         Write-Host ""
@@ -399,16 +396,12 @@ function Main {
     Write-Host ""
 
     # Ask which tool to uninstall
-    Write-Host "Which tool(s) would you like to uninstall?"
+    Write-Host "Which tool would you like to uninstall?"
     Write-Host "  1) OpenCode"
     Write-Host "  2) Augment"
     Write-Host "  3) Codex"
-    Write-Host "  4) OpenCode + Augment"
-    Write-Host "  5) OpenCode + Codex"
-    Write-Host "  6) Augment + Codex"
-    Write-Host "  7) All"
     Write-Host ""
-    $toolChoice = Read-Host "Enter choice [1/2/3/4/5/6/7]"
+    $toolChoice = Read-Host "Enter choice [1/2/3]"
 
     $UninstallOpenCode = $false
     $UninstallAugment = $false
@@ -418,35 +411,33 @@ function Main {
         "1" { $UninstallOpenCode = $true }
         "2" { $UninstallAugment = $true }
         "3" { $UninstallCodex = $true }
-        "4" { $UninstallOpenCode = $true; $UninstallAugment = $true }
-        "5" { $UninstallOpenCode = $true; $UninstallCodex = $true }
-        "6" { $UninstallAugment = $true; $UninstallCodex = $true }
-        "7" { $UninstallOpenCode = $true; $UninstallAugment = $true; $UninstallCodex = $true }
         default { Write-Err "Invalid choice" }
     }
 
-    # Ask which scope to uninstall
-    Write-Host ""
-    Write-Host "Which installation scope?"
-    Write-Host "  1) Global only"
-    Write-Host "  2) Local only"
-    Write-Host "  3) Both"
-    Write-Host ""
-    $scopeChoice = Read-Host "Enter choice [1/2/3]"
-
     $UninstallGlobal = $false
     $UninstallLocal = $false
+    if ($UninstallCodex) {
+        $UninstallGlobal = $true
+    } else {
+        # Ask which scope to uninstall
+        Write-Host ""
+        Write-Host "Which installation scope?"
+        Write-Host "  1) Global only"
+        Write-Host "  2) Local only"
+        Write-Host "  3) Both"
+        Write-Host ""
+        $scopeChoice = Read-Host "Enter choice [1/2/3]"
 
-    switch ($scopeChoice) {
-        "1" { $UninstallGlobal = $true }
-        "2" { $UninstallLocal = $true }
-        "3" { $UninstallGlobal = $true; $UninstallLocal = $true }
-        default { Write-Err "Invalid choice" }
+        switch ($scopeChoice) {
+            "1" { $UninstallGlobal = $true }
+            "2" { $UninstallLocal = $true }
+            "3" { $UninstallGlobal = $true; $UninstallLocal = $true }
+            default { Write-Err "Invalid choice" }
+        }
     }
 
     Write-Host ""
     Write-Warn "This will remove SDD agents, commands, and skills."
-    Write-Warn "Your project files (changes/, specs/, etc.) will NOT be affected."
     Write-Host ""
 
     $confirm = Read-Host "Proceed with uninstall? [y/N]"
@@ -501,14 +492,6 @@ function Main {
             Write-Info "Removing Codex (global)..."
             $count = Remove-CodexFiles -Target $CodexGlobal
             Write-Success "Removed $count files from $CodexGlobal"
-            $TotalRemoved += $count
-        }
-
-        if ($UninstallLocal -and $CodexLocalExists) {
-            Write-Info "Removing Codex (local)..."
-            $localPath = Join-Path $LocalRoot ".codex"
-            $count = Remove-CodexFiles -Target $localPath
-            Write-Success "Removed $count files from $localPath"
             $TotalRemoved += $count
         }
     }

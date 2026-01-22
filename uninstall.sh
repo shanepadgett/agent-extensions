@@ -140,6 +140,8 @@ remove_opencode_files() {
     skill/merge-change-specs/references
     skill/merge-change-specs/scripts
     skill/merge-change-specs
+    skill/agent-browser/references
+    skill/agent-browser
     skill/skill-creator/references
     skill/skill-creator
     skill/spec-format/scripts
@@ -306,6 +308,8 @@ remove_codex_files() {
     skills/merge-change-specs/references
     skills/merge-change-specs/scripts
     skills/merge-change-specs
+    skills/agent-browser/references
+    skills/agent-browser
     skills/skill-creator/references
     skills/skill-creator
     skills/spec-format/scripts
@@ -373,7 +377,6 @@ main() {
   AUGMENT_GLOBAL_EXISTS=false
   AUGMENT_LOCAL_EXISTS=false
   CODEX_GLOBAL_EXISTS=false
-  CODEX_LOCAL_EXISTS=false
 
   if check_opencode_exists "$OPENCODE_GLOBAL"; then
     OPENCODE_GLOBAL_EXISTS=true
@@ -393,10 +396,6 @@ main() {
 
   if check_codex_exists "$CODEX_GLOBAL"; then
     CODEX_GLOBAL_EXISTS=true
-  fi
-
-  if [ -n "$LOCAL_ROOT" ] && check_codex_exists "$LOCAL_ROOT/.codex"; then
-    CODEX_LOCAL_EXISTS=true
   fi
 
   # Build found list
@@ -424,11 +423,6 @@ main() {
     echo "  - Codex (global): $CODEX_GLOBAL"
     FOUND_ANY=true
   fi
-  if [ "$CODEX_LOCAL_EXISTS" = true ]; then
-    echo "  - Codex (local): $LOCAL_ROOT/.codex"
-    FOUND_ANY=true
-  fi
-
   if [ "$FOUND_ANY" = false ]; then
     echo "  (none)"
     echo ""
@@ -438,16 +432,12 @@ main() {
   echo ""
 
   # Ask which tool to uninstall
-  echo "Which tool(s) would you like to uninstall?"
+  echo "Which tool would you like to uninstall?"
   echo "  1) OpenCode"
   echo "  2) Augment"
   echo "  3) Codex"
-  echo "  4) OpenCode + Augment"
-  echo "  5) OpenCode + Codex"
-  echo "  6) Augment + Codex"
-  echo "  7) All"
   echo ""
-  printf "Enter choice [1/2/3/4/5/6/7]: "
+  printf "Enter choice [1/2/3]: "
   read -r tool_choice
 
   UNINSTALL_OPENCODE=""
@@ -458,36 +448,34 @@ main() {
     1) UNINSTALL_OPENCODE="yes" ;;
     2) UNINSTALL_AUGMENT="yes" ;;
     3) UNINSTALL_CODEX="yes" ;;
-    4) UNINSTALL_OPENCODE="yes"; UNINSTALL_AUGMENT="yes" ;;
-    5) UNINSTALL_OPENCODE="yes"; UNINSTALL_CODEX="yes" ;;
-    6) UNINSTALL_AUGMENT="yes"; UNINSTALL_CODEX="yes" ;;
-    7) UNINSTALL_OPENCODE="yes"; UNINSTALL_AUGMENT="yes"; UNINSTALL_CODEX="yes" ;;
     *) error "Invalid choice" ;;
   esac
-
-  # Ask which scope to uninstall
-  echo ""
-  echo "Which installation scope?"
-  echo "  1) Global only"
-  echo "  2) Local only"
-  echo "  3) Both"
-  echo ""
-  printf "Enter choice [1/2/3]: "
-  read -r scope_choice
 
   UNINSTALL_GLOBAL=""
   UNINSTALL_LOCAL=""
+  if [ -n "$UNINSTALL_CODEX" ]; then
+    UNINSTALL_GLOBAL="yes"
+  else
+    # Ask which scope to uninstall
+    echo ""
+    echo "Which installation scope?"
+    echo "  1) Global only"
+    echo "  2) Local only"
+    echo "  3) Both"
+    echo ""
+    printf "Enter choice [1/2/3]: "
+    read -r scope_choice
 
-  case "$scope_choice" in
-    1) UNINSTALL_GLOBAL="yes" ;;
-    2) UNINSTALL_LOCAL="yes" ;;
-    3) UNINSTALL_GLOBAL="yes"; UNINSTALL_LOCAL="yes" ;;
-    *) error "Invalid choice" ;;
-  esac
+    case "$scope_choice" in
+      1) UNINSTALL_GLOBAL="yes" ;;
+      2) UNINSTALL_LOCAL="yes" ;;
+      3) UNINSTALL_GLOBAL="yes"; UNINSTALL_LOCAL="yes" ;;
+      *) error "Invalid choice" ;;
+    esac
+  fi
 
   echo ""
   warn "This will remove SDD agents, commands, and skills."
-  warn "Your project files (changes/, specs/, etc.) will NOT be affected."
   echo ""
 
   if ! confirm "Proceed with uninstall?"; then
@@ -539,13 +527,6 @@ main() {
       info "Removing Codex (global)..."
       count=$(remove_codex_files "$CODEX_GLOBAL")
       success "Removed $count files from $CODEX_GLOBAL"
-      TOTAL_REMOVED=$((TOTAL_REMOVED + count))
-    fi
-
-    if [ -n "$UNINSTALL_LOCAL" ] && [ "$CODEX_LOCAL_EXISTS" = true ]; then
-      info "Removing Codex (local)..."
-      count=$(remove_codex_files "$LOCAL_ROOT/.codex")
-      success "Removed $count files from $LOCAL_ROOT/.codex"
       TOTAL_REMOVED=$((TOTAL_REMOVED + count))
     fi
   fi

@@ -1,6 +1,6 @@
 # Agent Extensions Install (Windows PowerShell)
-# Creates global symlinks and local copies of the repo's folders
-# Local copies avoid repo-specific symlinks checked into git
+# Creates global installs and local copies of the repo's folders
+# Codex global uses copies (no symlinks). Local installs are not supported for Codex.
 
 $ErrorActionPreference = "Stop"
 
@@ -375,16 +375,12 @@ function Main {
     Write-Info "Source directory: $scriptDir"
     Write-Host ""
 
-    Write-Host "Which tool(s) would you like to install extensions for?"
+    Write-Host "Which tool would you like to install extensions for?"
     Write-Host "  1) OpenCode"
     Write-Host "  2) Augment (Auggie)"
     Write-Host "  3) Codex"
-    Write-Host "  4) OpenCode + Augment"
-    Write-Host "  5) OpenCode + Codex"
-    Write-Host "  6) Augment + Codex"
-    Write-Host "  7) All (OpenCode + Augment + Codex)"
     Write-Host ""
-    $toolChoice = Read-Host "Enter choice [1/2/3/4/5/6/7]"
+    $toolChoice = Read-Host "Enter choice [1/2/3]"
 
     $InstallOpenCode = $false
     $InstallAugment = $false
@@ -394,29 +390,30 @@ function Main {
         "1" { $InstallOpenCode = $true }
         "2" { $InstallAugment = $true }
         "3" { $InstallCodex = $true }
-        "4" { $InstallOpenCode = $true; $InstallAugment = $true }
-        "5" { $InstallOpenCode = $true; $InstallCodex = $true }
-        "6" { $InstallAugment = $true; $InstallCodex = $true }
-        "7" { $InstallOpenCode = $true; $InstallAugment = $true; $InstallCodex = $true }
-        default { Write-Err "Invalid choice. Please enter 1, 2, 3, 4, 5, 6, or 7." }
+        default { Write-Err "Invalid choice. Please enter 1, 2, or 3." }
     }
 
     Write-Host ""
-    Write-Host "Where would you like to install?"
-    Write-Host "  1) Global (user config directory)"
-    Write-Host "  2) Local (current repo)"
-    Write-Host "  3) Both global and local"
-    Write-Host ""
-    $scopeChoice = Read-Host "Enter choice [1/2/3]"
-
     $InstallGlobal = $false
     $InstallLocal = $false
+    $InstallCodexGlobal = $false
 
-    switch ($scopeChoice) {
-        "1" { $InstallGlobal = $true }
-        "2" { $InstallLocal = $true }
-        "3" { $InstallGlobal = $true; $InstallLocal = $true }
-        default { Write-Err "Invalid choice. Please enter 1, 2, or 3." }
+    if ($InstallOpenCode -or $InstallAugment) {
+        Write-Host "Where would you like to install?"
+        Write-Host "  1) Global (user config directory)"
+        Write-Host "  2) Local (current repo)"
+        Write-Host "  3) Both global and local"
+        Write-Host ""
+        $scopeChoice = Read-Host "Enter choice [1/2/3]"
+
+        switch ($scopeChoice) {
+            "1" { $InstallGlobal = $true }
+            "2" { $InstallLocal = $true }
+            "3" { $InstallGlobal = $true; $InstallLocal = $true }
+            default { Write-Err "Invalid choice. Please enter 1, 2, or 3." }
+        }
+    } else {
+        $InstallCodexGlobal = $true
     }
 
     if ($InstallLocal) {
@@ -478,17 +475,17 @@ function Main {
         Write-Host ""
     }
 
-    if ($InstallCodex -and $InstallGlobal) {
+    if ($InstallCodexGlobal) {
         $codexPayload = Join-Path $scriptDir "codex"
         $codexTarget = Join-Path $HOME ".codex"
-        if (Install-Symlinks -TargetRoot $codexTarget -PayloadDir $codexPayload -Label "Codex (global)") {
+        if (Install-Copies -TargetRoot $codexTarget -PayloadDir $codexPayload -Label "Codex (global)") {
             $installedCount++
         }
 
         $codexSkillsSrc = Join-Path $scriptDir "skills"
         $codexSkillsTarget = Join-Path $codexTarget "skills"
         $codexCache = Join-Path $scriptDir ".cache\skills-rendered"
-        if (Install-Skills -TargetDir $codexSkillsTarget -SkillsSrc $codexSkillsSrc -CacheDir $codexCache -Tool "codex" -Mode "global" -Label "Codex skills (global)" -InstallType "symlink") {
+        if (Install-Skills -TargetDir $codexSkillsTarget -SkillsSrc $codexSkillsSrc -CacheDir $codexCache -Tool "codex" -Mode "global" -Label "Codex skills (global)" -InstallType "copy") {
             $installedCount++
         }
         Write-Host ""
@@ -516,8 +513,8 @@ function Main {
     Write-Host ""
     Write-Info "Source files at: $scriptDir"
     Write-Host ""
-    Write-Host "Global installs use symlinks to the repo."
-    Write-Host "Local installs copy files into the repo."
+    Write-Host "Global installs use symlinks to the repo (except Codex, which uses copies)."
+    Write-Host "Local installs copy files into the repo (Codex local installs are not supported)."
     Write-Host ""
 }
 

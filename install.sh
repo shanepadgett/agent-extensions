@@ -2,8 +2,8 @@
 set -e
 
 # Agent Extensions Install (macOS/Linux)
-# Creates global symlinks and local copies of the repo's folders
-# Local copies avoid repo-specific symlinks checked into git
+# Creates global installs and local copies of the repo's folders
+# Codex global uses copies (no symlinks). Local installs are not supported for Codex.
 
 # Colors (if terminal supports them)
 if [ -t 1 ]; then
@@ -391,16 +391,12 @@ main() {
   echo ""
 
   # Choose tool
-  echo "Which tool(s) would you like to install extensions for?"
+  echo "Which tool would you like to install extensions for?"
   echo "  1) OpenCode"
   echo "  2) Augment (Auggie)"
   echo "  3) Codex"
-  echo "  4) OpenCode + Augment"
-  echo "  5) OpenCode + Codex"
-  echo "  6) Augment + Codex"
-  echo "  7) All (OpenCode + Augment + Codex)"
   echo ""
-  printf "Enter choice [1/2/3/4/5/6/7]: "
+  printf "Enter choice [1/2/3]: "
   read -r tool_choice
 
   INSTALL_OPENCODE=""
@@ -417,56 +413,43 @@ main() {
     3)
       INSTALL_CODEX="yes"
       ;;
-    4)
-      INSTALL_OPENCODE="yes"
-      INSTALL_AUGMENT="yes"
-      ;;
-    5)
-      INSTALL_OPENCODE="yes"
-      INSTALL_CODEX="yes"
-      ;;
-    6)
-      INSTALL_AUGMENT="yes"
-      INSTALL_CODEX="yes"
-      ;;
-    7)
-      INSTALL_OPENCODE="yes"
-      INSTALL_AUGMENT="yes"
-      INSTALL_CODEX="yes"
-      ;;
-    *)
-      error "Invalid choice. Please enter 1, 2, 3, 4, 5, 6, or 7."
-      ;;
-  esac
-
-  # Choose install mode
-  echo ""
-  echo "Where would you like to install?"
-  echo "  1) Global (user config directory)"
-  echo "  2) Local (current repo)"
-  echo "  3) Both global and local"
-  echo ""
-  printf "Enter choice [1/2/3]: "
-  read -r scope_choice
-
-  INSTALL_GLOBAL=""
-  INSTALL_LOCAL=""
-
-  case "$scope_choice" in
-    1)
-      INSTALL_GLOBAL="yes"
-      ;;
-    2)
-      INSTALL_LOCAL="yes"
-      ;;
-    3)
-      INSTALL_GLOBAL="yes"
-      INSTALL_LOCAL="yes"
-      ;;
     *)
       error "Invalid choice. Please enter 1, 2, or 3."
       ;;
   esac
+
+  INSTALL_GLOBAL=""
+  INSTALL_LOCAL=""
+  INSTALL_CODEX_GLOBAL=""
+
+  if [ -n "$INSTALL_OPENCODE" ] || [ -n "$INSTALL_AUGMENT" ]; then
+    echo ""
+    echo "Where would you like to install?"
+    echo "  1) Global (user config directory)"
+    echo "  2) Local (current repo)"
+    echo "  3) Both global and local"
+    echo ""
+    printf "Enter choice [1/2/3]: "
+    read -r scope_choice
+
+    case "$scope_choice" in
+      1)
+        INSTALL_GLOBAL="yes"
+        ;;
+      2)
+        INSTALL_LOCAL="yes"
+        ;;
+      3)
+        INSTALL_GLOBAL="yes"
+        INSTALL_LOCAL="yes"
+        ;;
+      *)
+        error "Invalid choice. Please enter 1, 2, or 3."
+        ;;
+    esac
+  else
+    INSTALL_CODEX_GLOBAL="yes"
+  fi
 
   # Validate local install is possible
   if [ -n "$INSTALL_LOCAL" ]; then
@@ -531,18 +514,18 @@ main() {
     echo ""
   fi
 
-  # Install Codex globally if requested
-  if [ -n "$INSTALL_CODEX" ] && [ -n "$INSTALL_GLOBAL" ]; then
+  # Install Codex globally if requested (copy, no symlinks)
+  if [ -n "$INSTALL_CODEX_GLOBAL" ]; then
     CODEX_PAYLOAD="$SCRIPT_DIR/codex"
     CODEX_TARGET="$HOME/.codex"
-    if install_symlinks "$CODEX_TARGET" "$CODEX_PAYLOAD" "Codex (global)"; then
+    if install_copies "$CODEX_TARGET" "$CODEX_PAYLOAD" "Codex (global)"; then
       INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
     fi
 
     CODEX_SKILLS_SRC="$SCRIPT_DIR/skills"
     CODEX_SKILLS_TARGET="$CODEX_TARGET/skills"
     CODEX_CACHE="$SCRIPT_DIR/.cache/skills-rendered"
-    if install_skills "$CODEX_SKILLS_TARGET" "$CODEX_SKILLS_SRC" "$CODEX_CACHE" "codex" "global" "Codex skills (global)" "symlink"; then
+    if install_skills "$CODEX_SKILLS_TARGET" "$CODEX_SKILLS_SRC" "$CODEX_CACHE" "codex" "global" "Codex skills (global)" "copy"; then
       INSTALLED_COUNT=$((INSTALLED_COUNT + 1))
     fi
     echo ""
@@ -573,8 +556,8 @@ main() {
   echo ""
   info "Source files at: $SCRIPT_DIR"
   echo ""
-  echo "Global installs use symlinks to the repo."
-  echo "Local installs copy files into the repo."
+  echo "Global installs use symlinks to the repo (except Codex, which uses copies)."
+  echo "Local installs copy files into the repo (Codex local installs are not supported)."
   echo ""
 }
 
