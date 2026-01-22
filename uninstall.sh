@@ -202,9 +202,9 @@ remove_augment_files() {
     skills/sdd-state-management.md
     skills/spec-format.md
     skills/merge-change-specs.md
-    merge-change-specs/scripts/merge-change-specs.ts
-    merge-change-specs/references/delta-merge-rules.md
-    spec-validate/spec-validate.ts
+    scripts/merge-change-specs.mjs
+    scripts/spec-validate.mjs
+    references/merge-change-specs/delta-merge-rules.md
     skills/research.md
     skills/architecture-fit-check.md
     skills/architecture-workshop.md
@@ -219,10 +219,9 @@ remove_augment_files() {
 
   # Clean up empty directories (leaf to root)
   dirs="
-    merge-change-specs/references
-    merge-change-specs/scripts
-    merge-change-specs
-    spec-validate
+    references/merge-change-specs
+    references
+    scripts
     skills
     commands/tool
     commands/sdd/tools

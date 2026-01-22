@@ -26,3 +26,4 @@ Before executing, read the Codex custom prompts docs: https://developers.openai.
 - Keep it specific and runnable.
 - Ask at most 5 follow-ups if required.
 - Prefer explicit instructions over tool-specific syntax; Codex will decide when to run commands.
+- Do not include shell execution syntax or inline command blocks.

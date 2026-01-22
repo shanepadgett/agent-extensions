@@ -1,37 +1,23 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import * as path from "node:path";
-import { validateChangeSpecMarkdown } from "../../spec-validate/spec-validate.ts";
+import { validateChangeSpecMarkdown } from "./spec-validate.mjs";
 
-type Kind = "new" | "delta";
-
-type PlanResult = {
-  canonicalRelPath: string;
-  changeSpecRelPath: string;
-  kind: Kind;
-};
-
-type MergeSummary = {
-  created: string[];
-  modified: string[];
-  skipped: string[];
-};
-
-function die(message: string): never {
+function die(message) {
   process.stderr.write(`${message}\n`);
   process.exit(1);
 }
 
-function assertRepoRelative(p: string): void {
+function assertRepoRelative(p) {
   if (p.startsWith("/") || p.includes("..")) {
     die(`Refusing unsafe path: ${p}`);
   }
 }
 
-function parseArgs(argv: string[]): { change: string; dryRun: boolean } {
-  let change: string | undefined;
+function parseArgs(argv) {
+  let change;
   let dryRun = false;
 
   for (let index = 0; index < argv.length; index++) {
@@ -49,7 +35,7 @@ function parseArgs(argv: string[]): { change: string; dryRun: boolean } {
 
   if (!change) {
     die(
-      "Missing required --change <name>. Example: bun .augment/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh",
+      "Missing required --change <name>. Example: node .augment/scripts/merge-change-specs.mjs --change auth-refresh",
     );
   }
 
@@ -58,7 +44,7 @@ function parseArgs(argv: string[]): { change: string; dryRun: boolean } {
   return { change, dryRun };
 }
 
-function splitFrontmatter(markdown: string): { frontmatterRaw: string | null; body: string } {
+function splitFrontmatter(markdown) {
   if (!markdown.startsWith("---\n")) {
     return { frontmatterRaw: null, body: markdown };
   }
@@ -73,7 +59,7 @@ function splitFrontmatter(markdown: string): { frontmatterRaw: string | null; bo
   return { frontmatterRaw, body };
 }
 
-function parseKind(frontmatterRaw: string | null, fileLabel: string): Kind {
+function parseKind(frontmatterRaw, fileLabel) {
   if (!frontmatterRaw) {
     die(`Missing YAML frontmatter in change spec: ${fileLabel}`);
   }
@@ -84,15 +70,15 @@ function parseKind(frontmatterRaw: string | null, fileLabel: string): Kind {
     die(`Missing required 'kind: new|delta' in frontmatter: ${fileLabel}`);
   }
 
-  return kindMatch[1] as Kind;
+  return kindMatch[1];
 }
 
-async function listChangeSpecs(changeSpecsDirAbs: string): Promise<string[]> {
+async function listChangeSpecs(changeSpecsDirAbs) {
   const { readdir } = await import("node:fs/promises");
 
-  const results: string[] = [];
+  const results = [];
 
-  async function walkFs(dirAbs: string): Promise<void> {
+  async function walkFs(dirAbs) {
     const dirents = await readdir(dirAbs, { withFileTypes: true });
     const sorted = dirents.slice().sort((a, b) => a.name.localeCompare(b.name));
 
@@ -116,7 +102,7 @@ async function listChangeSpecs(changeSpecsDirAbs: string): Promise<string[]> {
   return results;
 }
 
-function computeCanonicalRelPath(changeName: string, changeSpecAbs: string, repoRootAbs: string): string {
+function computeCanonicalRelPath(changeName, changeSpecAbs, repoRootAbs) {
   const changeSpecsDirAbs = path.join(repoRootAbs, "changes", changeName, "specs");
   const relFromChangeSpecs = path.relative(changeSpecsDirAbs, changeSpecAbs);
   if (relFromChangeSpecs.startsWith("..")) {
@@ -127,18 +113,12 @@ function computeCanonicalRelPath(changeName: string, changeSpecAbs: string, repo
   return canonicalRelPath;
 }
 
-function normalizeNewSpecBody(changeSpecBody: string): string {
+function normalizeNewSpecBody(changeSpecBody) {
   // Remove leading blank lines for stable output.
   return changeSpecBody.replace(/^\s+/, "");
 }
 
-type DeltaBuckets = {
-  added: string;
-  modified: string;
-  removed: string;
-};
-
-function extractDeltaBuckets(deltaBody: string, fileLabel: string): DeltaBuckets {
+function extractDeltaBuckets(deltaBody, fileLabel) {
   // Only consider buckets under the `## Requirements` section.
   const requirementsHeader = "## Requirements";
   const requirementsIndex = deltaBody.indexOf(requirementsHeader);
@@ -160,7 +140,7 @@ function extractDeltaBuckets(deltaBody: string, fileLabel: string): DeltaBuckets
     die(`Delta spec has no ADDED/MODIFIED/REMOVED buckets under Requirements: ${fileLabel}`);
   }
 
-  function sliceBucket(start: number, endCandidates: number[]): string {
+  function sliceBucket(start, endCandidates) {
     if (start === -1) return "";
     const end = Math.min(
       ...endCandidates
@@ -177,7 +157,7 @@ function extractDeltaBuckets(deltaBody: string, fileLabel: string): DeltaBuckets
   };
 }
 
-function patchCanonicalWithDelta(canonicalBody: string, deltaBody: string, fileLabel: string): string {
+function patchCanonicalWithDelta(canonicalBody, deltaBody, fileLabel) {
   const buckets = extractDeltaBuckets(deltaBody, fileLabel);
 
   // Strategy:
@@ -189,8 +169,8 @@ function patchCanonicalWithDelta(canonicalBody: string, deltaBody: string, fileL
 
   let next = canonicalBody;
 
-  function removeExactBlocks(bucketContent: string): Set<string> {
-    const touchedTopics = new Set<string>();
+  function removeExactBlocks(bucketContent) {
+    const touchedTopics = new Set();
     if (!bucketContent) return touchedTopics;
 
     const body = bucketContent
@@ -227,7 +207,7 @@ function patchCanonicalWithDelta(canonicalBody: string, deltaBody: string, fileL
     return touchedTopics;
   }
 
-  function cleanupEmptyTopics(topics: Iterable<string>): void {
+  function cleanupEmptyTopics(topics) {
     for (const topic of topics) {
       const topicHeader = `### ${topic}`;
       const headerIndex = next.indexOf(topicHeader);
@@ -249,7 +229,7 @@ function patchCanonicalWithDelta(canonicalBody: string, deltaBody: string, fileL
     }
   }
 
-  function insertAddedBlocks(bucketContent: string): void {
+  function insertAddedBlocks(bucketContent) {
     if (!bucketContent) return;
 
     const body = bucketContent
@@ -339,11 +319,11 @@ function patchCanonicalWithDelta(canonicalBody: string, deltaBody: string, fileL
   return next;
 }
 
-async function ensureParentDir(fileAbs: string): Promise<void> {
+async function ensureParentDir(fileAbs) {
   await mkdir(path.dirname(fileAbs), { recursive: true });
 }
 
-async function main(): Promise<void> {
+async function main() {
   const { change, dryRun } = parseArgs(process.argv.slice(2));
   const repoRootAbs = process.cwd();
 
@@ -355,7 +335,7 @@ async function main(): Promise<void> {
 
   const changeSpecAbsPaths = await listChangeSpecs(changeSpecsDirAbs);
 
-  const plan: PlanResult[] = [];
+  const plan = [];
   for (const changeSpecAbs of changeSpecAbsPaths) {
     const canonicalRelPath = computeCanonicalRelPath(change, changeSpecAbs, repoRootAbs);
     plan.push({
@@ -385,7 +365,7 @@ async function main(): Promise<void> {
   // Deterministic application order by canonical relative path.
   plan.sort((a, b) => a.canonicalRelPath.localeCompare(b.canonicalRelPath));
 
-  const summary: MergeSummary = { created: [], modified: [], skipped: [] };
+  const summary = { created: [], modified: [], skipped: [] };
 
   for (const item of plan) {
     const changeSpecAbs = path.join(repoRootAbs, item.changeSpecRelPath);

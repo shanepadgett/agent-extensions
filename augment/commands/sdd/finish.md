@@ -57,14 +57,11 @@ You MUST WAIT for the user to explicitly approve the sync plan before applying a
 
 Only after the user explicitly approves the sync plan:
 
-- **`kind: new`**: copy/move spec content into canonical under `specs/` at same relative path.
-- **`kind: delta`**: merge delta into existing canonical spec.
-  - Apply `### ADDED / ### MODIFIED / ### REMOVED` buckets (topics under `####`).
-  - MODIFIED uses adjacent `Before/After` to locate and update text.
+Run the merge tool to apply the sync:
 
-Verify canonical reflects intended changes.
+- `node .augment/scripts/merge-change-specs.mjs --change <name>`
 
-**Note:** Delta merging will eventually be automated; for now apply merges carefully and review results with user.
+Review the output and verify canonical specs reflect the intended changes.
 
 ### Update State
 

@@ -12,7 +12,7 @@
 
 ## How to run the script
 
-The implementation lives at `.augment/merge-change-specs/scripts/merge-change-specs.ts`.
+The implementation lives at `.augment/scripts/merge-change-specs.mjs`.
 
 Supported flags:
 
@@ -22,8 +22,8 @@ Supported flags:
 Examples:
 
 - Dry run first:
-- `bun .augment/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh --dry-run`
-- `bun .augment/merge-change-specs/scripts/merge-change-specs.ts --change auth-refresh`
+- `node .augment/scripts/merge-change-specs.mjs --change auth-refresh --dry-run`
+- `node .augment/scripts/merge-change-specs.mjs --change auth-refresh`
 
 ### Output format
 
@@ -40,7 +40,7 @@ If anything is invalid or unsafe, the script exits non-zero and prints a human-r
 
 1. Validate `changes/<name>/specs/` exists and contains `**/*.md`.
 2. For each change-set spec:
-   - Validate the markdown format using `.augment/spec-validate/spec-validate.ts`.
+   - Validate the markdown format using `.augment/scripts/spec-validate.mjs`.
    - Parse YAML frontmatter and determine `kind: new|delta`.
    - Compute the canonical spec path by stripping `changes/<name>/specs/` and prefixing with `specs/`.
 3. Apply changes deterministically:
@@ -58,5 +58,5 @@ If anything is invalid or unsafe, the script exits non-zero and prints a human-r
 
 ## References
 
-- Merge semantics: `.augment/merge-change-specs/references/delta-merge-rules.md`
+- Merge semantics: `.augment/references/merge-change-specs/delta-merge-rules.md`
 - Spec format: `.augment/skills/spec-format.md`

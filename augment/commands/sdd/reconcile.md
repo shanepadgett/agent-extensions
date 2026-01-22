@@ -64,6 +64,9 @@ When creating specs from implementation:
   - Describe removed capabilities (negative requirements)
   - Describe behavioral changes
 - Each spec file should cover a logical area of change
+- After creating or editing each spec file, run validation:
+  - `node .augment/scripts/spec-validate.mjs changes/<name>/specs/<path>.md`
+  - Fix any errors and re-run until it prints `OK`
 
 ### Reconciliation Report
 

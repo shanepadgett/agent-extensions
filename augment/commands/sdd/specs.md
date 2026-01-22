@@ -94,6 +94,11 @@ Remember that change set specs have YAML frontmatter `kind: new | delta`.
 2. **Determine paths** using taxonomy mapping guidance
 3. **Write requirements** using EARS syntax
 
+After you create or update each spec file, run validation:
+
+- `node .augment/scripts/spec-validate.mjs changes/<name>/specs/<path>.md`
+- Fix any errors and re-run until it prints `OK`.
+
 Update state.md `## Notes` with progress on spec writing, key decisions, and any issues encountered.
 
 ### Spec Review

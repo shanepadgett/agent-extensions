@@ -1,27 +1,14 @@
-#!/usr/bin/env bun
+#!/usr/bin/env node
 
 import { readFile } from "node:fs/promises";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 
-type SpecKind = "new" | "delta";
-
-type SpecValidationIssue = {
-  code: string;
-  message: string;
-};
-
-type SpecValidationResult = {
-  ok: boolean;
-  kind: SpecKind | null;
-  issues: SpecValidationIssue[];
-};
-
-function issue(code: string, message: string): SpecValidationIssue {
+function issue(code, message) {
   return { code, message };
 }
 
-function splitFrontmatter(markdown: unknown): { frontmatterRaw: string | null; body: string } {
+function splitFrontmatter(markdown) {
   if (typeof markdown !== "string") {
     return { frontmatterRaw: null, body: "" };
   }
@@ -40,20 +27,20 @@ function splitFrontmatter(markdown: unknown): { frontmatterRaw: string | null; b
   return { frontmatterRaw, body };
 }
 
-function parseKind(frontmatterRaw: string | null): SpecKind | null {
+function parseKind(frontmatterRaw) {
   if (!frontmatterRaw) return null;
   const kindMatch = frontmatterRaw.match(/^kind:\s*(new|delta)\s*$/m);
   if (!kindMatch) return null;
-  return kindMatch[1] as SpecKind;
+  return kindMatch[1];
 }
 
-function hasHeadingPrefix(body: string, prefix: string): boolean {
+function hasHeadingPrefix(body, prefix) {
   const escaped = prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp(`^${escaped}\\s+.+$`, "m").test(body);
 }
 
-function validateNew(body: string): SpecValidationIssue[] {
-  const issues: SpecValidationIssue[] = [];
+function validateNew(body) {
+  const issues = [];
 
   if (!hasHeadingPrefix(body, "#")) {
     issues.push(issue("new.missing_title", "Missing top-level '# <Title>' heading"));
@@ -77,8 +64,8 @@ function validateNew(body: string): SpecValidationIssue[] {
   return issues;
 }
 
-function validateDelta(body: string): SpecValidationIssue[] {
-  const issues: SpecValidationIssue[] = [];
+function validateDelta(body) {
+  const issues = [];
 
   if (!hasHeadingPrefix(body, "#")) {
     issues.push(issue("delta.missing_title", "Missing top-level '# <Title>' heading"));
@@ -145,11 +132,11 @@ function validateDelta(body: string): SpecValidationIssue[] {
   return issues;
 }
 
-export function validateChangeSpecMarkdown(markdown: unknown): SpecValidationResult {
+export function validateChangeSpecMarkdown(markdown) {
   const { frontmatterRaw, body } = splitFrontmatter(markdown);
   const kind = parseKind(frontmatterRaw);
 
-  const issues: SpecValidationIssue[] = [];
+  const issues = [];
 
   if (!frontmatterRaw) {
     issues.push(issue("fm.missing", "Missing YAML frontmatter (--- ... ---)"));
@@ -164,21 +151,21 @@ export function validateChangeSpecMarkdown(markdown: unknown): SpecValidationRes
   return { ok: issues.length === 0, kind, issues };
 }
 
-function formatIssues(rel: string, issues: SpecValidationIssue[]): string {
+function formatIssues(rel, issues) {
   return `Spec validation failed: ${rel}\n${issues.map((i) => `- [${i.code}] ${i.message}`).join("\n")}`;
 }
 
-function usage(): string {
+function usage() {
   return [
     "Usage:",
-    "  bun .augment/spec-validate/spec-validate.ts <change-spec-path>",
+    "  node .augment/scripts/spec-validate.mjs <change-spec-path>",
     "",
     "Examples:",
-    "  bun .augment/spec-validate/spec-validate.ts changes/auth-refresh/specs/auth/login.md",
+    "  node .augment/scripts/spec-validate.mjs changes/auth-refresh/specs/auth/login.md",
   ].join("\n");
 }
 
-async function main(): Promise<void> {
+async function main() {
   const arg = process.argv[2];
   if (!arg || arg === "-h" || arg === "--help") {
     process.stdout.write(usage() + "\n");

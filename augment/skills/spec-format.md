@@ -118,7 +118,7 @@ kind: new | delta
 
 After you `write` or `edit` any change-set spec under `changes/<name>/specs/**/*.md`, you MUST run the validator script against the exact file you changed.
 
-- Run: `bun .augment/spec-validate/spec-validate.ts <change-spec-path>`
+- Run: `node .augment/scripts/spec-validate.mjs <change-spec-path>`
 
 If validation fails:
 
