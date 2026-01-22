@@ -31,7 +31,7 @@ git clone git@github.com:shanepadgett/agent-extensions.git && cd agent-extension
 ./install.sh
 ```
 
-Global installs use symlinks to the repo; local installs copy files into the repo. macOS/Linux only.
+You must run the script from the `agent-extensions` directory because the installer is not on your PATH. If you need to install into a different repo from its directory, reference the install script with a relative path (for example `../agent-extensions/install.sh`).
 
 ### Windows
 
@@ -40,7 +40,7 @@ git clone git@github.com:shanepadgett/agent-extensions.git; cd agent-extensions
 .\install.ps1
 ```
 
-Global installs use symlinks to the repo; local installs copy files into the repo.
+The installer lives in the cloned repo, so run it from `agent-extensions` or reference it via a relative path such as `..\agent-extensions\install.ps1` when invoking from another directory.
 
 ### Install Locations
 
@@ -53,14 +53,16 @@ Global installs use symlinks to the repo; local installs copy files into the rep
 ### Uninstall
 
 ```sh
-# macOS / Linux
-curl -fsSL https://raw.githubusercontent.com/shanepadgett/agent-extensions/main/uninstall.sh | sh
+cd agent-extensions
+./uninstall.sh
 ```
 
 ```powershell
-# Windows
-irm https://raw.githubusercontent.com/shanepadgett/agent-extensions/main/uninstall.ps1 | iex
+cd agent-extensions
+.\uninstall.ps1
 ```
+
+If you are running the uninstall from another repo, point to the script with a relative path (for example `../agent-extensions/uninstall.sh` or `..\agent-extensions\uninstall.ps1`).
 
 ## Available Commands
 
@@ -94,36 +96,6 @@ irm https://raw.githubusercontent.com/shanepadgett/agent-extensions/main/uninsta
 |---------|-------------|
 | `/create/command <spec>` | Create a new command (OpenCode/Augment) |
 | `/prompts:create-command <spec>` | Create a new Codex custom prompt |
-
-## Development Install
-
-Run the install script from your clone:
-
-```sh
-git clone git@github.com:shanepadgett/agent-extensions.git && cd agent-extensions
-./install.sh
-```
-
-## Repository Structure
-
-```text
-agent-extensions/
-├── opencode/           # OpenCode extensions
-│   ├── agent/          # Agent definitions
-│   ├── command/        # Command definitions
-│   └── skill/          # Skill definitions
-├── augment/            # Augment extensions
-│   ├── agents/         # Agent definitions
-│   ├── commands/       # Command definitions
-│   └── skills/         # Skill files
-├── codex/              # Codex extensions
-│   ├── prompts/         # Custom prompts (top-level only)
-│   └── skills/          # Skill definitions
-├── install.sh          # macOS/Linux installer (global symlinks, local copies)
-├── install.ps1         # Windows installer (global symlinks, local copies)
-├── uninstall.sh        # macOS/Linux uninstaller
-└── uninstall.ps1       # Windows uninstaller
-```
 
 ## Learn More
 
