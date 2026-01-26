@@ -153,7 +153,7 @@ When linking to bundled reference files from `SKILL.md`, use a relative path:
 See `/references/<doc>.md`.
 ```
 
-### 6) Add `scripts/` (branch only, Node-first)
+### 6) Add `scripts/` (branch only, Node-only)
 
 Default: do not add `scripts/`.
 
@@ -164,15 +164,10 @@ If you decide you need scripts:
 1. Read script conventions:
    - `/references/scripts-overview.md`
 
-2. Pick runtime (Node-first):
-   - `/references/scripts-runtime-node-first.md`
+2. Use `.mjs` scripts and the Node standard library only (`node:*` imports).
 
-3. Use `.mjs` scripts and the Node standard library only (`node:*` imports).
-
-4. Validate scripts parse/compile before you rely on them:
-
+3. Validate scripts parse before you rely on them:
    - Node: `node -c scripts/<script>.mjs`
-   - Bun (fallback runner): `bun --check scripts/<script>.mjs`
 
 ## How to write a good `description`
 

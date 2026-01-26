@@ -1,93 +1,44 @@
 ---
-description: Quick prototyping and exploration - skip specs, get to building
+description: Collaborative vibe coding sessions that free you from spec ceremony while delivering sane software
 ---
 
-### Required Skills (Must Load)
+# SDD Vibe
 
-You MUST load and follow these skills before doing anything else:
+## Required Skills
 
 - `sdd-state-management`
 
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without them.
-
-# Vibe
-
-Freedom to explore. Quick prototypes, architectural experiments, "what if" explorations.
-
-Skip the spec ceremony - get to building fast.
-
 ## Inputs
 
-- What you want to build/try (freeform context). Ask the user for it.
+> [!IMPORTANT]
+> You must ask the user for the following information; do not assume CLI arguments are provided.
+
+- **Exploration Context**: Ask the user what they want to prototype, explore, or experiment with.
+- **Change Set Name**: Ask the user for a name to track this experiment (e.g., `vibe-new-ui-hook`).
 
 ## Instructions
 
-### Gather Context
+Vibe lane is your partner for getting through SDD without the ceremony. Think collaborative vibe coding: throw ideas, prototype freely, create documents as insights emerge, let good ones stick. Goal: sane software, not perfect specs. Work together to explore, iterate, shape loose thoughts into actionable plans—run validations so vibes become good vibes.
 
-Ask the user what they want to explore:
+1. **Resolution**: Check existing change sets. If one exists, proceed. If multiple, ask whether new or continuing. When continuing, inspect `state.md`, `context.md`, and pending items. Ask where to resume if jump point unclear.
+2. **Initialize**: Create `changes/<name>/` with `state.md` (lane: vibe, phase: plan, status: in_progress) and `context.md` (intent, initial thoughts, curiosity).
+3. **Explore Together**: Dive in. Prototype freely, create documents when insights emerge, capture thoughts. Collaboratively refine into at least a light proposal leading to research and planning. No wrong turn if you document learning.
+4. **Keep Context Alive**: Continuously update `state.md` with pending items, decisions, next steps. Update `context.md` as intent evolves. Captures progress for seamless continuation—never lose the thread.
+5. **Deliver Sanity, Not Ceremony**: Build plans, run validations. Ensure exploration converges on sane software. Inform user specifications captured during `reconcile` if kept—until then, focus on vibe, not paperwork.
 
-- What are you trying to build or prototype?
-- What are you curious about?
+## Success Criteria
 
-Keep it loose. This isn't a formal proposal.
+- Change set initialized with `vibe` lane and collaborative context captured.
+- User flows through exploration, creating documents and artifacts as insights emerge.
+- Session maintains continuous state updates—pending items, decisions, next steps—for seamless continuation.
+- Exploration converges on actionable results: light proposal, research, and planning that leads to sane implementation.
 
-### Initialize Change Set
+## Usage Examples
 
-Derive a kebab-case name from the context. Create `changes/<name>/`:
+### Do: Embrace the vibe
 
-**state.md:**
+"What's on your mind? I'll fire up vibe lane `vibe-api-redesign` and we can prototype endpoints, document what works, and shape it into something solid—all without getting bogged down in specs."
 
-```markdown
-# SDD State: <name>
+### Don't: Use vibe to skip necessary rigor
 
-## Lane
-
-vibe
-
-## Phase
-
-plan
-
-## Phase Status
-
-in_progress
-
-## Pending
-
-- None
-
-## Notes
-```
-
-**context.md:**
-
-```markdown
-# Vibe: <name>
-
-## What We're Exploring
-
-<Capture user's intent in their words>
-
-## Initial Thoughts
-
-<Any immediate observations or directions>
-```
-
-### Next Steps
-
-Tell the user:
-
-- Change set created
-- Run `/sdd/plan <name>` to research, plan, and start building
-
-### The Vibe Flow
-
-```text
-/sdd/fast/vibe <context>  →  /sdd/plan  →  /sdd/implement
-                                              ↓
-                              [if keeping it]
-                                              ↓
-                          /sdd/reconcile  →  /sdd/finish
-```
-
-Reconcile and finish are optional. If you're throwing it away, stop after implement. If you're keeping it, reconcile captures specs from your implementation.
+Avoid vibe lane for major features where architectural alignment impacts production readiness. Suggest full lane instead when the scope demands structured specification.

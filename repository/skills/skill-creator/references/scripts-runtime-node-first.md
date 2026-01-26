@@ -1,45 +1,24 @@
-# Script Runtime (Node-first)
+# Script Runtime (Node-only)
 
-These skills are authored to run scripts with Node by default. The goal is a predictable baseline with minimal runtime branching.
+These skills use Node.js for running scripts with the Node standard library.
 
-## Detection
+## Requirements
 
-Check whats available:
-
-```bash
-node --version
-bun --version
-```
-
-## Decision
-
-- If `node` is available: use Node.
-- Else if `bun` is available: use Bun as a fallback runner.
-- Else: do not bundle scripts; use manual steps in `SKILL.md`.
-
-## File type and dependencies
-
-- Use `.mjs`.
-- Use Node standard library only (`node:*` imports).
-- Avoid third-party dependencies by default.
+- Node.js must be available: `node --version`
+- Use `.mjs` files
+- Use Node standard library only (`node:*` imports)
+- Avoid third-party dependencies by default
 
 ## Invocation
-
-Prefer:
 
 ```bash
 node scripts/<script>.mjs -- <args>
 ```
 
-Fallback:
+## Syntax validation
+
+Validate scripts parse before relying on them:
 
 ```bash
-bun scripts/<script>.mjs -- <args>
+node -c scripts/<script>.mjs
 ```
-
-## Syntax/parse validation
-
-Before relying on a new or modified script, validate that it parses:
-
-- Node: `node -c scripts/<script>.mjs`
-- Bun: `bun --check scripts/<script>.mjs`

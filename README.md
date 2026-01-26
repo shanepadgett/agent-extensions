@@ -82,7 +82,6 @@ If you are running the uninstall from another repo, point to the script with a r
 
 | Command | Description |
 |---------|-------------|
-| `/sdd/brainstorm <goal>` | Generate high-level options |
 | `/sdd/explain <subject>` | Explain system/flow |
 | `/sdd/discovery <goal>` | Explore requirements and constraints |
 | `/sdd/tools/critique [target]` | Critique proposal, specs, or plan |

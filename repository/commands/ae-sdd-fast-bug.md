@@ -1,160 +1,44 @@
 ---
-description: Bug investigation and fix - triage, research, plan, fix
+description: Fast-track bug investigation and fix initialization
 ---
 
-### Required Skills (Must Load)
+# SDD Bug
 
-You MUST load and follow these skills before doing anything else:
+## Required Skills
 
 - `sdd-state-management`
 - `research`
 
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without them.
-
-# Bug Fix
-
-Investigate and fix a bug. This command triages the issue, researches the codebase, and gets you ready to plan and fix.
-
 ## Inputs
 
-- Bug context (what's wrong, error messages, reproduction steps, etc.). Ask the user for it.
+> [!IMPORTANT]
+> You must ask the user for the following information; do not assume CLI arguments are provided.
+
+- **Bug Context**: Ask for error messages, reproduction steps, or a description of what is failing.
+- **Change Set Name**: Ask the user to confirm or provide a name for the new change set (e.g., `fix-login-error`).
 
 ## Instructions
 
-### Gather Context
+1. **Resolution**: Check for existing change sets. If multiple exist, ask the user if this is a new issue or related to an existing one.
+2. **Triage**: Determine if this is an **Actual Bug** (code fails to meet existing specs/intent) or a **Behavioral Change** (new capability requested). If it's a change, redirect the user to the full lane (`/sdd/init`).
+3. **Research**: Use the `research` skill to locate the problem, trace the execution path, and identify the root cause. Compare findings against existing specs.
+4. **Initialize**: Create the `changes/<name>/` directory if it doesnt exist.
+   - **state.md**: Set lane to `bug`, phase to `plan`, and status to `in_progress`.
+   - **context.md**: Document the problem, expected behavior, root cause, and high-level fix approach.
+5. **Next Steps**: Instruct the user to run `/sdd/plan` to start the fix.
 
-Ask the user:
+## Success Criteria
 
-- What's happening?
-- What did you expect to happen?
-- Any error messages?
+- Change set initialized with correct `bug` lane configuration.
+- Root cause is clearly documented in `context.md`.
+- User is ready to proceed to the planning phase.
 
-### Triage: Bug or Behavioral Change?
+## Usage Examples
 
-Before investigating, determine what type of issue this is:
+### Do: Triage before fixing
 
-**Actual Bug** (proceed with bug lane):
+"This appears to be a regression where the login button is disabled on mobile. I'll initialize a bug lane change set `fix-mobile-login` to research the root cause."
 
-- Runtime error, crash, exception
-- Code doesn't do what it's supposed to do
-- Implementation doesn't match existing specs
-- Regression from previous working behavior
+### Don't: Assume CLI arguments
 
-**Behavioral Change** (redirect to full lane):
-
-- User wants different behavior than what's specified
-- "It works, but I want it to work differently"
-- New capability or feature request disguised as bug
-
-**If it's a behavioral change:**
-> This looks like a behavioral change rather than a bug. The current behavior may be working as specified.
->
-> I recommend using the full SDD lane to properly spec out the new behavior:
->
-> - `/sdd/init <name>` → draft `proposal.md` → `/sdd/specs`
->
-> This ensures the change is captured in specs before implementation.
-
-**If it's an actual bug, continue.**
-
-### Derive Change Set Name
-
-From the bug context, derive a descriptive kebab-case name:
-
-- "Login fails on Firefox" → `fix-login-firefox`
-- "Null pointer when adding user" → `fix-add-user-null`
-- "Export downloads wrong file" → `fix-export-file`
-
-### Research the Issue
-
-Use the `research` skill to investigate:
-
-1. **Locate the problem**: Where is this happening in the codebase?
-2. **Understand the flow**: Trace the execution path
-3. **Identify root cause**: Why is this happening?
-4. **Check specs**: Are there specs that define expected behavior?
-
-### Initialize Change Set
-
-Create `changes/<name>/`:
-
-**state.md:**
-
-```markdown
-# SDD State: <name>
-
-## Lane
-
-bug
-
-## Phase
-
-plan
-
-## Phase Status
-
-in_progress
-
-## Pending
-
-- None
-
-## Notes
-```
-
-**context.md:**
-
-```markdown
-# Bug Fix: <name>
-
-## Problem
-
-<What's happening>
-
-## Expected Behavior
-
-<What should happen>
-
-## Root Cause
-
-<Findings from research>
-
-## Fix Approach
-
-<High-level approach>
-
-## Spec Impact
-
-<None expected / May affect specs - will verify at reconcile>
-```
-
-### Spec Impact Assessment
-
-Based on your research:
-
-- **No spec impact**: Fix is purely implementation - proceed normally
-- **Possible spec impact**: Note it in context.md, reconcile will catch it
-- **Obvious spec impact**: Flag to user:
-  > This fix will change documented behavior. Consider running `/sdd/specs` first to update specs, or proceed and capture changes at reconcile.
-
-Most bugs are implementation issues where specs remain aligned. Trust reconcile to catch edge cases.
-
-### Next Steps
-
-Tell the user:
-
-- Change set created
-- Root cause identified
-- Run `/sdd/plan <name>` to plan and implement the fix
-
-### The Bug Flow
-
-```text
-/sdd/fast/bug <context>  →  /sdd/plan  →  /sdd/implement
-                                              ↓
-                              [if specs affected]
-                                              ↓
-                          /sdd/reconcile  →  /sdd/finish
-```
-
-Reconcile and finish are optional if the fix doesn't affect specs. If behavior changed, reconcile captures the spec updates.
+Avoid starting work before asking the user for the bug details or the desired change set name.

@@ -1,108 +1,55 @@
 ---
-description: Close the change set and sync specs
+description: Close a change set and sync its specs to canonical
 ---
 
 ### Required Skills (Must Load)
 
-You MUST load and follow these skills before doing anything else:
+Load and follow these skills before doing anything else:
 
 - `sdd-state-management`
-- `spec-format`
+- `merge-change-specs`
 
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without them.
+# Finish Change Set
 
-# Finish
-
-Close the change set and sync change-set specs to canonical.
+Close the change set and sync specs to canonical.
 
 ## Inputs
 
-- Change set name. Resolve it by running `ls -1 changes` and ignoring `archive/`. If exactly one directory remains, use it as `<change-set-name>`. Otherwise ask the user which change set to use.
+> [!IMPORTANT]
+> You must ask the user for the following information; do not assume CLI arguments are provided.
+
+- **Change set name**: Resolve by running `ls -1 changes` ignoring `archive/`. If exactly one directory remains, use it as `<change-set-name>`. Otherwise, ask the user which change set to use.
 
 ## Instructions
 
-### Setup
+1. **Verify prerequisites**: Apply state entry check from `sdd-state-management`. Confirm phase is `reconcile` and status is `complete`.
 
-Run:
+2. **Sync specs**: Use the `merge-change-specs` skill to:
+   - Run a dry run preview showing which specs will be created/modified
+   - Present any errors or blockers requiring user decisions
+   - Wait for user approval
+   - Apply the merge to canonical `specs/`
 
-- `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
+3. **Update state**: Set phase and status to `complete` in `changes/<name>/state.md`.
 
-### Entry Check
+4. **Cleanup** (separate approval):
+   - Keep artifacts intact
+   - Archive to `changes/archive/<name>/`
+   - Delete `changes/<name>/` (specs synced)
 
-Apply state entry check logic from `sdd-state-management` skill.
+   Ask user to choose.
 
-Verify prerequisites: Reconciliation complete (phase `reconcile`, status `complete`).
+5. **Report**: Summarize merge results (created/modified/skipped counts), state update, and cleanup action.
 
-### Stage 1: Sync Preview (Required)
+## Example
 
-If `changes/<name>/specs/` exists (created/updated during reconcile):
-
-1. Enumerate all spec files under `changes/<name>/specs/`.
-2. For each spec file, read its required YAML frontmatter:
-
-```markdown
----
-kind: new | delta
----
+```text
+Verified phase=reconcile, status=complete
+Dry run: merge 3 new, 2 modified specs
+User approved merge
+Applied: specs/a.md, specs/b.md, specs/c.md created; specs/d.md modified
+State updated to complete
+Archived to changes/archive/feature-x/
 ```
 
-1. Present a **sync plan preview** to the user (before making any changes):
-   - Source: `changes/<name>/specs/<path>.md`
-   - Kind: `new` or `delta`
-   - Target canonical path: `specs/<path>.md`
-   - For `kind: delta`: confirm the target canonical spec exists and call out what sections you plan to add/modify/remove.
-
-2. Call out blockers requiring user decisions:
-   - Missing target canonical spec for `kind: delta`
-   - Ambiguous `Before/After` matches
-   - Any uncertainty about intent or boundaries
-
-You MUST WAIT for the user to explicitly approve the sync plan before applying any spec changes.
-
-### Stage 2: Apply Sync (After Approval)
-
-Only after the user explicitly approves the sync plan:
-
-- **`kind: new`**: copy/move the spec content into canonical under `specs/` at the same relative path.
-- **`kind: delta`**: merge the delta into the existing canonical spec.
-  - Apply `### ADDED / ### MODIFIED / ### REMOVED` buckets (topics under `####`).
-  - MODIFIED uses adjacent `Before/After` to locate and update text.
-
-Verify canonical reflects the intended changes.
-
-**Note:** Delta merging will eventually be automated; for now apply merges carefully and review results with the user.
-
-### Update State
-
-Update `changes/<name>/state.md`:
-
-```markdown
-## Phase
-
-complete
-
-## Phase Status
-
-complete
-```
-
-Add completion timestamp to notes or leave empty.
-
-### Cleanup Options (Separate Approval)
-
-Discuss cleanup preference with user. Approval to sync specs does NOT imply approval to clean up artifacts.
-
-1. **Keep all artifacts**: Leave `changes/<name>/` intact for history
-2. **Archive**: Move to `changes/archive/<name>/`
-3. **Remove**: Delete `changes/<name>/` (change-set specs already synced)
-
-Only proceed with cleanup after user explicitly chooses an option.
-
-### Summary Report
-
-Provide completion summary:
-
-- What was accomplished
-- Files changed
-- Specs added/modified/removed (if specs were created)
-- Any notes or follow-up items
+Success: change set closed, specs synced, state updated, cleanup completed per preference.

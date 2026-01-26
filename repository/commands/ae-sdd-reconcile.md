@@ -1,104 +1,137 @@
 ---
-description: Ensure specs match implementation
+description: Ensure bi-directional match between specs and implementation
 ---
-
-### Required Skills (Must Load)
-
-You MUST load and follow these skills before doing anything else:
-
-- `sdd-state-management`
-- `spec-format`
-
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without them.
 
 # Reconcile
 
-Ensure that change set specs match the implementation diff.
-
-**This is a collaborative process** - present your findings to the user and get their input before making changes. Do not make unilateral decisions about what to add, remove, or modify in specs.
+Perform bi-directional reconciliation between change set specs and implementation. The final guard to ensure spec-driven development was truly followed. Verify both: (1) all specs are fully implemented, and (2) all implementation changes have corresponding spec coverage for business logic requirements.
 
 ## Inputs
 
-- Change set name. Resolve it by running `ls -1 changes` and ignoring `archive/`. If exactly one directory remains, use it as `<change-set-name>`. Otherwise ask the user which change set to use.
+> [!IMPORTANT]
+> Ask the user for the change set name. Run `ls changes/ | grep -v archive/` to list options. If only one directory exists, use it. Otherwise, prompt the user.
 
 ## Instructions
 
-### Setup
+Load `sdd-state-management` and `spec-format` skills. Read state.md and tasks.md. Apply state entry check.
 
-Run:
+Get the implementation diff for the change set. Execute bi-directional reconciliation:
 
-- `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
-- `cat changes/<change-set-name>/tasks.md 2>/dev/null || echo "No tasks found"`
+### Forward Reconciliation (Specs → Implementation)
 
-### Entry Check
+For each spec in specs/:
 
-Apply state entry check logic from `sdd-state-management` skill.
+- Verify the spec describes behavior that is actually present in the implementation
+- Confirm all conditions, flows, and capabilities specified are implemented
+- Identify specs without corresponding implementation changes
+- Check for partial implementations (spec promises more than code delivers)
 
-### The Process
+### Backward Reconciliation (Implementation → Specs)
 
-1. **Get the implementation diff**: What code was actually changed?
+For the implementation diff:
 
-2. **If specs/ exists** (`changes/<name>/specs/`):
-   - Compare specs to the diff
-   - Present findings to the user:
-     - Does the diff match what the specs describe?
-     - Are there implementation changes not covered by specs?
-     - Are there specs describing things not in the diff?
-   - Get user input on what to do:
-     - Add missing specs for unspecced implementation?
-     - Remove specs that don't match diff?
-     - Modify existing specs to match implementation?
+- Scan all code changes for new business logic not captured in specs
+- Identify control flow changes (if statements, switches, loops) that introduce conditional logic
+- Look for new functions, API endpoints, or data structures that represent capabilities
+- Check for added error handling, validation, or edge cases that specify requirements
+- Validate that behavioral changes (what the code does, not how) have spec coverage
+- Note: refactors, test changes, and infrastructure updates may not need specs
 
-3. **If specs/ does not exist**:
-   - Analyze whether the implementation adds/removes logic worth specifying
-   - Present your analysis: what changed and whether it's spec-worthy
-   - Ask user: "Should I capture specs for these changes?"
-   - If yes: Create `changes/<name>/specs/` and write change-set specs (`kind: new` and/or `kind: delta`)
-   - If no: Document that specs were not created (trivial changes)
+Examples of unspecced implementation changes worth capturing:
 
-4. **Document findings** in `changes/<name>/reconciliation.md`
+- Added if statement introduces conditional logic (e.g., user role checks)
+- New function exposes capability not previously available
+- Added validation logic implies new requirements
+- Changed error handling indicates new failure modes to specify
+- New API parameters or return values need specification
 
-Update state.md `## Notes` with reconciliation findings and decisions.
+Examples that typically don't require specs:
 
-### Writing Change-Set Specs from Diff
+- Code refactoring without behavior change
+- Test additions or modifications
+- Build configuration updates
+- Comment-only changes
+- Whitespace/formatting adjustments
 
-When creating specs from the implementation:
+Present findings to the user in a structured way:
 
-- Analyze what changed and what it means for the system
-- Use spec-format skill to write proper change-set specs:
-  - Describe added capabilities (positive requirements)
-  - Describe removed capabilities (negative requirements)
-  - Describe behavioral changes
-- Each spec file should cover a logical area of change
+**Forward reconciliation results:**
 
-### Reconciliation Report
+- Specs fully implemented: [list]
+- Specs partially implemented: [list with gaps]
+- Specs without implementation: [list]
 
-```markdown
-# Reconciliation: <name>
+**Backward reconciliation results:**
 
-## Summary
+- Implementation captured in specs: [confirmation]
+- Unspecced business logic found: [list with details]
+- No new business logic: [statement]
 
-- Specs updated to match implementation: <yes/no>
-- New specs created: <yes/no>
-- Unspecced implementation: <none / list items>
+Get user input:
 
-## Findings
+- Add missing specs for implementation changes
+- Remove specs not applicable to this change
+- Modify specs to match actual implementation
+- Mark items as out-of-scope (if applicable)
 
-- Any mismatches found and how they were resolved
-- Notes on significant changes
+If specs/ doesn't exist, perform backward reconciliation and analyze whether implementation adds/removes business logic worth specifying. Present analysis and ask user to capture specs. If yes, create specs/ and write change-set specs (kind: new and/or delta). If no, document that specs were not created (trivial changes or out-of-scope).
 
-## Next Steps
+Document bi-directional reconciliation findings in `changes/<name>/reconciliation.md` including:
 
-Proceed to finish
+- Forward reconciliation audit results
+- Backward reconciliation audit results
+- User decisions on each discrepancy
+- Final determination: reconciled, requires work, or trivial
+
+Update state.md `## Notes` with reconciliation summary and any pending work. Use spec-format skill to write specs when needed—describe added capabilities, removed capabilities, and behavioral changes.
+
+When fully reconciled and approved, update state.md: `## Phase Status: complete`, clear `## Notes`, suggest `/sdd/finish <name>`. Note: finish moves kind:new specs and merges kind:delta specs into canonical.
+
+## Examples
+
+**Bi-directional reconciliation, specs match implementation:**
+
+```text
+Input: "password-reset" (specs exist)
+Forward reconciling...
+- Spec "password-reset-flow": MATCHES implementation
+- Spec "email-notification": MATCHES implementation
+Backward reconciling...
+- All implementation changes captured in specs
+No discrepancies found. Reconciliation complete.
 ```
 
-### Completion
+**Backward reconciliation finds unspecced logic:**
 
-When they explicitly approve your findings and any spec changes:
+```text
+Input: "user-preferences" (specs exist)
+Forward reconciling...
+- All specs implemented: ✓
+Backward reconciling...
+- Found unspecced conditional logic in settings.service:
+  Line 42: if (user.isPremium) { ... }
+  This introduces premium-only behavior not captured in specs
+Action: Capture as new spec or confirm out-of-scope?
+```
 
-1. Update state.md: `## Phase Status: complete`, clear `## Notes`
-2. Suggest running `/sdd/finish <name>`
+**No specs, but implementation adds business logic:**
 
-Do not log completion in `## Pending` (that section is for unresolved blockers/decisions only).
+```text
+Input: "checkout-flow" (no specs)
+Backward reconciling...
+- Added function validateShippingAddress(): new validation logic
+- Added if statement for international shipping: conditional logic
+- Added new error handling for invalid addresses
+Found 3 business logic changes worth specifying. Create specs?
+```
 
-**Note**: If change-set specs were created or updated, finish will move `kind: new` specs and merge `kind: delta` specs into canonical.
+**No specs, changes are purely refactoring:**
+
+```text
+Input: "code-cleanup" (user has implementation in context)
+Backward reconciling...
+- Changes are code refactoring (renamed variables, extracted functions)
+- No behavioral changes detected
+- No new business logic added
+Not spec-worthy. Documenting as refactoring-only in reconciliation.md.
+```

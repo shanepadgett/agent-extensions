@@ -2,118 +2,41 @@
 description: Map change intents to canonical spec paths and grouping
 ---
 
-# Taxonomy Mapping
-
-## Required Skills (Must Load)
-
-You MUST load and follow these skills before doing anything else:
-
-- `research`
-
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without it.
+# Taxonomy Map
 
 Map change intents to the canonical capability taxonomy, deciding which specs to modify and where new specs should live.
 
 ## Inputs
 
-- Change set name. Resolve it by running `ls -1 changes` and ignoring `archive/`. If exactly one directory remains, use it as `<change-set-name>`. Otherwise ask the user which change set to use.
-
-## Role
-
-You are the Cartographer — you map change intents to the canonical capability taxonomy, deciding which specs to modify and where new specs should live.
+> [!IMPORTANT]
+> Ask the user for the change set name. Run `ls changes/ | grep -v archive/` to list options. If only one directory exists, use it. Otherwise, prompt the user.
 
 ## Instructions
 
-### 1. Gather Context
+Load `research` skill. You're the Cartographer—mapping change intents to canonical specs. Read the proposal and `docs/specs/**` for taxonomy context.
 
-Read:
+For each change intent, decide: extend existing spec (brownfield preferred), create new spec (justify why existing can't be extended), or reorganize boundaries. Classify the intent: entry points (UIs, APIs, CLIs), cross-cutting mechanisms (caching, auth, ranking), core domain model (data, validation), or global invariants (IDs, resolution rules).
 
-- `changes/<change-set-name>/proposal.md` for change intents
-- `docs/specs/**` to understand current taxonomy
+Determine group structure for each spec. Taxonomy depth is unbounded—use as many path segments as needed for cohesive boundaries, preferring shallowest depth.
 
-### 2. For Each Change Intent, Determine
+Return output with: proposal-to-taxonomy mapping (existing specs, new specs, refactors), boundary decisions (in/out of scope), group structure (flat or grouped), and dependencies. Always prefer extending existing specs over creating new ones.
 
-- Can it fit in an existing spec? (brownfield preferred)
-- Does it need a new spec? (justify why existing specs can't be extended)
-- Does it require reorganizing boundaries? (taxonomy refactor)
+## Examples
 
-Also classify the intent so boundaries stay clean (use natural language, no rigid taxonomy required):
+**Simple mapping to existing spec:**
 
-- **Entry points**: user-facing or system-facing “surfaces” where the capability is experienced (UI screens, APIs, CLIs, artifacts, jobs).
-- **Cross-cutting mechanisms**: behaviors that affect multiple entry points (caching/offline, ranking, prefetch, auth-gating, routing, logging).
-- **Core domain model**: authored data, metadata, transforms, indexing inputs, validation.
-- **Global invariants/policies**: rules that must be identical across multiple specs (canonical identifiers/URLs, exclusion rules, not-found semantics, resolution rules).
-
-### 3. Decide Group Structure
-
-For each affected spec, determine if it should be flat or grouped.
-
-### 4. Depth Is Unbounded (N-level taxonomy)
-
-Taxonomy depth is intentionally unbounded. Use as many path segments as needed to keep boundaries cohesive, and prefer the shallowest depth that still preserves clean ownership.
-
-Examples:
-
-- `docs/specs/form/authoring/custom-question-types.md`
-- `docs/specs/form/rendering/pdf-viewer.md`
-
-## Output
-
-Return this structure:
-
-```markdown
-## Taxonomy Proposal
-
-### Proposal → Taxonomy Mapping
-
-#### Mapped to Existing Specs
-
-- Intent: <Short description from change intents>
-  - Intent kind: Entry points | Cross-cutting mechanisms | Core domain model | Global invariants/policies
-  - Target: `docs/specs/<domain>/<...>/<capability>.md`
-  - Delta path: `changes/<change-name>/specs/<domain>/<...>/<capability>.md`
-  - Change type: Added / Modified / Removed requirements
-  - Why this fits: <Boundary rationale — why this belongs in this existing spec>
-
-#### New Specs Required
-
-- Intent: <Short description>
-  - Intent kind: Entry points | Cross-cutting mechanisms | Core domain model | Global invariants/policies
-  - New delta path: `changes/<change-name>/specs/<domain>/<...>/<capability>.md`
-  - Future canonical path: `docs/specs/<domain>/<...>/<capability>.md`
-  - Justification: <Why no existing spec can be extended without violating boundaries>
-
-#### Taxonomy Refactors (if any)
-
-- Refactor: <Short description of split/merge/move>
-  - Affected specs: <List of canonical specs being modified>
-  - New specs: <List of new specs being created, if any>
-  - Rationale: <Why boundaries need to change>
-  - Incremental path: <How to sequence this so repo stays green>
-
-### Boundary Decisions
-
-- <Capability>: <What is in scope vs out of scope>
-- ...
-
-### Group Structure
-
-- `<spec path>`: flat | grouped (<group names>)
-- ...
-
-### Dependencies
-
-- `<spec path>`:
-  - depends_on:
-    - `<other spec path>`
-    - `<other spec path>`
-- ...
+```text
+Input: None (change: "password-reset")
+Output: Mapped to existing spec: docs/specs/auth/password.md
+        Change type: Modified requirements
+        Why this fits: Password reset flow is part of authentication capability boundary.
 ```
 
-## Brownfield-First Principle
+**New spec required:**
 
-Always prefer extending existing specs over creating new ones. A new spec is only justified when:
-
-- The intent represents a genuinely new capability
-- Adding to an existing spec would violate its boundary
-- The existing spec would become too large/unfocused
+```text
+Input: "feature-x" (change proposes new workflow automation)
+Output: New spec required: changes/feature-x/specs/workflow/automation.md
+        Future path: docs/specs/workflow/automation.md
+        Justification: No existing spec covers workflow automation—would violate auth/action boundaries.
+```

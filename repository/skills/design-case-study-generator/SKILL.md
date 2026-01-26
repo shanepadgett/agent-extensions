@@ -83,10 +83,10 @@ When doing a revision:
 2. Create `v(N+1)` by copying the entire folder from `vN`.
 3. Apply edits *in-place* in `v(N+1)` so we retain a full history.
 
-Use this helper command (Bun required):
+Use this helper command (node required):
 
 ```bash
-bun run /scripts/copy-version.ts -- --slug <series-slug> --from vN
+node repository/skills/design-case-study-generator/scripts/copy-version.mjs --slug <series-slug> --from vN
 ```
 
 It prints the created directory path (e.g. `design-system/runs/<slug>/v3`).

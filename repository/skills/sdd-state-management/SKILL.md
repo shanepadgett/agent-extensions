@@ -50,14 +50,14 @@ The complete SDD experience. Specs are written before implementation.
 ### Phases
 
 ```text
-ideation -> proposal -> specs -> discovery -> tasks -> plan -> implement -> reconcile -> finish
+proposal -> specs -> discovery -> tasks -> plan -> implement -> reconcile -> finish
 ```
 
-Seed and proposal artifacts can be authored outside SDD. The state file just tracks the phase and SDD reads `seed.md`/`proposal.md` when present.
+Proposal artifacts can be authored outside SDD. The state file just tracks the phase and SDD reads `proposal.md` when present.
 
 | Phase | Purpose | Artifacts |
 |-------|---------|-----------|
-| `ideation` | Explore problem space | `seed.md` |
+| `init` | Change set initialization | N/A |
 | `proposal` | Define what we're building | `proposal.md` |
 | `specs` | Write detailed specifications | `specs/**/*.md` (change-set specs: `kind: new|delta`) |
 | `discovery` | Understand high-level architecture needs | `thoughts/*.md` |
@@ -71,7 +71,7 @@ Seed and proposal artifacts can be authored outside SDD. The state file just tra
 
 | From | To | Gate |
 |------|----|------|
-| ideation | proposal | Seed reviewed |
+| init | proposal | Initialization complete |
 | proposal | specs | Proposal approved |
 | specs | discovery | Change-set specs written (`kind: new|delta`) |
 | discovery | tasks | Architecture review complete |

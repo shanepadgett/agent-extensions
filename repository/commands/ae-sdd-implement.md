@@ -2,95 +2,49 @@
 description: Execute the implementation plan
 ---
 
-### Required Skills (Must Load)
-
-You MUST load and follow these skills before doing anything else:
-
-- `sdd-state-management`
-- `research`
-
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without them.
-
 # Implement
 
-Execute the current implementation plan.
+Execute the current implementation plan. Follow the plan step by step, validate as you go, keep the repo green.
 
 ## Inputs
 
-- Change set name. Resolve it by running `ls -1 changes` and ignoring `archive/`. If exactly one directory remains, use it as `<change-set-name>`. Otherwise ask the user which change set to use.
+> [!IMPORTANT]
+> Ask the user for the change set name. Run `ls changes/ | grep -v archive/` to list options. If only one directory exists, use it. Otherwise, prompt the user.
 
 ## Instructions
 
-### Setup
+Load `sdd-state-management` and `research` skills. Read state.md and tasks.md. Apply state entry check.
 
-Run:
+Determine lane and load plan: full lane reads tasks.md to find current task ([o] or first [ ]), then loads corresponding plan from plans/; vibe/bug lane reads plan.md (single combined plan).
 
-- `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
-- `cat changes/<change-set-name>/tasks.md 2>/dev/null || echo "No tasks found"`
+Execute the plan step by step. Validate after significant changes, keep repo green, document deviations. Use research skill for unexpected code structure, dependency questions, or integration uncertainty. Don't guess when you can research.
 
-### Entry Check
+Handle issues: minor adjustments—proceed and document deviation; major issues—stop and discuss with user; spec issues (full lane)—flag for reconciliation.
 
-Apply state entry check logic from `sdd-state-management` skill.
+After implementation, run validation steps from plan, verify acceptance criteria, ensure tests pass.
 
-Determine lane and load plan:
+**Full lane completion**: When user approves, mark current task ([o]) as complete ([x]) in tasks.md. If tasks remain, update state.md: `## Phase Status: complete`, clear `## Notes`, suggest `/sdd/plan <name>`. If no tasks remain, suggest `/sdd/reconcile <name>`.
 
-- **Full lane**: Read `changes/<name>/tasks.md` only to identify the current task (prefer `[o]`; otherwise first `[ ]`). Then load the corresponding plan from `changes/<name>/plans/`.
-- **Vibe/Bug lane**: Read `changes/<name>/plan.md` (single combined plan)
+**Vibe/bug lane completion**: Discuss next steps. If throwing away—done, no state update. If keeping—update state: `## Phase Status: complete`, suggest `/sdd/reconcile <name>`. Reconcile is optional for vibe/bug.
 
-For full lane, the plan file is the source of truth for what to do; `tasks.md` is bookkeeping (current task + completion).
+## Examples
 
-### Implementation Process
+**Full lane implementing a task:**
 
-Execute the plan step by step:
+```text
+Input: None (change: "password-reset")
+Output: "Loading plan 01.md to implement password validator changes."
+       Follows steps: update validator.ts, add reset logic, update tests.
+       Validation: All tests pass.
+       User: "Looks good."
+       Output: "Marked task 1 complete. Three tasks remaining—suggest /sdd/plan for next task."
+```
 
-1. **Follow the plan**: The plan was created for a reason - follow it
-2. **Validate as you go**: Run tests/checks after each significant change
-3. **Keep the repo green**: Don't leave broken state
-4. **Document deviations**: If you must deviate from plan, note why
+**Vibe lane quick fix:**
 
-Update state.md `## Notes` with implementation progress and any deviations.
-
-### Research During Implementation
-
-If you encounter unexpected situations, use the `research` skill:
-
-- **Unexpected code structure**: Investigate to understand it
-- **Need to understand a dependency**: Research how it works
-- **Unclear integration**: Research before guessing
-
-Don't guess when you can research. But also don't over-research - the plan should have captured the major research needs.
-
-### Handling Issues
-
-If implementation reveals plan problems:
-
-- **Minor adjustments**: Proceed, document deviation in plan
-- **Major issues**: Stop, discuss with user, potentially re-plan
-- **Spec issues (full lane)**: Flag for reconciliation (don't modify specs during implement)
-
-### Validation
-
-After implementation:
-
-1. Run validation steps from plan
-2. Verify acceptance criteria are met
-3. Ensure tests pass
-
-### Completion
-
-**Full Lane:**
-
-1. Review results with the user and confirm validation is green.
-2. When the user explicitly approves the implementation, update `changes/<name>/tasks.md`: change the current `[o]` to `[x]`.
-3. If any tasks remain `[ ]` after marking the current task complete, update `changes/<name>/state.md`: `## Phase Status: complete`, clear `## Notes`, and suggest `/sdd/plan <name>`.
-4. If no tasks remain `[ ]` (i.e., you just completed the last task in the change set), update `changes/<name>/state.md`: `## Phase Status: complete`, clear `## Notes`, and suggest `/sdd/reconcile <name>`.
-
-**Vibe/Bug Lane:**
-
-1. Implementation complete - discuss with user what's next:
-   - **Throwing away**: Done - no state update needed
-   - **Keeping the work**: When user decides to keep it, update state: `## Phase Status: complete`, clear `## Notes`, suggest `/sdd/reconcile <name>`
-
-Do not log completion in `## Pending` (that section is for unresolved blockers/decisions only).
-
-> **Note**: For vibe/bug lanes, reconcile is optional. If the work is exploratory or a quick fix that doesn't warrant spec updates, stopping here is perfectly valid.
+```text
+Input: "bug-fix" (user has context with plan.md)
+Output: "Following plan.md to patch router/routes.ts."
+       Implementation complete, tests pass.
+       User: "Great, keep this work."
+       Output: "Updated state complete. Suggest /sdd/reconcile if you want to capture specs."

@@ -2,20 +2,31 @@
 description: Prime LLM with all spec files for a change
 ---
 
-# Spec Context for Change: <change-set-name>
+# Prime Specs
+
+Prime the LLM with all spec files for context when planning a change.
 
 ## Inputs
 
-- Change set name. Resolve it by running `ls -1 changes` and ignoring `archive/`. If exactly one directory remains, use it as `<change-set-name>`. Otherwise ask the user which change set to use.
+> [!IMPORTANT]
+> Ask the user for the change set name. Run `ls changes/ | grep -v archive/` to list options. If only one directory exists, use it. Otherwise, prompt the user.
 
-The following spec files are loaded for planning context:
+## Instructions
 
-## Spec Files
+Run `find changes/<change-set-name>/specs -name "*.md"` to load all spec files into context. This provides the full specification context for planning and implementation decisions. Respond "Got it." when loaded.
 
-Run:
+## Examples
 
-- `find changes/<change-set-name>/specs -name "*.md" -exec sh -c 'echo "=== {} ===" && cat "{}"' \; 2>/dev/null`
+**Single change set exists:**
 
----
+```text
+Input: None (only one change: "user-auth")
+Output: Run find command, load user-auth/specs/*.md files into context, respond "Got it."
+```
 
-Use this context to inform your planning and implementation decisions for the `<change-set-name>` change. Respond "Got it." if you understand.
+**Multiple change sets exist:**
+
+```text
+Input: "What change set specs would you like to load?" → "user-auth"
+Output: Load user-auth/specs/*.md files, respond "Got it."
+```

@@ -4,76 +4,31 @@ description: Initialize a new SDD change set
 
 # Initialize Change Set
 
-Create a new SDD change set with the given name.
+Create a new SDD change set to track progress.
 
-## Required Skills (Must Load)
+## Required Skills
 
-You MUST load and follow these skills before doing anything else:
+You MUST load `sdd-state-management` before proceeding. Stop and ask if unavailable.
 
-- `sdd-state-management`
+## Workflow
 
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without them.
+1. **Validate**: Ensure name is kebab-case (lowercase, no spaces).
+2. **Conflict Check**: Verify `changes/<name>/` doesn't exist.
+3. **Scaffold**:
+    - `changes/<name>/state.md`: Initialize with lane (pending), phase (init), and status (complete).
+4. **Confirm**: Suggest next step (draft proposal).
 
-## Inputs
+## Usage Examples
 
-- Change set name (kebab-case). Ask the user for it.
+- **Do**: `/init-change my-new-feature`
+- **Don't**: `/init-change "My New Feature"` (no spaces or uppercase)
 
-## Instructions
+## Success Criteria
 
-1. **Validate name**: Ensure name is kebab-case, no spaces, lowercase
-2. **Check for conflicts**: Verify `changes/<name>/` doesn't already exist
-3. **Create structure**:
+- [ ] Directory `changes/<name>/` exists.
+- [ ] `state.md` and `proposal.md` are initialized correctly.
+- [ ] User is informed of the next steps.
 
-   ```text
-   changes/<name>/
-     state.md
-     proposal.md
-   ```
+## Deliverable
 
-4. **Initialize state.md**:
-
-   ```markdown
-   # SDD State: <name>
-
-   ## Lane
-
-   (not yet selected)
-
-   ## Phase
-
-   ideation
-
-   ## Phase Status
-
-   in_progress
-
-   ## Pending
-
-    - Select lane (full/vibe/bug) during proposal
-
-   ## Notes
-   ```
-
-5. **Initialize proposal.md** with empty template:
-
-   ```markdown
-    # Proposal: <name>
-
-    ## Context
-
-    (Drop any initial notes, requirements, or information here to help inform the proposal)
-
-    ## Problem
-
-    (What problem are we solving?)
-
-    ## Goals
-
-    (What does success look like?)
-
-    ## Approach
-
-    (High-level approach - freeform)
-    ```
-
-6. **Report**: Confirm creation and suggest next step (start brainstorming or draft `proposal.md`, optionally via `/product/brainstorm` or `/product/proposal`)
+List the created files to confirm success.

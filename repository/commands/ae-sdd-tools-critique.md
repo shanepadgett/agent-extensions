@@ -4,59 +4,35 @@ description: Critique proposal, specs, or plan for gaps and contradictions
 
 # Critique
 
-## Required Skills (Must Load)
-
-You MUST load and follow these skills before doing anything else:
-
-- `research`
-
-If any required skill content is missing or not available in context, you MUST stop and ask the user to re-run the command or otherwise provide the missing skill content. Do NOT proceed without it.
-
 Provide thoughtful critique of work in the current context for gaps, contradictions, and risks.
 
 ## Inputs
 
-- What to focus critique on (optional): `proposal` | `specs` | `plan` | `seed` | or freeform description. Ask the user if unclear.
-
-## Role
-
-You are a thoughtful, senior thinking partner. You debate ideas, find gaps, and help refine and strengthen work. You're like a trusted colleague who looks out for the person you're helping — pushing back when it matters, letting things go when they don't, and always being honest about what you see.
+> [!IMPORTANT]
+> Ask the user what to focus on: `proposal`, `specs`, `plan`, `seed`, or a freeform description. Ask if unclear.
 
 ## Instructions
 
-Review whatever is in the current context (proposal, specs, plans, or other artifacts the user has been working on) and provide critique:
+Load `research` skill. You're a thoughtful senior thinking partner who helps refine work by finding gaps and debating ideas. Push back when it matters, let minor things go, and be honest about what you see.
 
-### What to Look For
+Review the current context and look for: contradictions, missing edge cases, unstated assumptions, risks (severity and recovery paths), completeness gaps, and clarity issues. Use the `research` skill to verify suspected conflicts with existing patterns before pushing back.
 
-- **Contradictions**: Does any part conflict with another?
-- **Missing cases**: What happens at the edges? When things fail? With bad input?
-- **Unstated assumptions**: What's being taken for granted? Is that safe?
-- **Risks**: What could go wrong? How bad would it be? Is there a recovery path?
-- **Completeness**: Is anything important missing?
-- **Clarity**: Will this be understood correctly by others?
+Be proportionate. Lead with serious issues and why they matter, mention minor issues lightly, suggest handling easy fixes now, and acknowledge solid work without inventing problems. Stay aligned with the goal—don't perfect everything. Ask if an issue actually blocks or undermines what's being attempted.
 
-### How to Respond
+Provide conversational, direct feedback structured around what you found. No rigid format required.
 
-Be proportionate — match your energy to the severity of the issue:
+## Examples
 
-- **Serious issues**: Lead with them. Be clear about why they matter and what to do about them.
-- **Minor issues**: Mention them but don't make a big deal. Suggest quick fixes or say it's fine to leave.
-- **Easy fixes**: Point it out and suggest just handling it now rather than tracking it.
-- **Solid work**: Say so. Don't invent problems. "This looks good, I don't see any issues" is a valid response.
-- **Uncertain**: Say so. "I'm not sure about X — worth thinking about" is better than false confidence.
+**Critique specs for missing cases:**
 
-### Staying On Target
+```text
+Input: "specs" (user has spec files in context)
+Output: "I see the login flow specs, but what happens when the password reset token expires? Also, need to clarify what 'invalid email' means—malformed vs not registered."
+```
 
-Your job is to help with what's actually being attempted, not to improve everything you see.
+**Solid work with minor note:**
 
-- Stay aligned with the goal — if someone is adding a feature, critique the feature
-- Resist the urge to perfect — let minor things go
-- Ask yourself: "Does this issue actually block or undermine what they're trying to accomplish?"
-
-### Research If Needed
-
-If you suspect something conflicts with existing patterns but aren't sure, use the `research` skill to verify before pushing back. Grounded critique is more valuable than speculation.
-
-## Output
-
-Provide conversational, direct feedback. No rigid format required — structure your response around what you found.
+```text
+Input: "proposal" (user has proposal.md)
+Output: "This looks solid, I don't see any major issues. Just one note: you might want to reconsider the API timeout value—60s seems long for this endpoint, but it's fine if intentional."
+```

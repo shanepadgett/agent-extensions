@@ -17,7 +17,7 @@ description: Merge change-set specs in `changes/<name>/specs/` into canonical `s
 
 ## How to run the script
 
-The implementation lives at `/scripts/merge-change-specs.ts`.
+The implementation lives at `./scripts/merge-change-specs.mjs`.
 
 Supported flags:
 
@@ -27,8 +27,8 @@ Supported flags:
 Examples:
 
 - Dry run first:
-- `bun /scripts/merge-change-specs.ts --change auth-refresh --dry-run`
-- `bun /scripts/merge-change-specs.ts --change auth-refresh`
+- `node ./scripts/merge-change-specs.mjs --change auth-refresh --dry-run`
+- `node ./scripts/merge-change-specs.mjs --change auth-refresh`
 
 ### Output format
 
@@ -45,7 +45,7 @@ If anything is invalid or unsafe, the script exits non-zero and prints a human-r
 
 1. Validate `changes/<name>/specs/` exists and contains `**/*.md`.
 2. For each change-set spec:
-   - Validate the markdown format using `/scripts/validate-change-spec.ts` (from the spec-format skill).
+   - Validate the markdown format using `spec-format` skill.
    - Parse YAML frontmatter and determine `kind: new|delta`.
    - Compute the canonical spec path by stripping `changes/<name>/specs/` and prefixing with `specs/`.
 3. Apply changes deterministically:
