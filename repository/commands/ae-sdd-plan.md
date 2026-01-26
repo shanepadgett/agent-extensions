@@ -21,11 +21,32 @@ Load `sdd-state-management`, `research`, and `keep-current` skills. Read state.m
 
 This is a dialogue. Before writing, summarize research findings. If a path is clear, present your recommendation with reasoning. If you see questions, trade-offs, or risks, discuss them with opinions and recommendations. Collaborate through back-and-forth until direction is right.
 
-**Plan requirements**: Be unambiguous. Prose-only allowed for simple edits. For complex logic, include pseudocode or actual code. Include exact file paths. Resolve choices—don't leave them to implementer.
+**Plan contents (all lanes)**:
 
-**Full lane**: Create `changes/<name>/plans/<NN>.md` with objective, requirements (from task), research findings, steps with file paths/changes, validation. This is the last stop to convince the user—be exhaustive so implementer executes without interpretation.
+- Objective/Goal (one sentence, direct).
+- Requirements copied from task/spec as bullets.
+- Research findings as bullets: paths, patterns, risks, and constraints.
+- Steps as an ordered list with exact file paths and concrete changes.
+- Validation plan at the end in checkbox format.
 
-**Vibe/bug lane**: Create `changes/<name>/plan.md` with goal, research findings, strategy, changes with file paths, validation. Show full intent with code/pseudocode. Exhaustive enough for direct execution.
+**Validation plan format (all lanes)**:
+
+- Place at the end of the plan.
+- Two checkbox sections:
+  - Agent validations (during/post install).
+  - User validations (optional unless the agent deems user-run validation required).
+
+**Full lane output**:
+
+- Create `changes/<name>/plans/<NN>.md`.
+- Include all required sections listed above.
+- Steps must be exhaustive enough for direct execution without interpretation.
+
+**Vibe/bug lane output**:
+
+- Create `changes/<name>/plan.md`.
+- Include all required sections listed above.
+- Include code or pseudocode for complex logic.
 
 When user explicitly approves, update state.md: `## Phase Status: complete`, clear `## Notes`, suggest `/sdd/implement <name>`. Questions/feedback don't count as approval.
 

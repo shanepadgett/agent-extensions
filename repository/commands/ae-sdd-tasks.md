@@ -17,7 +17,7 @@ Load `sdd-state-management` skill. Read state, proposal, specs, and thoughts fro
 
 This is a dialogue. Before writing tasks.md, present your breakdown thinking: how you'll map spec requirements, why you're grouping them this way, and what task order maintains system stability. Ask for feedback on granularity and flow. Update state.md `## Notes` with decisions.
 
-Create `changes/<name>/tasks.md` with checkbox tracking: `[ ]` pending, `[o]` in progress, `[x]` complete. Each task includes description and requirements mapped to spec EARS lines. Order tasks: foundations first (models, types, codegen), vertical implementation slices, integration, validation. Every task must be completable in one session, independently testable, and leave the system in a committable state.
+Create `changes/<name>/tasks.md` with checkbox tracking: `[ ]` pending, `[o]` in progress, `[x]` complete. Do not number tasks. Each task includes a short title, a description, and requirements mapped to spec lines. Order tasks: foundations first (models, types, codegen), vertical implementation slices, integration, validation. Every task must be completable in one session, independently testable, and leave the system in a committable state.
 
 ## Examples
 
@@ -27,6 +27,16 @@ Create `changes/<name>/tasks.md` with checkbox tracking: `[ ]` pending, `[o]` in
 Input: None (full lane, single change "user-reg")
 Output: Present breakdown: "I'll scaffold DB models first, then vertical slices. 3 tasks total."
        User approves. Create tasks.md with [ ] foundation, [ ] implementation, [ ] validation.
+```
+
+**Task shape sample (no numbering):**
+
+```text
+[ ] Title: Foundation - DB models and migrations
+    Description: Add user tables and migrations to support registration.
+    Requirements:
+    - When a new user is created, the system shall persist profile fields.
+    - When validation fails, the system shall return field errors.
 ```
 
 **Wrong lane detected:**
