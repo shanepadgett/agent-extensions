@@ -30,7 +30,6 @@ Examples:
 - `bun /scripts/merge-change-specs.ts --change auth-refresh --dry-run`
 - `bun /scripts/merge-change-specs.ts --change auth-refresh`
 
-
 ### Output format
 
 The script prints a single JSON object to stdout:

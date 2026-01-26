@@ -64,10 +64,12 @@ Use `&&` to chain commands (instead of newlines or `;`):
 ### ✅ Available Commands
 
 Bun Shell includes these built-in commands:
+
 - `cd`, `ls`, `rm`, `echo`, `pwd`, `cat`, `touch`, `mkdir`, `which`, `mv`
 - `seq`, `dirname`, `basename`, `true`, `false`, `yes`
 
 Common external commands also work:
+
 - `awk`, `sed`, `tr`, `wc`, `grep`, `head`, `tail`
 - `find`, `xargs`, `sort`, `uniq`
 

@@ -28,6 +28,7 @@ At the same time, don't over-engineer. If a light-touch structural improvement s
 ### 2. Research Deeper (if needed)
 
 Use the `research` skill to understand:
+
 - What patterns exist for the type of problem this change introduces?
 - Are there any partial implementations or footholds for the needed mechanism?
 - What would be the natural extension points?
@@ -35,12 +36,14 @@ Use the `research` skill to understand:
 ### 3. Generate Options
 
 **Light-Touch Options** (consider first):
+
 - Add a new module boundary + interface seam
 - Introduce an adapter layer in one location
 - Extract a small abstraction that makes the fit clean
 - Add migration guardrails for incremental adoption
 
 **Architecture Options** (when light-touch won't work):
+
 - Introduce eventing/pubsub where none exists
 - Add state-machine-driven workflow
 - Change concurrency model
@@ -49,6 +52,7 @@ Use the `research` skill to understand:
 ### 4. Evaluate Each Option
 
 For each option, assess:
+
 - **Blast radius**: Which domains/components change (not individual files)
 - **Incremental path**: Can we keep repo green throughout?
 - **Long-term impact**: How this affects future changes, maintainability
@@ -57,12 +61,14 @@ For each option, assess:
 ## When to Recommend Light-Touch vs Architecture Shift
 
 **Light-Touch** is right when:
+
 - The problem is localized to 1-2 domains
 - An interface seam or adapter solves it cleanly
 - The repo already has similar patterns elsewhere
 - Future changes won't keep hitting this same wall
 
 **Architecture Shift** is right when:
+
 - Multiple modules need to participate in a new coordination model
 - The same problem will recur for future features
 - The light-touch path creates inconsistent patterns

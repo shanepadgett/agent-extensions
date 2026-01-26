@@ -61,11 +61,13 @@ All outputs go under `design-system/runs/`.
 If the user is **editing an existing direction** (a revision/iteration), use a **copy-forward version**.
 
 Treat the request as a revision when the user:
+
 - References the current run/version (e.g. “in v3…”, “the last demo…”, “keep everything but…”)
 - Asks for adjustments/tweaks/iterations (e.g. “revise”, “iterate”, “tweak”, “make X bigger”, “change the header”, “swap the accent color”)
 - Implies continuity (e.g. “same vibe, but…”, “don’t change the structure, just…”)
 
 Treat the request as a new run (no copy-forward) when the user:
+
 - Picks a different pitch option / asks for a different vibe direction
 - Changes the scope entirely (different page/flow/component)
 - Changes the series slug

@@ -39,6 +39,7 @@ Based on research, identify constraints that matter:
 ### 3. Evaluate Each Delta Against Constraints
 
 For each capability being added/modified:
+
 - Can it be implemented using existing patterns?
 - Does it require crossing boundaries in new ways?
 - Does it introduce new primitives the repo doesn't have?
@@ -46,6 +47,7 @@ For each capability being added/modified:
 ### 4. Check for Workaround Smell
 
 Before finalizing, ask yourself:
+
 - Am I proposing adjustments that are really just glue/hacks?
 - Would these adjustments create inconsistent patterns?
 - Is the "fit" path creating tech debt just to avoid a paradigm discussion?
@@ -55,20 +57,26 @@ If yes to any, the verdict should recommend paradigm work.
 ## Verdicts
 
 ### FITS
+
 Choose when:
+
 - All constraints satisfied
 - Changes follow existing patterns
 - Implementation stays inside 1-2 domains/modules
 - No new "system primitive" required
 
 ### FITS_WITH_ADJUSTMENTS
+
 Choose when:
+
 - Minor constraint violations fixable with targeted work
 - Adjustments are truly minimal and localized
 - Examples: new module boundary, new interface + adapter, extract small utility
 
 ### NO_FIT
+
 Choose when:
+
 - Clean solution requires a new paradigm many modules must participate in
 - Would require reorganizing layering/dependency direction repo-wide
 - Changes runtime/operational assumptions

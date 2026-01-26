@@ -14,6 +14,7 @@ The following spec files are loaded for planning context:
 ## Spec Files
 
 Run:
+
 - `find changes/<change-set-name>/specs -name "*.md" -exec sh -c 'echo "=== {} ===" && cat "{}"' \; 2>/dev/null`
 
 ---

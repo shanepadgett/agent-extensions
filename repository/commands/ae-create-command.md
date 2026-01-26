@@ -3,7 +3,7 @@ name: create-command
 description: Create a new Codex custom prompt from a plain-English description
 ---
 
-Before executing, read the Codex custom prompts docs: https://developers.openai.com/codex/custom-prompts/
+Before executing, read the Codex custom prompts docs: <https://developers.openai.com/codex/custom-prompts/>
 
 ## Task
 

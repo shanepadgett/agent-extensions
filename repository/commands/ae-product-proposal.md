@@ -25,6 +25,7 @@ If any required skill content is missing or not available in context, you MUST s
 ### Setup
 
 Run:
+
 - `cat <seed-path> 2>/dev/null || echo "No seed found"`
 - `cat <proposal-path> 2>/dev/null || echo "No proposal found"`
 
