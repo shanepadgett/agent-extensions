@@ -89,6 +89,7 @@ This guide provides criteria for auditing commands in the repository based on be
 
 - [ ] **Mandatory Questions**: Command must ask the user for any required inputs (paths, names, etc.) instead of assuming CLI arguments are supported.
 - [ ] **Input Formatting**: Sections requiring user input follow the standard callout format:
+
   ```markdown
   ## Inputs
 
@@ -97,6 +98,7 @@ This guide provides criteria for auditing commands in the repository based on be
 
   - **Input Name**: Description
   ```
+
 - [ ] **SDD State Management**: For all SDD commands, the agent must:
   - Check for existing change set folders.
   - If only one exists, proceed with it.
