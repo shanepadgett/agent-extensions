@@ -3,7 +3,7 @@ name: sdd-status
 description: Show status of injected change set
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -30,6 +30,7 @@ Resolve the change set name using the Inputs rule above. If multiple options rem
 The state.md and tasks.md content below is injected from the change set:
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 - `cat changes/<change-set-name>/tasks.md 2>/dev/null || echo "No tasks found"`
 

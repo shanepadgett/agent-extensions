@@ -3,7 +3,7 @@ name: sdd-finish
 description: Close the change set and sync specs
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -25,6 +25,7 @@ Close the change set and sync change-set specs to canonical.
 ### Setup
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 
 ### Entry Check
@@ -46,13 +47,13 @@ kind: new | delta
 ---
 ```
 
-3. Present a **sync plan preview** to the user (before making any changes):
+1. Present a **sync plan preview** to the user (before making any changes):
    - Source: `changes/<name>/specs/<path>.md`
    - Kind: `new` or `delta`
    - Target canonical path: `specs/<path>.md`
    - For `kind: delta`: confirm the target canonical spec exists and call out what sections you plan to add/modify/remove.
 
-4. Call out blockers requiring user decisions:
+2. Call out blockers requiring user decisions:
    - Missing target canonical spec for `kind: delta`
    - Ambiguous `Before/After` matches
    - Any uncertainty about intent or boundaries

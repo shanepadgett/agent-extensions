@@ -3,7 +3,7 @@ name: sdd-discovery
 description: Discover high-level architectural requirements for change-set specs
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -21,6 +21,7 @@ Understand the high-level architectural requirements for implementing change-set
 ## Purpose
 
 Discovery is NOT about planning implementation details. It's about:
+
 - Understanding what architectural patterns/systems the specs will touch
 - Identifying if the change slots cleanly into existing architecture (simple case)
 - Recognizing when architectural concerns need resolution before planning (complex case)
@@ -35,6 +36,7 @@ Discovery is NOT about planning implementation details. It's about:
 ### Setup
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 - `cat changes/<change-set-name>/proposal.md 2>/dev/null || echo "No proposal found"`
 - `find changes/<change-set-name>/specs -name "*.md" -exec cat {} + 2>/dev/null || echo "No specs found"`
@@ -71,12 +73,14 @@ Using `architecture-fit-check` skill framework, answer the primary question:
 #### Simple Case: Clean Fit
 
 If the specs slot easily into existing architecture (e.g., new endpoint, data to template, straightforward CRUD), there's not much to record here:
+
 - Note that architecture review found no concerns
 - Proceed directly to tasks phase
 
 #### Complex Case: Concerns Exist
 
 If the specs WOULD work but raise concerns:
+
 - Would require messy workarounds
 - Introduces inconsistent patterns
 - Creates technical debt
@@ -112,7 +116,7 @@ When architectural concerns are identified, engage as Daedalus—the master arch
 
 Discovery outputs to `changes/<name>/thoughts/`. This is a free-form workspace:
 
-```
+```text
 changes/<name>/
   thoughts/
     architecture-concerns.md
@@ -127,6 +131,7 @@ Update state.md `## Notes` with architecture decisions and rationale.
 ### Updating Specs
 
 If discovery reveals the specs themselves need changes:
+
 - Return to specs phase
 - Update change-set specs to reflect architectural decisions
 - Re-run discovery

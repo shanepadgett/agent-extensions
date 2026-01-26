@@ -50,7 +50,7 @@ Provide a comprehensive explanation of SDD:
 
 Everything in SDD revolves around a **change set** - a named collection of files tracking one logical change:
 
-```
+```text
 changes/
   add-user-auth/           # Change set directory
     state.md               # Lane, phase, phase status, notes, pending
@@ -77,19 +77,22 @@ The key insight: **Full lane** writes specs before implementation. **Vibe/Bug la
 #### Phase Progression
 
 **Full Lane** (specs drive implementation):
-```
+
+```text
 init -> proposal -> specs -> discovery -> tasks -> plan -> implement -> reconcile -> finish
 ```
 
 Ideation and proposal artifacts are often created outside SDD. SDD simply tracks the phase and reads `seed.md`/`proposal.md` if they exist.
 
 **Vibe Lane** (freedom to explore):
-```
+
+```text
 /sdd/fast/vibe <context> -> plan -> implement -> [reconcile -> finish]
 ```
 
 **Bug Lane** (fix with triage):
-```
+
+```text
 /sdd/fast/bug <context> -> plan -> implement -> [reconcile -> finish]
 ```
 
@@ -113,7 +116,7 @@ Vibe/Bug lanes have optional completion - if throwing away the work, stop after 
 
 #### Example: Vibe Lane Flow
 
-```
+```text
 User: /sdd/fast/vibe "I want to try a new caching approach for the API layer"
       [Creates context.md with freeform exploration context]
 
@@ -135,7 +138,7 @@ User: /sdd/finish
 
 #### Example: Bug Lane Flow
 
-```
+```text
 User: /sdd/fast/bug "Users are seeing 500 errors when submitting forms with special characters"
       [Triages: actual bug or behavioral change?]
       [If behavioral change -> redirects to full lane]
@@ -158,7 +161,7 @@ User: /sdd/finish
 
 #### Example: Full Lane Flow
 
-```
+```text
 User: /sdd/init add-plugin-system
 User: (Drafts proposal.md using preferred method)
       "Add a plugin architecture to allow extending functionality"
@@ -187,6 +190,7 @@ User: /sdd/finish
 When the user provides a topic, explain **only that topic** in depth. Do not output the full overview above.
 
 Use this format for the topic:
+
 1. **What it is** - Clear definition
 2. **Why it exists** - The problem it solves
 3. **How it works** - Mechanics and structure

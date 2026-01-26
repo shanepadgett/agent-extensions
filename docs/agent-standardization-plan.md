@@ -27,6 +27,7 @@ The following matrix shows current support levels across all tools and extension
 The Vercel agent-skills pattern demonstrates successful cross-tool deployment using a single specification:
 
 **Universal SKILL.md format:**
+
 ```yaml
 ---
 name: skill-name                    # Required, 1-64 chars
@@ -40,6 +41,7 @@ metadata:                           # Optional key-value pairs
 ```
 
 **Installation paths by tool (add-skill CLI handles mapping):**
+
 | Tool | Project Path | Global Path |
 |------|--------------|-------------|
 | Claude Code | `.claude/skills/<name>/` | `~/.claude/skills/<name>/` |
@@ -72,6 +74,7 @@ All nine tools support markdown-based custom commands, but argument handling div
 | Droid | `$ARGUMENTS`, `$1-$9` | ✅ Executable scripts | No |
 
 **The lowest common denominator for commands:**
+
 ```yaml
 ---
 description: Brief description shown in slash menu
@@ -98,6 +101,7 @@ Then create the component following project conventions...
 This approach works universally because **every tool's agent can ask follow-up questions**, whereas argument parsing differs. OpenCode's shell injection (`!`cmd``) and Droid's executable scripts would need to be dropped for cross-tool compatibility.
 
 **Features to drop for command standardization:**
+
 - Shell injection syntax (OpenCode)
 - Executable script commands (Droid)
 - Model override frontmatter (OpenCode, Augment, Kilo Code)
@@ -109,6 +113,7 @@ This approach works universally because **every tool's agent can ask follow-up q
 Only **5 of 9 tools** have full subagent support with comparable architectures:
 
 **Tools with file-based subagent definitions:**
+
 | Tool | Location | Format | Key Features |
 |------|----------|--------|--------------|
 | Claude Code | `.claude/agents/<name>.md` | Markdown + YAML | `tools`, `model`, `permissionMode`, `skills` |
@@ -118,6 +123,7 @@ Only **5 of 9 tools** have full subagent support with comparable architectures:
 | Droid | `.factory/droids/<name>.md` | Markdown + YAML | `tools`, `model`, `reasoningEffort` |
 
 **Minimal viable subagent format:**
+
 ```yaml
 ---
 name: code-reviewer
@@ -129,6 +135,7 @@ You are a code reviewer. Focus on...
 ```
 
 **Blocking issues for subagent standardization:**
+
 1. **Tool naming differs radically** — Claude Code uses `Bash`, OpenCode uses `execute`, Kilo Code uses `command`
 2. **Permission models vary** — Some tools allow regex patterns, others use categories
 3. **Model identifiers aren't portable** — `sonnet` vs `anthropic/claude-sonnet-4` vs provider-specific IDs
@@ -150,6 +157,7 @@ Hooks represent the **most divergent** extension type:
 | Droid | JSON in settings.json | 9 (mirrors Claude Code) | ✅ Yes |
 
 **Common hook events across supporting tools:**
+
 - Pre-tool execution (validate/block)
 - Post-tool execution (format/log)
 - Session start/end
@@ -174,12 +182,14 @@ A unified hooks spec could define **portable hook events** mapped to tool-specif
 ```
 
 The installer would transform these to tool-specific configurations:
+
 - Claude Code → `PostToolUse` with `Write|Edit` matcher
 - Windsurf → `post_write_code`
 - Cursor → `afterFileEdit`
 - Cline → `PostToolUse` script
 
 **Features that cannot be standardized:**
+
 - OpenCode's plugin-based hooks (require JS/TS)
 - Event-specific matchers and regex patterns
 - Input modification capabilities (only some tools support)
@@ -208,15 +218,18 @@ All 9 tools support MCP with JSON configuration, but **config file locations and
 Based on this analysis, extension types fall into three feasibility tiers:
 
 ### Tier 1: Ready for standardization now
+
 - **Skills (SKILL.md)** — Already working via agentskills.io spec
 - **Rules (AGENTS.md)** — Widely supported with fallback compatibility
 - **MCP configurations** — Identical format, just different file locations
 
 ### Tier 2: Feasible with constraints
+
 - **Commands** — Standardize on markdown + `$ARGUMENTS` only, use "ask questions" pattern instead of complex argument passing
 - **Hooks** — Define portable event names mapped to tool-specific implementations; accept that some tools won't support all events
 
 ### Tier 3: Not recommended for standardization
+
 - **Subagents** — Too architecturally different; maintain tool-specific configurations
 - **Plugins (beyond MCP)** — Claude Code plugins, OpenCode plugins are completely different systems
 
@@ -224,7 +237,7 @@ Based on this analysis, extension types fall into three feasibility tiers:
 
 A unified agent-extensions repository should mirror the Vercel agent-skills pattern:
 
-```
+```text
 agent-extensions/
 ├── skills/                     # Tier 1 - already standardized
 │   └── <skill-name>/SKILL.md
@@ -244,6 +257,7 @@ agent-extensions/
 ```
 
 The installer CLI would:
+
 1. Read extension files from unified format
 2. Transform to tool-specific formats where needed
 3. Copy to correct locations per tool

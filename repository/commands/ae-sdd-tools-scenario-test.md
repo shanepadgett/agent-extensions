@@ -37,6 +37,7 @@ Create a vivid, specific user to inhabit:
 - **What are your constraints?** Time pressure, limited access, existing workflows
 
 Example personas:
+
 - Senior dev at a fintech startup, needs to ship a feature by Friday, skeptical of new tools
 - Junior engineer on their first week, trying to follow the team's process, easily confused
 - Overworked tech lead managing three projects, needs things to "just work"
@@ -63,24 +64,30 @@ When you discover gaps, approach them constructively:
 
 ### 4. Report Back
 
-**The Persona**
+### The Persona
+>
 > "I am [role] at [company type]. Today I need to [concrete task]. I have [constraints]."
 
-**The Journey**
+### The Journey
+
 Walk through what you attempted, step by step. What worked? Where did you get stuck? What surprised you?
 
-**The Findings**
+### The Findings
+
 Categorize what you discovered:
+
 - **Gaps**: Things that are missing or broken
 - **Friction**: Things that work but are harder than they should be
 - **Ambiguities**: Things that are unclear or could be interpreted multiple ways
 - **Loopholes**: Creative paths that might not be intended
 - **Wins**: Things that worked well (yes, call these out too)
 
-**The Verdict**
+### The Verdict
+
 Did you complete your task? Can you rest easy, or are you still frustrated?
 
-**Suggestions** (if any)
+### Suggestions (if any)
+
 Ideas for addressing what you found — offered humbly, to be weighed by those who decide.
 
 ## Guidelines

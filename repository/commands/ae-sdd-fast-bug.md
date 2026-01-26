@@ -3,7 +3,7 @@ name: sdd-fast-bug
 description: Bug investigation and fix - triage, research, plan, fix
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -25,6 +25,7 @@ Investigate and fix a bug. This command triages the issue, researches the codeba
 ### Gather Context
 
 Ask the user:
+
 - What's happening?
 - What did you expect to happen?
 - Any error messages?
@@ -34,12 +35,14 @@ Ask the user:
 Before investigating, determine what type of issue this is:
 
 **Actual Bug** (proceed with bug lane):
+
 - Runtime error, crash, exception
 - Code doesn't do what it's supposed to do
 - Implementation doesn't match existing specs
 - Regression from previous working behavior
 
 **Behavioral Change** (redirect to full lane):
+
 - User wants different behavior than what's specified
 - "It works, but I want it to work differently"
 - New capability or feature request disguised as bug
@@ -48,6 +51,7 @@ Before investigating, determine what type of issue this is:
 > This looks like a behavioral change rather than a bug. The current behavior may be working as specified.
 >
 > I recommend using the full SDD lane to properly spec out the new behavior:
+>
 > - `/sdd/init <name>` → draft `proposal.md` → `/sdd/specs`
 >
 > This ensures the change is captured in specs before implementation.
@@ -57,6 +61,7 @@ Before investigating, determine what type of issue this is:
 ### Derive Change Set Name
 
 From the bug context, derive a descriptive kebab-case name:
+
 - "Login fails on Firefox" → `fix-login-firefox`
 - "Null pointer when adding user" → `fix-add-user-null`
 - "Export downloads wrong file" → `fix-export-file`
@@ -75,6 +80,7 @@ Use the `research` skill to investigate:
 Create `changes/<name>/`:
 
 **state.md:**
+
 ```markdown
 # SDD State: <name>
 
@@ -98,6 +104,7 @@ in_progress
 ```
 
 **context.md:**
+
 ```markdown
 # Bug Fix: <name>
 
@@ -136,13 +143,14 @@ Most bugs are implementation issues where specs remain aligned. Trust reconcile 
 ### Next Steps
 
 Tell the user:
+
 - Change set created
 - Root cause identified
 - Run `/sdd/plan <name>` to plan and implement the fix
 
 ### The Bug Flow
 
-```
+```text
 /sdd/fast/bug <context>  →  /sdd/plan  →  /sdd/implement
                                               ↓
                               [if specs affected]

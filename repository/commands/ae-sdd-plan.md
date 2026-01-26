@@ -3,7 +3,7 @@ name: sdd-plan
 description: Research, plan, and prepare for implementation
 ---
 
-# Required Skills (Must Load First)
+### Required Skills (Must Load First)
 
 Skill-loading is step zero. **Before any other instruction in this file** (including state reads, entry/gate checks, or research), you MUST load and follow these skills:
 
@@ -12,6 +12,7 @@ Skill-loading is step zero. **Before any other instruction in this file** (inclu
 - `keep-current`
 
 If a required skill fails to load or is missing from context:
+
 - Continue with best effort (do not refuse to work).
 - Tell the user which skill(s) are missing and what that limits.
 - Ask the user to re-run the command or otherwise provide the missing skill content.
@@ -31,6 +32,7 @@ Research the codebase and create an implementation plan.
 ### Setup
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 - `cat changes/<change-set-name>/tasks.md 2>/dev/null || echo "No tasks found"`
 
@@ -54,13 +56,15 @@ For full lane, plan one task at a time.
 ### Load Specs (Full Lane)
 
 Read all change-set specs for context, recursively:
+
 - `changes/<name>/specs/**/*.md`
 
 Do not assume specs only exist at `changes/<name>/specs/*.md`.
 
-### Research
+### Research (Vibe/Bug lane)
 
 Use the `research` skill to understand:
+
 - Where changes need to happen (exact file paths)
 - Existing patterns to follow
 - Integration points
@@ -70,7 +74,7 @@ If you might introduce new dependencies, APIs, or framework features, also do qu
 
 Update state.md `## Notes` with research findings and planning progress.
 
-### Collaborative Planning
+### Collaborative Planning (Vibe/Bug lane)
 
 This command is a **dialogue**, not a one-way generation.
 
@@ -122,7 +126,7 @@ Only after the user indicates alignment, create `changes/<name>/plans/<NN>.md` (
 - [ ] Tests pass
 ```
 
-### Completion
+### Completion (Vibe/Bug lane)
 
 After the plan file is written, review it with the user. When they explicitly approve:
 
@@ -140,6 +144,7 @@ For vibe/bug lanes, combine discovery + tasking + planning into one pass. Get to
 ### Research
 
 Use the `research` skill to understand:
+
 - What exists in the codebase
 - Where changes need to happen
 - Patterns to follow
@@ -200,6 +205,7 @@ How to verify it works:
 ### Keep It Lean
 
 For vibe/bug lanes:
+
 - Don't over-plan - you're exploring
 - Enough detail to start, not a complete spec
 - If it gets complicated, that's a sign to consider full lane
@@ -218,6 +224,7 @@ Don't advance until the user clearly signals approval. Questions, feedback, or a
 ## Plan Quality
 
 A good plan:
+
 - Is grounded in research (not assumptions)
 - Has specific file paths (verified to exist)
 - Follows patterns found in the codebase

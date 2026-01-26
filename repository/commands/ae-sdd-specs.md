@@ -3,7 +3,7 @@ name: sdd-specs
 description: Write change-set specifications for change
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -28,6 +28,7 @@ Write change-set specifications for the change set (`kind: new` and `kind: delta
 The following commands print the authoritative documents into the chat as context:
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 - `cat changes/<change-set-name>/proposal.md 2>/dev/null || echo "No proposal found"`
 
@@ -101,6 +102,7 @@ Update state.md `## Notes` with progress on spec writing, key decisions, and any
 ### Spec Review
 
 For each spec file:
+
 - Ensure requirements are atomic (one SHALL per requirement)
 - Ensure requirements are testable
 - Ensure requirements are implementation-agnostic

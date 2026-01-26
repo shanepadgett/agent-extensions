@@ -49,7 +49,7 @@ The complete SDD experience. Specs are written before implementation.
 
 ### Phases
 
-```
+```text
 ideation -> proposal -> specs -> discovery -> tasks -> plan -> implement -> reconcile -> finish
 ```
 
@@ -84,13 +84,13 @@ Seed and proposal artifacts can be authored outside SDD. The state file just tra
 
 Freedom to explore. Skip specs, get to building fast.
 
-### Flow
+### Flow (Vibe lane)
 
-```
+```text
 /sdd/fast/vibe <context>  →  /sdd/plan  →  /sdd/implement  →  [/sdd/reconcile  →  /sdd/finish]
 ```
 
-### Artifacts
+### Artifacts (Vibe lane)
 
 | File | Purpose |
 |------|---------|
@@ -98,9 +98,10 @@ Freedom to explore. Skip specs, get to building fast.
 | `context.md` | Loose capture of what we're exploring |
 | `plan.md` | Combined research + planning (single file) |
 
-### Optional Completion
+### Optional Completion (Vibe lane)
 
 Reconcile and finish are optional:
+
 - **Throwing it away**: Stop after implement
 - **Keeping it**: Reconcile captures specs from implementation, finish syncs to canonical
 
@@ -108,19 +109,20 @@ Reconcile and finish are optional:
 
 Hunt and fix. Triages the issue first.
 
-### Flow
+### Flow (Bug lane)
 
-```
+```text
 /sdd/fast/bug <context>  →  /sdd/plan  →  /sdd/implement  →  [/sdd/reconcile  →  /sdd/finish]
 ```
 
 ### Triage
 
 The bug command determines if this is:
+
 - **Actual bug**: Implementation doesn't match intent → proceed with bug lane
 - **Behavioral change**: User wants different behavior → redirect to full lane with specs
 
-### Artifacts
+### Artifacts (Bug lane)
 
 | File | Purpose |
 |------|---------|
@@ -129,9 +131,10 @@ The bug command determines if this is:
 | `plan.md` | Combined research + planning |
 | `thoughts/` | Optional scratch space for complex investigations |
 
-### Optional Completion
+### Optional Completion (Bug lane)
 
 Reconcile and finish are optional:
+
 - **No spec impact**: Stop after implement (most bug fixes)
 - **Specs affected**: Reconcile captures changes, finish syncs
 
@@ -139,7 +142,7 @@ Reconcile and finish are optional:
 
 For complex investigations, use `thoughts/` as a free-form workspace:
 
-```
+```text
 changes/<name>/
   thoughts/
     investigation.md
@@ -203,6 +206,7 @@ When a command completes (user approves work):
 ### Keeping Notes Updated
 
 During command execution, keep `## Notes` updated with:
+
 - Decisions made
 - Current progress
 - Context about where we are

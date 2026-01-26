@@ -3,7 +3,7 @@ name: sdd-fast-vibe
 description: Quick prototyping and exploration - skip specs, get to building
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -26,6 +26,7 @@ Skip the spec ceremony - get to building fast.
 ### Gather Context
 
 Ask the user what they want to explore:
+
 - What are you trying to build or prototype?
 - What are you curious about?
 
@@ -36,6 +37,7 @@ Keep it loose. This isn't a formal proposal.
 Derive a kebab-case name from the context. Create `changes/<name>/`:
 
 **state.md:**
+
 ```markdown
 # SDD State: <name>
 
@@ -59,6 +61,7 @@ in_progress
 ```
 
 **context.md:**
+
 ```markdown
 # Vibe: <name>
 
@@ -74,12 +77,13 @@ in_progress
 ### Next Steps
 
 Tell the user:
+
 - Change set created
 - Run `/sdd/plan <name>` to research, plan, and start building
 
 ### The Vibe Flow
 
-```
+```text
 /sdd/fast/vibe <context>  →  /sdd/plan  →  /sdd/implement
                                               ↓
                               [if keeping it]

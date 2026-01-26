@@ -3,7 +3,7 @@ name: sdd-tasks
 description: Create implementation tasks from specs (full lane)
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -27,6 +27,7 @@ Create implementation tasks for the change set. This command is for **full lane*
 ### Setup
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 - `cat changes/<change-set-name>/proposal.md 2>/dev/null || echo "No proposal found"`
 - `find changes/<change-set-name>/specs -name "*.md" -exec cat {} + 2>/dev/null || echo "No specs found"`
@@ -57,6 +58,7 @@ Update state.md `## Notes` with task breakdown decisions and rationale.
 ### Task Structure
 
 Create `changes/<name>/tasks.md` using checkbox-style progress tracking:
+
 - `[ ]` = Pending
 - `[o]` = In Progress (exactly one task at a time)
 - `[x]` = Complete
@@ -99,6 +101,7 @@ Order tasks by dependency. A task is only "done" when the system is stable and c
 ### Task Granularity
 
 Each task should be:
+
 - Completable in one implementation session
 - Independently testable
 - Clear on what "done" means

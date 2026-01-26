@@ -41,6 +41,7 @@ When research is needed, do it directly:
 ### Provide Context
 
 Include in your prompt:
+
 - **The research question**: What specific information is needed
 - **Context**: What you're building, version requirements, language/framework
 - **Scope**: Level of detail needed (high-level overview vs deep dive)
@@ -49,6 +50,7 @@ Include in your prompt:
 ### Emphasize Thoroughness
 
 Research must:
+
 - Continue until you have a **complete, confident understanding**
 - Explore multiple sources (official docs, community discussions, examples)
 - Verify information across sources
@@ -56,7 +58,7 @@ Research must:
 
 ### Example Prompt
 
-```
+```text
 I need to integrate WorkOS for authentication in a Next.js app.
 Research the current WorkOS documentation to understand:
 - Integration setup and configuration

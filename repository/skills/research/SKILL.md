@@ -33,7 +33,7 @@ When doing SDD work, prefer using the `librarian` agent for codebase research so
 
 Consult the `librarian` agent with a clear research prompt (the runtime will route this appropriately):
 
-```
+```text
 <your research question>
 ```
 
@@ -41,7 +41,7 @@ Consult the `librarian` agent with a clear research prompt (the runtime will rou
 
 Be specific about what you need:
 
-```
+```text
 # Finding files/locations
 "Where are the authentication handlers in this codebase?"
 
@@ -73,6 +73,7 @@ Librarian provides:
 ### During Proposal
 
 Research to understand:
+
 - Does similar functionality exist?
 - What would this change interact with?
 - Are there patterns to follow or constraints to respect?
@@ -80,6 +81,7 @@ Research to understand:
 ### During Specs
 
 Research to understand:
+
 - Where do existing specs live?
 - What's the current spec taxonomy?
 - Are there related capabilities already specified?
@@ -87,6 +89,7 @@ Research to understand:
 ### During Discovery
 
 Research to understand:
+
 - How does the proposed change fit existing architecture?
 - What code will be affected?
 - Are there conflicts with existing patterns?
@@ -94,6 +97,7 @@ Research to understand:
 ### During Planning
 
 Research to understand:
+
 - Exact file paths for changes
 - Current implementation details
 - Test patterns to follow
@@ -102,6 +106,7 @@ Research to understand:
 ### During Implementation
 
 Research when you encounter:
+
 - Unexpected code structure
 - Need to understand a dependency
 - Unclear how to integrate with existing code
@@ -116,7 +121,7 @@ If librarian's first response doesn't fully answer your question:
 
 Example iteration:
 
-```
+```text
 # First query
 "How does authentication work in this codebase?"
 

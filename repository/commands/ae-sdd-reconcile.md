@@ -3,7 +3,7 @@ name: sdd-reconcile
 description: Ensure specs match implementation
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -27,6 +27,7 @@ Ensure that change set specs match the implementation diff.
 ### Setup
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 - `cat changes/<change-set-name>/tasks.md 2>/dev/null || echo "No tasks found"`
 

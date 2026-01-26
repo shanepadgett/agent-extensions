@@ -3,7 +3,7 @@ name: sdd-implement
 description: Execute the implementation plan
 ---
 
-# Required Skills (Must Load)
+### Required Skills (Must Load)
 
 You MUST load and follow these skills before doing anything else:
 
@@ -25,6 +25,7 @@ Execute the current implementation plan.
 ### Setup
 
 Run:
+
 - `cat changes/<change-set-name>/state.md 2>/dev/null || echo "State file not found"`
 - `cat changes/<change-set-name>/tasks.md 2>/dev/null || echo "No tasks found"`
 
@@ -33,6 +34,7 @@ Run:
 Apply state entry check logic from `sdd-state-management` skill.
 
 Determine lane and load plan:
+
 - **Full lane**: Read `changes/<name>/tasks.md` only to identify the current task (prefer `[o]`; otherwise first `[ ]`). Then load the corresponding plan from `changes/<name>/plans/`.
 - **Vibe/Bug lane**: Read `changes/<name>/plan.md` (single combined plan)
 
@@ -78,12 +80,14 @@ After implementation:
 ### Completion
 
 **Full Lane:**
+
 1. Review results with the user and confirm validation is green.
 2. When the user explicitly approves the implementation, update `changes/<name>/tasks.md`: change the current `[o]` to `[x]`.
 3. If any tasks remain `[ ]` after marking the current task complete, update `changes/<name>/state.md`: `## Phase Status: complete`, clear `## Notes`, and suggest `/sdd/plan <name>`.
 4. If no tasks remain `[ ]` (i.e., you just completed the last task in the change set), update `changes/<name>/state.md`: `## Phase Status: complete`, clear `## Notes`, and suggest `/sdd/reconcile <name>`.
 
 **Vibe/Bug Lane:**
+
 1. Implementation complete - discuss with user what's next:
    - **Throwing away**: Done - no state update needed
    - **Keeping the work**: When user decides to keep it, update state: `## Phase Status: complete`, clear `## Notes`, suggest `/sdd/reconcile <name>`
