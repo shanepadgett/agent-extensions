@@ -73,6 +73,12 @@ ae
 1. **Select tools** - Pick which AI agents to configure
 2. **Select scope** - Install globally, locally, or both
 
+<p align="center">
+  <picture>
+    <img alt="Agent Extensions" src="docs/_media/cli.png" style="max-width: 50%; border-radius: 6px;">
+  </picture>
+</p>
+
 ### Non-Interactive Mode
 
 ```sh
