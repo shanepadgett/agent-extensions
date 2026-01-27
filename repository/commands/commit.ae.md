@@ -10,6 +10,13 @@ Create clean, reviewable commits from staged/unstaged changes with minimal backâ
 
 Make commits that are easy to review and safe to ship. Commit messages must describe behavior and intent.
 
+## Agent behavior (non-interactive by default)
+
+- **Default**: execute this workflow end-to-end without asking the user what to do.
+- **Single commit**: if the changes are reasonably cohesive, proceed to stage, verify, and commit **without asking for approval**.
+- **Multiple commits**: if a split is clearly beneficial (unrelated changes, risk isolation, large refactor + behavior change, etc.), present a short commit plan (commit messages + file groupings) and ask for approval **once**. After approval, execute the plan.
+- **Only ask questions** when absolutely required (e.g., ambiguous ownership/intent, or the diff is so large/mixed that multiple reasonable splits exist). Prefer making a sensible determination yourself.
+
 ## Workflow
 
 1. **Inspect**: Check state with `git status` and `git diff`.
@@ -20,6 +27,12 @@ Make commits that are easy to review and safe to ship. Commit messages must desc
     - `type(scope): short summary` (imperative, what + why)
     - Body (rationale)
     - Footer (breaking changes)
+
+### Mandatory guardrails
+
+- Always run `git diff --cached` immediately before committing.
+- If you detect secrets/credentials/keys, **stop** and warn the user.
+- If checks fail, fix them and rerun checks; do not commit with failing validators unless the user explicitly approves skipping.
 
 ## Usage Examples
 
