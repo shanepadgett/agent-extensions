@@ -111,13 +111,13 @@ func TestInstaller_cacheDir(t *testing.T) {
 	home, _ := os.UserHomeDir()
 
 	globalCache := inst.cacheDir(ScopeGlobal)
-	expectedGlobal := filepath.Join(home, ".agents", ".cache", "agent-extensions")
+	expectedGlobal := filepath.Join(home, ".agents", "ae")
 	if globalCache != expectedGlobal {
 		t.Errorf("global cache = %q, want %q", globalCache, expectedGlobal)
 	}
 
 	localCache := inst.cacheDir(ScopeLocal)
-	expectedLocal := filepath.Join(projectRoot, ".agents", ".cache", "agent-extensions")
+	expectedLocal := filepath.Join(projectRoot, ".agents", "ae")
 	if localCache != expectedLocal {
 		t.Errorf("local cache = %q, want %q", localCache, expectedLocal)
 	}
@@ -529,7 +529,15 @@ func TestCacheContentIntegrity(t *testing.T) {
 
 	// Verify cache files have correct content
 	home, _ := os.UserHomeDir()
-	cacheDir := filepath.Join(home, ".agents", ".cache", "agent-extensions")
+	cacheDir := filepath.Join(home, ".agents", "ae")
+	readmePath := filepath.Join(cacheDir, "README.md")
+	readme, err := os.ReadFile(readmePath)
+	if err != nil {
+		t.Fatalf("failed to read cache readme: %v", err)
+	}
+	if !contains(string(readme), "Agent Extensions Cache") {
+		t.Errorf("cache readme content mismatch: %q", string(readme))
+	}
 
 	// Check command cache
 	cmdCache := filepath.Join(cacheDir, "commands", "cmd-one.md")

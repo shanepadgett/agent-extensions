@@ -31,6 +31,14 @@ type InstallResult struct {
 	Errors   []error
 }
 
+const cacheReadme = `# Agent Extensions Cache
+
+This folder is managed by ae and contains cached commands and skills.
+Agent tools symlink to these files.
+
+Do not delete this folder.
+`
+
 func New(reg *registry.Registry, projectRoot string) *Installer {
 	return &Installer{
 		Registry:    reg,
@@ -41,9 +49,9 @@ func New(reg *registry.Registry, projectRoot string) *Installer {
 func (i *Installer) cacheDir(scope Scope) string {
 	if scope == ScopeGlobal {
 		home, _ := os.UserHomeDir()
-		return filepath.Join(home, ".agents", ".cache", "agent-extensions")
+		return filepath.Join(home, ".agents", "ae")
 	}
-	return filepath.Join(i.ProjectRoot, ".agents", ".cache", "agent-extensions")
+	return filepath.Join(i.ProjectRoot, ".agents", "ae")
 }
 
 func (i *Installer) cacheRoot(scope Scope) string {
@@ -75,6 +83,9 @@ func (i *Installer) Install(toolName string, scope Scope) (*InstallResult, error
 
 	for _, s := range scopes {
 		cache := i.cacheDir(s)
+		if err := writeFile(filepath.Join(cache, "README.md"), []byte(cacheReadme)); err != nil {
+			result.Errors = append(result.Errors, fmt.Errorf("cache readme: %w", err))
+		}
 
 		var target string
 		if s == ScopeGlobal {
@@ -311,9 +322,7 @@ func (i *Installer) Uninstall(toolName string, scope Scope) (*InstallResult, err
 			os.RemoveAll(cachePath)
 		}
 
-		// Clean up empty cache directories up to .agents
-		cleanEmptyParents(filepath.Join(cache, "commands"), i.cacheRoot(s))
-		cleanEmptyParents(filepath.Join(cache, "skills"), i.cacheRoot(s))
+		// Clean up cache directory and remove .agents only if empty
 		cleanEmptyParents(cache, i.cacheRoot(s))
 	}
 

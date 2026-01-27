@@ -393,8 +393,8 @@ func runDoctor(cmd *cobra.Command, args []string) error {
 	// Check cache directories
 	u.Header("\nCache:")
 	home, _ := os.UserHomeDir()
-	globalCache := filepath.Join(home, ".agents", ".cache", "agent-extensions")
-	localCache := filepath.Join(getProjectRoot(), ".agents", ".cache", "agent-extensions")
+	globalCache := filepath.Join(home, ".agents", "ae")
+	localCache := filepath.Join(getProjectRoot(), ".agents", "ae")
 
 	if _, err := os.Stat(globalCache); err == nil {
 		u.Success(fmt.Sprintf("Global cache: %s", globalCache))
